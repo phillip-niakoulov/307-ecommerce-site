@@ -1,6 +1,6 @@
-# Team 2
+# E-SHOP (PRO)
 
-Team 2's project for CSC 307
+Team 2's ecommerce site for CSC 307
 
 ## Init
 
