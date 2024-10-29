@@ -37,7 +37,7 @@ router.put('/:id', async (req, res) => {
 });
 
 router.post('/create', async (req, res) => {
-    if (!req.body.has('owner')) {
+    if (!req.body.owner) {
         return res.status(500).json({ message: 'No owner specified' });
     }
     const owner = req.body.owner;
@@ -49,27 +49,28 @@ router.post('/create', async (req, res) => {
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }
-            console.log(user);
-            console.log(user['cart']);
             if (user['cart'] !== 'null') {
-                return res.status(300).send('User already has cart');
+                const existing = await Cart.findById(user['cart'])
+                if (existing) {
+                    return res.status(200).json(existing);
+                }
             }
             const cart = new Cart();
+            cart._id = new mongoose.Types.ObjectId()
             cart.owner = user._id;
             cart._id = new mongoose.Types.ObjectId();
 
-            await cart.save().then(async (cart) => {
-                await User.findByIdAndUpdate(
-                    user['_id'],
-                    { cart: cart['_id'] },
-                    () => {}
-                );
+            await cart.save()
+            await User.findByIdAndUpdate(user['_id'], { cart: cart['_id']});
 
-                return res.status(201).json(cart);
-            });
-        })
+            return res.status(201).json(cart);
+            }).catch((err) => {
+               return res.status(500).send(err)
+            })
+
         .catch((err) => {
-            res.status(500).send(err);
+            console.log(err)
+            return res.status(500).send(err);
         });
 });
 module.exports = router;
