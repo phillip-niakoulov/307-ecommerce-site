@@ -189,9 +189,7 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
         .replace(/^-+|-+$/g, '');
 
     const sanitizedFilenames = req.files.map((file) => {
-        const sanitizedFilename =
-            Date.now() + '-' + file.originalname.replace(/[^a-z0-9.]/gi, '_');
-        return sanitizedFilename;
+        return Date.now() + '-' + file.originalname.replace(/[^a-z0-9.]/gi, '_');
     });
     const imageUrls = sanitizedFilenames.map(
         (filename) => `/uploads/${filename}`
