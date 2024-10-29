@@ -399,3 +399,53 @@ Removes the product based on the provided product ID. Also, remove associated fi
 {
   "message": "Product not found"
 }`
+
+---
+
+### 6. Create a Shopping Cart
+**POST** `/api/carts/create`
+In the body include:
+`{owner: id}`
+- **Output:**
+  - **201:** When successful
+  ```json
+  {
+  "_id": "67208f629ef1419678913f85",
+  "products": [],
+  "createdAt": "2024-10-29T07:31:46.654Z",
+  "owner": "672046325e9415000ccd8e85",
+  "__v": 0
+  }
+  ```
+  - **200:** Already exists
+
+  - **400:** Owner is missing or is not in a valid format
+  - **404:** Owner does not exist
+---
+### 6. Adding items to a Shopping Cart
+**PUT** `/api/carts/:id`
+**Body:**
+`{"product": product_id }`
+- **Output**
+  - **201:** Added
+  - **200:** Product already in cart
+  - **404:** Cannot find product or cart
+  - **400:** Product/cart not specified or in invalid format
+---
+### 6. Removing items to a Shopping Cart
+**DELETE** `/api/carts/:id`
+**Body:**
+`{"product": product_id }`
+- **Output**
+  - **200:** Deleted
+  - **404:** Cannot find product or cart
+  - **400:** Product/cart not specified or in invalid format
+### **NOTE: Not including a body will remove the entire cart**
+
+---
+### 7. Get the contents of a Shopping Cart
+**GET** `/api/carts/:id`
+- **Output**
+  - **200:** Successful Retrieval
+  - **400:** Invalid Id Format
+  - **404:** Cart not found

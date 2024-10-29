@@ -8,15 +8,6 @@ const idValid = mongoose.Types.ObjectId.isValid;
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    Cart.find()
-        .then((carts) => {
-            res.status(200).json(carts);
-        })
-        .catch((err) => {
-            res.status(500).json(err);
-        });
-});
 router.get('/:id', (req, res) => {
     if (!req.params.id) {
         return res.status(400).json({ message: 'Cart not specified' });
@@ -61,15 +52,15 @@ router.put('/:id', async (req, res) => {
 
 router.post('/create', async (req, res) => {
     if (!req.body.owner) {
-        return res.status(400).send('No owner specified');
+        return res.status(400).json('No owner specified');
     }
     const owner = req.body.owner;
     if (!owner) {
-        return res.status(400).send('No User ID Specified');
+        return res.status(400).json('No User ID Specified');
     }
 
     if (!idValid(owner)) {
-        return res.status(400).send('Invalid owner id');
+        return res.status(400).json('Invalid owner id');
     }
 
     User.findById(owner)
@@ -94,27 +85,27 @@ router.post('/create', async (req, res) => {
             return res.status(201).json(cart);
         })
         .catch((err) => {
-            return res.status(500).send(err);
+            return res.status(500).json(err);
         })
 
         .catch((err) => {
             console.log(err);
-            return res.status(500).send(err);
+            return res.status(500).json(err);
         });
 });
 
 router.delete('/:id', async (req, res) => {
     if (!req.params.id) {
-        return res.status(400).send('Cart not specified');
+        return res.status(400).json('Cart not specified');
     }
     if (!idValid(req.params.id)) {
-        return res.status(400).send('Invalid id');
+        return res.status(400).json('Invalid id');
     }
     if (req.body.product) {
         const cart = await Cart.findById(req.params.id);
 
         if (!cart || !cart['products'])
-            return res.status(404).send('Cart not found');
+            return res.status(404).json('Cart not found');
         cart['products'] = cart['products'].filter((el) => {
             return el !== req.body.product;
         });
