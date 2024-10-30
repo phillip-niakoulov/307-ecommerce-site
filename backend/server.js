@@ -13,6 +13,8 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
+
+//Secret key should be removed from here at some point.
 mongoose
     .connect("mongodb+srv://ecommerceapp:SNlCVgBoPEldIdXm@ecommercepro.vjker.mongodb.net/?retryWrites=true&w=majority&appName=EcommercePro")
     .then(() => console.log('MongoDB connected'))
