@@ -14,7 +14,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 mongoose
-    .connect('mongodb://localhost:27017/ecommerce')
+    .connect("mongodb+srv://ecommerceapp:SNlCVgBoPEldIdXm@ecommercepro.vjker.mongodb.net/?retryWrites=true&w=majority&appName=EcommercePro")
     .then(() => console.log('MongoDB connected'))
     .catch((err) => console.error(err));
 
