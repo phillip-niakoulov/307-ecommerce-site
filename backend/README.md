@@ -15,15 +15,13 @@ Creates a new user.
     }
     ```
 
--   **Output:**
-    -   **201**: When successful
-        `
+-   **Output:** - **201**: When successful
+    `
 {
 "message": "User registered successfully",
 "userId": "67189d94ff2e38b3a36bdf14"
-}`
-    -   **409**: When username or email is already in use
-        `
+}` - **409**: When username or email is already in use
+    `
 {
 "message": "Username or email is already in use"
 }`
@@ -44,15 +42,13 @@ Login with email and password.
     }
     ```
 
--   **Output:**
-    -   **201**: When successful
-        `
+-   **Output:** - **201**: When successful
+    `
 {
 "message": "Login successful",
 "userId": "6718a28ed34dfcec43ac1ee7"
-}`
-    -   **400**: When email or password is invalid
-        `
+}` - **403**: When email or password is invalid
+    `
 {
 "message": "Invalid email or password"
 }`
@@ -64,9 +60,8 @@ Login with email and password.
 **GET** `/api/users/:id`  
 Gets information about the provided user ID.
 
--   **Output:**
-    -   **200**: When successful
-        `
+-   **Output:** - **200**: When successful
+    `
 {
 "_id": "67189d94ff2e38b3a36bdf14",
 "username": "myusername",
@@ -74,14 +69,12 @@ Gets information about the provided user ID.
 "role": "user",
 "createdAt": "2024-10-23T06:54:12.524Z",
 "__v": 0
-}`
-    -   **400**: When the ID format is invalid
-        `
+}` - **400**: When the ID format is invalid
+    `
 {
 "message": "Invalid ID format"
-}`
-    -   **404**: When the user is not found
-        `
+}` - **404**: When the user is not found
+    `
 {
 "message": "User not found"
 }`
@@ -93,9 +86,8 @@ Gets information about the provided user ID.
 **PUT** `/api/users/:id`  
 Update using the provided user ID.
 
--   **Output:**
-    -   **200**: When successful
-        `
+-   **Output:** - **200**: When successful
+    `
 {
 "_id": "67189d94ff2e38b3a36bdf14",
 "username": "myusername",
@@ -103,14 +95,12 @@ Update using the provided user ID.
 "role": "user",
 "createdAt": "2024-10-23T06:54:12.524Z",
 "__v": 0
-}`
-    -   **400**: When the ID format is invalid
-        `
+}` - **400**: When the ID format is invalid
+    `
 {
 "message": "Invalid ID format"
-}`
-    -   **404**: When the user is not found
-        `
+}` - **404**: When the user is not found
+    `
 {
 "message": "User not found"
 }`
@@ -122,19 +112,16 @@ Update using the provided user ID.
 **DELETE** `/api/users/:id`  
 Removes the user based on the provided user ID.
 
--   **Output:**
-    -   **200**: When successful
-        `
+-   **Output:** - **200**: When successful
+    `
 {
 "message": "User deleted"
-}`
-    -   **400**: When the ID format is invalid
-        `
+}` - **400**: When the ID format is invalid
+    `
 {
 "message": "Invalid ID format"
-}`
-    -   **404**: When the user is not found
-        `
+}` - **404**: When the user is not found
+    `
 {
 "message": "User not found"
 }`
@@ -155,7 +142,7 @@ Create a new product.
         "originalPrice": 54.99,
         "description": "A pair of Nike shoes.",
         "category": "shoes",
-        "tags": ["blue", "nike", "sneaker", "leather", "men", "women"], 
+        "tags": ["blue", "nike", "sneaker", "leather", "men", "women"],
         "images": "UPLOAD FILES",
         "options": ["small", "medium", "large"]
     }
@@ -343,14 +330,12 @@ Update using the provided product ID.
 **DELETE** `/api/products/:id`  
 Removes the product based on the provided product ID. Also, remove associated files in "/uploads".
 
--   **Output:**
-    -   **200**: When successful
-        `
+-   **Output:** - **200**: When successful
+    `
 {
 "message": "Product deleted"
-}`
-    -   **404**: When the product is not found
-        `
+}` - **404**: When the product is not found
+    `
 {
 "message": "Product not found"
 }`
