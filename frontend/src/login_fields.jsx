@@ -14,6 +14,10 @@ function LoginFields() {
         })
             .then((res) => {
                 res.json().then((j) => {
+                    if (res.status === 200) {
+                        console.log(j['token']);
+                        return;
+                    }
                     document.getElementById('error').innerHTML = j['message'];
                 });
             })
