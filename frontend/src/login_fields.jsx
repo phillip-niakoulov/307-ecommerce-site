@@ -15,7 +15,8 @@ function LoginFields() {
             .then((res) => {
                 res.json().then((j) => {
                     if (res.status === 200) {
-                        console.log(j['token']);
+                        localStorage.setItem('token', j['token']);
+                        window.location.replace("index.html");
                         return;
                     }
                     document.getElementById('error').innerHTML = j['message'];
