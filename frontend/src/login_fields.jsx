@@ -32,7 +32,7 @@ function LoginFields() {
             <label htmlFor="email">Email:</label>
             <input type="text" id="email" name="email" /> <br />
             <label htmlFor="password">Password:</label>
-            <input type="text" id="password" name="password" />
+            <input type="password" id="password" name="password" />
             <p id={'error'}></p>
             <input type="submit" onClick={submit_login} value="Submit" />
         </div>
