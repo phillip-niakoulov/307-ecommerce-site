@@ -126,7 +126,9 @@ Removes the user based on the provided user ID.
 "message": "User not found"
 }`
 
-### Product Routes
+---
+
+## Product Routes
 
 #### 1. Create Product
 
