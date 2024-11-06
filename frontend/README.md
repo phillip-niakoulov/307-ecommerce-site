@@ -1,8 +1,10 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
--   [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
--   [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+-   `/public` stores static files related to hosting
+-   `/src`
+    -   `/assets` stores static files to be rendered by components
+    -   `/components` stores reused/general components (tables, header, whatever)
+    -   `/pages` stores each page's main jsx
+    -   `/styles` stores the styles for components and pages
+-   `App.jsx` handles the routing
+-   `index.html` handles the website metadata and root

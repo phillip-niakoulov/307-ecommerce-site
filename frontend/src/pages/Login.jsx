@@ -1,6 +1,6 @@
-const api = ' http://localhost:5000';
+const api = 'http://localhost:5000';
 
-function LoginFields() {
+function Login() {
     async function submit_login() {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
@@ -16,7 +16,7 @@ function LoginFields() {
                 res.json().then((j) => {
                     if (res.status === 200) {
                         localStorage.setItem('token', j['token']);
-                        window.location.replace("index.html");
+                        window.location.replace('index.html');
                         return;
                     }
                     document.getElementById('error').innerHTML = j['message'];
@@ -39,4 +39,4 @@ function LoginFields() {
     );
 }
 
-export default LoginFields;
+export default Login;

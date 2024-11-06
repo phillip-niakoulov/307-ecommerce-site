@@ -4,22 +4,22 @@ Team 2's ecommerce site for CSC 307
 
 ## Init
 
-- Frontend: `cd frontend && npm install`
-- Database: `mkdir C:\data\db`
-- Backend: `cd backend && npm install`
+-   Frontend: `cd frontend && npm install`
+-   Database: `mkdir C:\data\db`
+-   Backend: `cd backend && npm install`
 
 ## Running dev
 
-- Frontend: `cd frontend && npm start`
-- Database: `"C:\Program Files\MongoDB\Server\8.0\bin\mongod.exe`
-- Backend: `cd backend && npm run dev`
+-   Frontend: `cd frontend && npm run dev`
+-   Database: `"C:\Program Files\MongoDB\Server\8.0\bin\mongod.exe`
+-   Backend: `cd backend && npm run dev`
 
 ## Contributing
 
-- Use ESLint for linting (`npx eslint . --fix`) and Prettier for formatting (`npm run format`).
-- Semicolons; Singles quotes > double quotes; 4 spaces per tab; trailing commas
-- Ensure that your code passes all ESLint checks before submitting a pull request.
-- To set up your development environment, please install the ESLint and Prettier extensions in your IDE.
+-   Use ESLint for linting (`npx eslint . --fix`) and Prettier for formatting (`npm run format`).
+-   Semicolons; Singles quotes > double quotes; 4 spaces per tab; trailing commas
+-   Ensure that your code passes all ESLint checks before submitting a pull request.
+-   To set up your development environment, please install the ESLint and Prettier extensions in your IDE.
 
 ### Setting Up Your IDE
 
@@ -35,20 +35,20 @@ paste the following in the file:
 
 ```json
 {
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  }
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    }
 }
 ```
 
 3. Follow instructions on Prettier extension install page to add to `Open Settings (JSON)`. Here was what I needed to
    do:
-   ```json
+    ```json
     {
-     "editor.defaultFormatter": "esbenp.prettier-vscode",
-     "[javascript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "[javascript]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        }
     }
-   }
-   ```
+    ```
