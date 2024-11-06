@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+require('dotenv').config();
 
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -13,10 +14,8 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-
-//Secret key should be removed from here at some point.
 mongoose
-    .connect("mongodb+srv://ecommerceapp:SNlCVgBoPEldIdXm@ecommercepro.vjker.mongodb.net/?retryWrites=true&w=majority&appName=EcommercePro")
+    .connect(process.env.DATABASE_URL)
     .then(() => console.log('MongoDB connected'))
     .catch((err) => console.error(err));
 
