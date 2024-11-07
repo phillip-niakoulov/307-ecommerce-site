@@ -5,7 +5,7 @@ function Home() {
     const [items, setItems] = useState([]);
 
     function fetchUsers() {
-        const promise = fetch("Http://localhost:8000/api/products");
+        const promise = fetch("Http://localhost:5000/api/products");
         return promise
     }
 
@@ -19,7 +19,7 @@ function Home() {
     }, [] );
     
     // function postItem(item) {
-    //     const promise = fetch("Http://localhost:800/api/products", {
+    //     const promise = fetch("Http://localhost:5000/api/products", {
     //         method: "POST",
     //         headers: {
     //             "Content-Type": "application/json",
