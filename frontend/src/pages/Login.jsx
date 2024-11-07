@@ -1,4 +1,4 @@
-const api = 'http://localhost:5000';
+import { api } from '../common/common';
 
 function Login() {
     async function submit_login() {
