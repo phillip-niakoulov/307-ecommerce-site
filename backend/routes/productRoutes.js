@@ -44,23 +44,10 @@ router.post('/create', async (req, res) => {
         return
     }
 
-    if (req.fileValidationError) {
-        return res.status(400).json({ message: req.fileValidationError });
-    }
-    if (!req.files) {
-        return res.status(400).json({ message: 'No images were uploaded' });
-    }
-
     const { name, originalPrice, description, category, tags } = req.body;
 
     // Validate required fields
-    if (
-        !name ||
-        !originalPrice ||
-        !description ||
-        !req.files.length ||
-        !category
-    ) {
+    if (!name || !originalPrice || !description || !category) {
         return res.status(400).json({ message: 'Missing required fields' });
     }
 
@@ -71,21 +58,11 @@ router.post('/create', async (req, res) => {
         .replace(/[^a-z0-9-]/g, '')
         .replace(/(^-+)|(-+$)/g, '');
 
-    const sanitizedFilenames = req.files.map((file) => {
-        return (
-            Date.now() + '-' + file.originalname.replace(/[^a-z0-9.]/gi, '_')
-        );
-    });
-    const imageUrls = sanitizedFilenames.map(
-        (filename) => `/uploads/${filename}`
-    );
-
     const product = new Product({
         _id: id,
         name: name,
         originalPrice: originalPrice,
         description: description,
-        imageUrls: imageUrls,
         category: category,
         tags: tags,
     });
@@ -103,17 +80,6 @@ router.post('/create', async (req, res) => {
                 .status(409)
                 .json({ message: 'Product with this ID already exists' });
         }
-
-        // Rename already uploaded files to sanitized filenames
-        await Promise.all(
-            req.files.map((file, index) => {
-                const newFilename = sanitizedFilenames[index];
-                return fs.promises.rename(
-                    path.join('uploads', file.filename),
-                    path.join('uploads', newFilename)
-                );
-            })
-        );
 
         const savedProduct = await product.save();
         res.status(201).json(savedProduct);
