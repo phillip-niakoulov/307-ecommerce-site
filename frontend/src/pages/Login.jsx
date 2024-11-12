@@ -2,12 +2,12 @@ import { api } from '../common/common';
 
 function Login() {
     async function submit_login() {
-        const email = document.getElementById('email').value;
+        const username = document.getElementById('user').value;
         const password = document.getElementById('password').value;
 
         await fetch(api + '/api/users/login', {
             method: 'POST',
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ username, password }),
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -16,7 +16,7 @@ function Login() {
                 res.json().then((j) => {
                     if (res.status === 200) {
                         localStorage.setItem('token', j['token']);
-                        window.location.replace('index.html');
+                        window.location.replace('/');
                         return;
                     }
                     document.getElementById('error').innerHTML = j['message'];
@@ -29,8 +29,8 @@ function Login() {
 
     return (
         <div id={'login_fields'}>
-            <label htmlFor="email">Email:</label>
-            <input type="text" id="email" name="email" /> <br />
+            <label htmlFor="user">Username:</label>
+            <input type="text" id="user" name="user" /> <br />
             <label htmlFor="password">Password:</label>
             <input type="password" id="password" name="password" />
             <p id={'error'}></p>

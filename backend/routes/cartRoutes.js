@@ -3,8 +3,10 @@ const Cart = require('../models/Cart');
 const Product = require('../models/Product');
 const User = require('../models/User');
 const mongoose = require('mongoose');
+const ah = require("../AuthHandler")
 
 const idValid = mongoose.Types.ObjectId.isValid;
+
 
 const router = express.Router();
 
@@ -28,8 +30,10 @@ router.get('/:id', (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
+    if (!ah(req,res)){
+        return
+    }
     const product = req.body['product'];
-
     if (!product)
         return res.status(400).send({ message: 'Product not specified' });
 
@@ -51,6 +55,9 @@ router.put('/:id', async (req, res) => {
 });
 
 router.post('/create', async (req, res) => {
+    if (!ah(req,res)){
+        return
+    }
     if (!req.body.owner) {
         return res.status(400).json('No owner specified');
     }
@@ -95,6 +102,9 @@ router.post('/create', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
+    if (!ah(req,res)){
+        return
+    }
     if (!req.params.id) {
         return res.status(400).json('Cart not specified');
     }

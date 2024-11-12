@@ -1,8 +1,4 @@
-import ReactDOMClient from 'react-dom/client';
-
-const container = document.getElementById('root');
-const root = ReactDOMClient.createRoot(container);
-root.render(<ProductCreation />);
+import { api } from '../common/common';
 
 function ProductCreation() {
     function create() {
@@ -12,10 +8,20 @@ function ProductCreation() {
             description: document.getElementById('description').value,
             category: document.getElementById('category').value,
             tags: document.getElementById('tags').value.split(','),
-            images: document.getElementById('images').value,
+            images: document.getElementById('images').files[0],
             options: document.getElementById('options').value.split(','),
         };
         console.log(request);
+        fetch(api + '/api/products/create', {
+            method: 'POST',
+            body: JSON.stringify(request),
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `${localStorage.getItem('token')}`,
+            },
+        }).then((res) => {
+            console.log(res);
+        });
     }
 
     return (

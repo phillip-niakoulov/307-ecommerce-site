@@ -69,10 +69,10 @@ router.post('/register-admin', async (req, res) => {
 
 // Login a user
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
     try {
-        const user = await User.findOne({ email });
-        if (!user) return res.status(403).json({ message: 'Invalid email' });
+        const user = await User.findOne({ username: username });
+        if (!user) return res.status(403).json({ message: 'Invalid username' });
         // Compare the password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch)

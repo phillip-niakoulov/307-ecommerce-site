@@ -4,6 +4,8 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
+const ah = require("../AuthHandler")
+
 const router = express.Router();
 
 const storage = multer.diskStorage({
@@ -36,8 +38,11 @@ const upload = multer({
 
 // FRONTEND INTEGRATION MAYBE WILL BE TRICKY
 // Create a new product with image upload
-router.post('/create', upload.array('images', 10), async (req, res) => {
-    // 10 images max
+router.post('/create', async (req, res) => {
+
+    if(ah(req, res)){
+        return
+    }
 
     if (req.fileValidationError) {
         return res.status(400).json({ message: req.fileValidationError });
@@ -64,7 +69,7 @@ router.post('/create', upload.array('images', 10), async (req, res) => {
         .toLowerCase()
         .replace(/\s+/g, '-')
         .replace(/[^a-z0-9-]/g, '')
-        .replace(/^-+|-+$/g, '');
+        .replace(/(^-+)|(-+$)/g, '');
 
     const sanitizedFilenames = req.files.map((file) => {
         return (
@@ -189,7 +194,7 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
         .toLowerCase()
         .replace(/\s+/g, '-')
         .replace(/[^a-z0-9-]/g, '')
-        .replace(/^-+|-+$/g, '');
+        .replace(/(^-+)|(-+$)/g, '');
 
     const sanitizedFilenames = req.files.map((file) => {
         return (
