@@ -24,7 +24,7 @@ function Home() {
         <div>
             <h1>Product List</h1>
             {products.map((item) => (
-                <div key={item.id}>
+                <div key={item._id}>
                     <a href={`/product/${item._id}`}>{item.name}</a>
                 </div>
             ))}

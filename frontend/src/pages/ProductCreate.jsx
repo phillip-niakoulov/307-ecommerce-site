@@ -1,8 +1,4 @@
-import ReactDOMClient from 'react-dom/client';
 
-const container = document.getElementById('root');
-const root = ReactDOMClient.createRoot(container);
-root.render(<ProductCreation />);
 
 function ProductCreation() {
     function create() {
