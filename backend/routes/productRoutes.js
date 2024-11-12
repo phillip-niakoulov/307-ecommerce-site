@@ -51,7 +51,7 @@ router.post('/create', upload.array('images', 10), async (req, res) => {
         .toLowerCase()
         .replace(/\s+/g, '-')
         .replace(/[^a-z0-9-]/g, '')
-        .replace(/^-+|-+$/g, '');
+        .replace(/(^-+)|(-+$)/g, '');
 
     const product = new Product({
         _id: id,
@@ -155,7 +155,7 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
         .toLowerCase()
         .replace(/\s+/g, '-')
         .replace(/[^a-z0-9-]/g, '')
-        .replace(/^-+|-+$/g, '');
+        .replace(/(^-+)|(-+$)/g, '');
 
     const sanitizedFilenames = req.files.map((file) => {
         return (
