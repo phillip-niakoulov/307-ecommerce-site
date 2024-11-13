@@ -8,9 +8,11 @@ const ah = require("../AuthHandler")
 
 const router = express.Router();
 
+const storagePath = '../frontend/src/assets'; // store images in "assets" directory
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // store images in "uploads" directory
+        cb(null, storagePath);
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + path.extname(file.originalname));
@@ -167,8 +169,8 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
             Date.now() + '-' + file.originalname.replace(/[^a-z0-9.]/gi, '_')
         );
     });
-    const imageUrls = sanitizedFilenames.map(
-        (filename) => `/uploads/${filename}`
+    const imageUrls = sanitizedFilenames.map((filename) =>
+        path.join(storagePath, filename)
     );
 
     // MUST CREATE NEW SINCE DIFFERENT ID
@@ -187,11 +189,25 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
         // Check for dupes
         const existingName = await Product.findOne({ name }); // If new name is already in use
         if (existingName) {
+            await Promise.all(
+                req.files.map((file) => {
+                    return fs.promises.unlink(
+                        path.join(storagePath, file.filename)
+                    );
+                })
+            );
             return res.status(409).json({ message: 'Name is already in use' });
         }
 
         const existingProduct = await Product.findById(id); // If new ID is already in use
         if (existingProduct) {
+            await Promise.all(
+                req.files.map((file) => {
+                    return fs.promises.unlink(
+                        path.join(storagePath, file.filename)
+                    );
+                })
+            );
             return res
                 .status(409)
                 .json({ message: 'Product with this ID already exists' });
@@ -202,8 +218,8 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
             req.files.map((file, index) => {
                 const newFilename = sanitizedFilenames[index];
                 return fs.promises.rename(
-                    path.join('uploads', file.filename),
-                    path.join('uploads', newFilename)
+                    path.join(storagePath, file.filename),
+                    path.join(storagePath, newFilename)
                 );
             })
         );
@@ -211,6 +227,13 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
         const savedProduct = await product.save();
         res.status(200).json(savedProduct);
     } catch (err) {
+        await Promise.all(
+            req.files.map((file) => {
+                return fs.promises.unlink(
+                    path.join(storagePath, file.filename)
+                );
+            })
+        );
         res.status(400).json({ message: err.message });
     }
 });
