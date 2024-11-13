@@ -11,7 +11,6 @@ const Header = () => {
                 <Link to="/login">Login</Link>
                 <Link to="/register">Register</Link>
                 <Link to="/product/create">Create Product</Link>
-
             </nav>
             {location.pathname === '/login' && <h2>Login Page</h2>}
             {location.pathname === '/register' && <h2>Register Page</h2>}

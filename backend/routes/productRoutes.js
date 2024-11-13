@@ -4,7 +4,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-const ah = require("../AuthHandler")
+const ah = require('../AuthHandler');
 
 const router = express.Router();
 
@@ -41,9 +41,8 @@ const upload = multer({
 // FRONTEND INTEGRATION MAYBE WILL BE TRICKY
 // Create a new product with image upload
 router.post('/create', async (req, res) => {
-
-    if(ah(req, res)){
-        return
+    if (ah(req, res)) {
+        return;
     }
 
     const { name, originalPrice, description, category, tags } = req.body;
