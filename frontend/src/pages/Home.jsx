@@ -7,7 +7,7 @@ function Home() {
     const [products, setProducts] = React.useState([]);
 
     function getProducts() {
-        return fetch(api + '/api/products').then((response) => response.json());
+        return fetch(`${api}/api/products`).then((response) => response.json());
     }
 
     useEffect(() => {
