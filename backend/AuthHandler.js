@@ -20,7 +20,7 @@ async function handleAuth(token, action, options) {
     if (!(await checkPermission(user.userId, action, options))) {
         return [401, 'Permission Denied'];
     }
-    return [0];
+    return [0, user.userId];
 }
 
 const jwt = require('jsonwebtoken');

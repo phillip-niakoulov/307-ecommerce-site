@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import ImageGallery from '../components/ImageGallery.jsx';
 
-const api = 'http://localhost:5000';
+import { api } from '../common/common.jsx';
 
 const ProductView = () => {
     const { productId } = useParams();
@@ -58,6 +58,24 @@ const ProductView = () => {
             <p>{product.description}</p>
             <p>Price: ${product.originalPrice}</p>
             <ImageGallery imageUrls={editedImageUrls} />
+
+            <input
+                type={'button'}
+                value={'Add to Cart'}
+                onClick={async () => {
+                    await fetch(`${api}/api/carts`, {
+                        method: 'PUT',
+                        body: JSON.stringify({
+                            product: productId,
+                            count: 1,
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `${localStorage.getItem('token')}`,
+                        },
+                    });
+                }}
+            />
         </div>
     );
 };

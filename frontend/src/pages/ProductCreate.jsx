@@ -9,9 +9,7 @@ function ProductCreation() {
             category: document.getElementById('category').value,
             tags: document.getElementById('tags').value.split(','),
             images: document.getElementById('images').files[0],
-            options: document.getElementById('options').value.split(','),
         };
-        console.log(request);
         fetch(api + '/api/products/create', {
             method: 'POST',
             body: JSON.stringify(request),
@@ -39,8 +37,6 @@ function ProductCreation() {
             <input type="text" id="tags" name="tags" /> <br />
             <label htmlFor={'images'}>Image:</label>
             <input type="file" id="images" name="images" /> <br />
-            <label htmlFor={'options'}>Options:</label>
-            <input type="text" id="options" name="options" /> <br />
             <input type={'submit'} onClick={create} value="Submit" />
         </div>
     );

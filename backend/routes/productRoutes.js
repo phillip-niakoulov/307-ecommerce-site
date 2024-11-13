@@ -126,8 +126,7 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
         return res.status(400).json({ message: 'No images were uploaded' });
     }
 
-    const { name, originalPrice, description, category, tags, options } =
-        req.body;
+    const { name, originalPrice, description, category, tags } = req.body;
 
     // Validate required fields
     if (
@@ -183,7 +182,6 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
         imageUrls: imageUrls,
         category: category,
         tags: tags,
-        options: options,
     });
 
     try {
