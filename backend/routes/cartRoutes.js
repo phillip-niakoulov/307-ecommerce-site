@@ -63,7 +63,8 @@ router.put('/', async (req, res) => {
 
     if (!product)
         return res.status(400).json({ message: 'Product not specified' });
-    if (!count) return res.status(400).json({ message: 'Count not specified' });
+    if (count === undefined)
+        return res.status(400).json({ message: 'Count not specified' });
 
     const user = await User.findById(auth[1]);
 
