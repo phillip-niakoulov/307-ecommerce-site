@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const ah = require('../AuthHandler');
 
 const router = express.Router();
 
@@ -47,9 +48,20 @@ router.post('/register', async (req, res) => {
 router.post('/register-admin', async (req, res) => {
     const { username, email, password } = req.body;
 
+    const auth = await ah(req.headers['authorization'], 'new_admin', null);
+
+    if (auth[0] === 401) {
+        return res.status(401).json(auth[1]);
+    }
+
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        if (User.findOne({ username: username })._id) {
+            return res
+                .status(409)
+                .json('A user with this username already exists');
+        }
         const user = new User({
             username,
             email,

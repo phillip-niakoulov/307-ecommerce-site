@@ -41,8 +41,10 @@ const upload = multer({
 // FRONTEND INTEGRATION MAYBE WILL BE TRICKY
 // Create a new product with image upload
 router.post('/create', async (req, res) => {
-    if (ah(req, res)) {
-        return;
+    const auth = await ah(req.headers['authorization'], 'new_admin', null);
+
+    if (auth[0] === 401) {
+        res.status(401).json(auth[1]);
     }
 
     const { name, originalPrice, description, category, tags } = req.body;
