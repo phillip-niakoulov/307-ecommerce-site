@@ -8,6 +8,7 @@ import ProductView from './src/pages/ProductView.jsx';
 import Header from './src/components/Header.jsx';
 import ProductCreate from './src/pages/ProductCreate.jsx';
 import NotFound from './src/pages/NotFound.jsx';
+import RegisterAdmin from './src/pages/RegisterAdmin.jsx';
 
 // import Footer from '../components/footer';
 
@@ -19,6 +20,8 @@ createRoot(document.getElementById('root')).render(
                 <Route path="/" element={<Home />} />
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />
+                <Route path="registeradmin" element={<RegisterAdmin />} />
+
                 <Route path="product/create" element={<ProductCreate />} />
                 <Route path="*" element={<NotFound />} />
                 <Route path="product/:productId" element={<ProductView />} />

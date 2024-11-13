@@ -17,6 +17,7 @@ function ProductCreation() {
             body: JSON.stringify(request),
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `${localStorage.getItem('token')}`,
             },
         }).then((res) => {
             console.log(res);

@@ -13,11 +13,12 @@ function Register() {
             return;
         }
 
-        await fetch(api + '/api/users/register', {
+        await fetch(api + '/api/users/register-admin', {
             method: 'POST',
             body: JSON.stringify({ username, email, password }),
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `${localStorage.getItem('token')}`,
             },
         })
             .then((res) => {
@@ -25,7 +26,7 @@ function Register() {
                     window.location.replace('/login');
                 }
                 res.json().then((j) => {
-                    document.getElementById('error').innerHTML = j['message'];
+                    document.getElementById('error').innerHTML = j;
                 });
             })
             .catch((err) => {

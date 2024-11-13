@@ -29,8 +29,10 @@ router.get('/:id', (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-    if (!ah(req, res)) {
-        return;
+    const auth = await ah(req.headers['authorization'], 'new_admin', null);
+
+    if (auth[0] === 401) {
+        res.status(401).json(auth[1]);
     }
     const product = req.body['product'];
     if (!product)
@@ -54,9 +56,12 @@ router.put('/:id', async (req, res) => {
 });
 
 router.post('/create', async (req, res) => {
-    if (!ah(req, res)) {
-        return;
+    const auth = await ah(req.headers['authorization'], 'new_admin', null);
+
+    if (auth[0] === 401) {
+        return res.status(401).json(auth[1]);
     }
+
     if (!req.body.owner) {
         return res.status(400).json('No owner specified');
     }
@@ -101,9 +106,12 @@ router.post('/create', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-    if (!ah(req, res)) {
-        return;
+    const auth = await ah(req.headers['authorization'], 'new_admin', null);
+
+    if (auth[0] === 401) {
+        return res.status(401).json(auth[1]);
     }
+
     if (!req.params.id) {
         return res.status(400).json('Cart not specified');
     }
