@@ -76,6 +76,24 @@ const ProductView = () => {
                     });
                 }}
             />
+            <input
+                value={'Remove'}
+                type={'button'}
+                onClick={async () =>
+                    await fetch(`${api}/api/products/${productId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `${localStorage.getItem('token')}`,
+                        },
+                    }).then((res) => {
+                        if (res.status === 201) {
+                            setProduct(null);
+                        }
+                        window.location.replace('/');
+                    })
+                }
+            />
         </div>
     );
 };

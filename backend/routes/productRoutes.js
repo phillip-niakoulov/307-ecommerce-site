@@ -41,10 +41,10 @@ const upload = multer({
 // FRONTEND INTEGRATION MAYBE WILL BE TRICKY
 // Create a new product with image upload
 router.post('/create', async (req, res) => {
-    const auth = await ah(req.headers['authorization'], 'new_admin', null);
+    const auth = await ah(req.headers['authorization'], 'new_product', null);
 
     if (auth[0] === 401) {
-        res.status(401).json(auth[1]);
+        return res.status(401).json(auth[1]);
     }
 
     const { name, originalPrice, description, category, tags } = req.body;
@@ -239,6 +239,12 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
 
 // Delete a product
 router.delete('/:id', async (req, res) => {
+    const auth = await ah(req.headers['authorization'], 'delete_product', null);
+
+    if (auth[0] === 401) {
+        return res.status(401).json(auth[1]);
+    }
+
     try {
         // Find the product by ID
         const product = await Product.findById(req.params.id);
@@ -261,7 +267,7 @@ router.delete('/:id', async (req, res) => {
 
         // Delete the product from the database
         await Product.findByIdAndDelete(req.params.id);
-        res.json({ message: 'Product deleted' });
+        res.status(200).json({ message: 'Product deleted' });
     } catch (err) {
         console.error(err); // Log the error for debugging
         res.status(500).json({ message: err.message });

@@ -48,7 +48,7 @@ router.put('/', async (req, res) => {
     const auth = await ah(req.headers['authorization'], 'add_cart', null);
 
     if (auth[0] === 401) {
-        res.status(401).json(auth[1]);
+        return res.status(401).json(auth[1]);
     }
 
     const product = req.body['product'];

@@ -29,7 +29,6 @@ async function checkPermission(user, action, option) {
     const userobj = await User.findById(user);
     if (!userobj) return false;
     if (userobj['role'] === 'admin') return true;
-    if (action === 'create_cart') return true;
     return false;
 }
 const secret_key =

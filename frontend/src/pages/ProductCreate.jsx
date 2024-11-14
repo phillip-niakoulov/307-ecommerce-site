@@ -10,6 +10,10 @@ function ProductCreation() {
             tags: document.getElementById('tags').value.split(','),
             images: document.getElementById('images').files[0],
         };
+        if (isNaN(parseFloat(request['originalPrice']))) {
+            document.getElementById('err').innerHTML = 'Invalid price';
+            return;
+        }
         fetch(api + '/api/products/create', {
             method: 'POST',
             body: JSON.stringify(request),
@@ -17,10 +21,15 @@ function ProductCreation() {
                 'Content-Type': 'application/json',
                 Authorization: `${localStorage.getItem('token')}`,
             },
-        }).then((res) => {
-            console.log(res);
+        }).then(async (res) => {
+            if (res.status === 201) {
+                window.location.replace('/');
+                return;
+            }
+            res.json().then((j) => {
+                document.getElementById('err').innerHTML = j['message'];
+            });
         });
-        console.log(request);
     }
 
     return (
@@ -38,6 +47,7 @@ function ProductCreation() {
             <label htmlFor={'images'}>Image:</label>
             <input type="file" id="images" name="images" /> <br />
             <input type={'submit'} onClick={create} value="Submit" />
+            <div id="err">Test</div>
         </div>
     );
 }
