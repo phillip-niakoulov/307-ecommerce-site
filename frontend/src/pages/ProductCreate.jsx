@@ -1,5 +1,3 @@
-import { api } from '../common/common';
-
 function ProductCreation() {
     function create() {
         const request = {
@@ -14,12 +12,12 @@ function ProductCreation() {
             document.getElementById('err').innerHTML = 'Invalid price';
             return;
         }
-        fetch(api + '/api/products/create', {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/api/products/create`, {
             method: 'POST',
             body: JSON.stringify(request),
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `${localStorage.getItem('token')}`,
+                Authorization: localStorage.getItem('token'),
             },
         }).then(async (res) => {
             if (res.status === 201) {

@@ -1,11 +1,9 @@
-import { api } from '../common/common';
-
 function Login() {
     async function submit_login() {
         const username = document.getElementById('user').value;
         const password = document.getElementById('password').value;
 
-        await fetch(api + '/api/users/login', {
+        await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/users/login`, {
             method: 'POST',
             body: JSON.stringify({ username, password }),
             headers: {

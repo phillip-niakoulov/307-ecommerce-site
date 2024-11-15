@@ -1,5 +1,3 @@
-import { api } from '../common/common';
-
 function Register() {
     async function submit_register() {
         const email = document.getElementById('email').value;
@@ -13,7 +11,7 @@ function Register() {
             return;
         }
 
-        await fetch(api + '/api/users/register', {
+        await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/users/register`, {
             method: 'POST',
             body: JSON.stringify({ username, email, password }),
             headers: {

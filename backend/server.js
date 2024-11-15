@@ -2,22 +2,19 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+require('dotenv').config();
 
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(bodyParser.json());
 
-//Secret key should be removed from here at some point.
 mongoose
-    .connect(
-        'mongodb+srv://ecommerceapp:SNlCVgBoPEldIdXm@ecommercepro.vjker.mongodb.net/?retryWrites=true&w=majority&appName=EcommercePro'
-    )
+    .connect(process.env.DATABASE_URL)
     .then(() => console.log('MongoDB connected'))
     .catch((err) => console.error(err));
 
@@ -25,13 +22,13 @@ app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/carts', cartRoutes);
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(process.env.BACKEND_PORT, () => {
+    console.log(`Server is running on ${process.env.BACKEND_URL}`);
 });
 
 // BE INCREDIBLY CAREFUL WITH THIS
 // async function clearDatabase() {
-//   await mongoose.connect("mongodb://localhost:27017/ecommerce", {
+//   await mongoose.connect(process.env.DATABASE_URL, {
 //     useNewUrlParser: true,
 //     useUnifiedTopology: true,
 //   });
