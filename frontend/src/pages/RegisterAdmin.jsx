@@ -12,7 +12,7 @@ function Register() {
         }
 
         await fetch(
-            `${import.meta.env.VITE_API_BASE_URL}/api/users/register-admin`,
+            `${import.meta.env.VITE_API_BACKEND_URL}/api/users/register-admin`,
             {
                 method: 'POST',
                 body: JSON.stringify({ username, email, password }),
@@ -24,7 +24,10 @@ function Register() {
         )
             .then((res) => {
                 if (res.status === 201) {
-                    window.location.replace('/login');
+                    return res.json().then((data) => {
+                        console.log(data); // Log the parsed JSON data
+                        window.location.replace('/login'); // Redirect to login
+                    });
                 }
                 res.json().then((j) => {
                     document.getElementById('error').innerHTML = j;

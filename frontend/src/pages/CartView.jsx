@@ -4,7 +4,7 @@ const CartView = () => {
     const [cart, setCart] = React.useState([]);
 
     function getCart() {
-        return fetch(`${import.meta.env.VITE_API_BASE_URL}/api/carts`, {
+        return fetch(`${import.meta.env.VITE_API_BACKEND_URL}/api/carts`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ const CartView = () => {
                         onClick={async () => {
                             const res = await fetch(
                                 `${
-                                    import.meta.env.VITE_API_BASE_URL
+                                    import.meta.env.VITE_API_BACKEND_URL
                                 }/api/carts`,
                                 {
                                     method: 'Put',
@@ -61,7 +61,7 @@ const CartView = () => {
                         onClick={async () => {
                             const res = await fetch(
                                 `${
-                                    import.meta.env.VITE_API_BASE_URL
+                                    import.meta.env.VITE_API_BACKEND_URL
                                 }/api/carts`,
                                 {
                                     method: 'PUT',

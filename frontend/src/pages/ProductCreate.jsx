@@ -12,7 +12,7 @@ function ProductCreation() {
             document.getElementById('err').innerHTML = 'Invalid price';
             return;
         }
-        fetch(`${import.meta.env.VITE_API_BASE_URL}/api/products/create`, {
+        fetch(`${import.meta.env.VITE_API_BACKEND_URL}/api/products/create`, {
             method: 'POST',
             body: JSON.stringify(request),
             headers: {

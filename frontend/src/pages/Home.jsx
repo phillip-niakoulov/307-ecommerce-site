@@ -5,9 +5,9 @@ function Home() {
     const [products, setProducts] = React.useState([]);
 
     function getProducts() {
-        return fetch(`${import.meta.env.VITE_API_BASE_URL}/api/products`).then(
-            (response) => response.json()
-        );
+        return fetch(
+            `${import.meta.env.VITE_API_BACKEND_URL}/api/products`
+        ).then((response) => response.json());
     }
 
     useEffect(() => {
@@ -23,11 +23,15 @@ function Home() {
     return (
         <div>
             <h1>Product List</h1>
-            {products.map((item) => (
-                <div key={item._id}>
-                    <a href={`/product/${item._id}`}>{item.name}</a>
-                </div>
-            ))}
+            {products.length === 0 ? (
+                <p>No items (for now)</p>
+            ) : (
+                products.map((item) => (
+                    <div key={item._id}>
+                        <a href={`/product/${item._id}`}>{item.name}</a>
+                    </div>
+                ))
+            )}
         </div>
     );
 }

@@ -3,7 +3,7 @@ function Login() {
         const username = document.getElementById('user').value;
         const password = document.getElementById('password').value;
 
-        await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/users/login`, {
+        await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/api/users/login`, {
             method: 'POST',
             body: JSON.stringify({ username, password }),
             headers: {

@@ -11,13 +11,16 @@ function Register() {
             return;
         }
 
-        await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/users/register`, {
-            method: 'POST',
-            body: JSON.stringify({ username, email, password }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
+        await fetch(
+            `${import.meta.env.VITE_API_BACKEND_URL}/api/users/register`,
+            {
+                method: 'POST',
+                body: JSON.stringify({ username, email, password }),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
             .then((res) => {
                 if (res.status === 201) {
                     window.location.replace('/login');

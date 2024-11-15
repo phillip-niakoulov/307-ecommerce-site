@@ -17,7 +17,7 @@ Team 2's ecommerce site for CSC 307
 ## Running dev
 
 -   Frontend: `cd frontend && npm run dev`
--   Database: `"C:\Program Files\MongoDB\Server\8.0\bin\mongod.exe`
+-   Database: `."C:\Program Files\MongoDB\Server\8.0\bin\mongod.exe"`
 -   Backend: `cd backend && npm run dev`
 
 ## Contributing

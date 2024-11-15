@@ -3,20 +3,34 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const ah = require('../AuthHandler');
+const authenticateJWT = require('../authMiddleware');
+const authenticatePermissions = require('../permissionMiddleware');
 require('dotenv').config();
 
 const router = express.Router();
 
+// List all users
+router.get(
+    '/',
+    authenticateJWT,
+    authenticatePermissions('get-users'),
+    async (req, res) => {
+        try {
+            const users = await User.find().select('-password'); // Exclude password from response
+            res.status(200).json(users);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+);
+
 // Register a new user
 router.post('/register', async (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, password } = req.body;
 
     try {
         // Check for dupes
-        const existingUser = await User.findOne({ username });
-        const existingEmail = await User.findOne({ email });
-        if (existingEmail || existingUser) {
+        if (await User.findOne({ username })) {
             return res
                 .status(409)
                 .json({ message: 'Username or email is already in use' });
@@ -26,9 +40,7 @@ router.post('/register', async (req, res) => {
 
         const user = new User({
             username,
-            email,
             password: hashedPassword,
-            role: 'user',
         });
 
         const savedUser = await user.save();
@@ -41,40 +53,49 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Register admin (REMOVE ASAP, THINK OF BETTER WAY OF DOING THIS)
-router.post('/register-admin', async (req, res) => {
-    const { username, email, password } = req.body;
+// Register admin
+// Remove authenticateJWT if you don't have an admin account
+router.post(
+    '/register-admin',
+    authenticateJWT,
+    authenticatePermissions('register-admin'),
+    async (req, res) => {
+        const { username, password } = req.body;
 
-    const auth = await ah(req.headers['authorization'], 'new_admin', null);
+        try {
+            // Check for dupes
+            if (await User.findOne({ username: username })) {
+                return res
+                    .status(409)
+                    .json('A user with this username already exists');
+            }
 
-    if (auth[0] === 401) {
-        return res.status(401).json(auth[1]);
-    }
+            const hashedPassword = await bcrypt.hash(password, 10);
 
-    try {
-        const hashedPassword = await bcrypt.hash(password, 10);
+            const user = new User({
+                username,
+                password: hashedPassword,
+                permissions: {
+                    'create-product': true,
+                    'update-product': true,
+                    'delete-product': true,
+                    'get-users': true,
+                    'register-admin': true,
+                    'update-users': true,
+                    'delete-users': true,
+                },
+            });
 
-        if (User.findOne({ username: username })._id) {
-            return res
-                .status(409)
-                .json('A user with this username already exists');
+            const savedUser = await user.save();
+            res.status(201).json({
+                message: 'User registered successfully',
+                userId: savedUser._id,
+            });
+        } catch (err) {
+            res.status(400).json({ message: err.message });
         }
-        const user = new User({
-            username,
-            email,
-            password: hashedPassword,
-            role: 'admin',
-        });
-
-        const savedUser = await user.save();
-        res.status(201).json({
-            message: 'User registered successfully',
-            userId: savedUser._id,
-        });
-    } catch (err) {
-        res.status(400).json({ message: err.message });
     }
-});
+);
 
 // Login a user
 router.post('/login', async (req, res) => {
@@ -88,7 +109,11 @@ router.post('/login', async (req, res) => {
             return res.status(403).json({ message: 'Invalid password' });
 
         const token = await jwt.sign(
-            { userId: user._id },
+            {
+                userId: user._id,
+                username: user.username,
+                permissions: user.permissions,
+            },
             process.env.JWT_KEY,
             {
                 expiresIn: '1h',
@@ -102,57 +127,74 @@ router.post('/login', async (req, res) => {
 });
 
 // Get user details by ID
-router.get('/:id', async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        return res.status(400).json({ message: 'Invalid ID format' });
-    }
+router.get(
+    '/:id',
+    authenticateJWT,
+    authenticatePermissions('get-users'),
+    async (req, res) => {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({ message: 'Invalid ID format' });
+        }
 
-    try {
-        const user = await User.findById(req.params.id).select('-password'); // Exclude password from response
-        if (!user) return res.status(404).json({ message: 'User not found' });
-        res.json(user);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+        try {
+            const user = await User.findById(req.params.id).select('-password'); // Exclude password from response
+            if (!user)
+                return res.status(404).json({ message: 'User not found' });
+            res.json(user);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
     }
-});
+);
 
 // Update user details
-router.put('/:id', async (req, res) => {
-    const { username, email, firstName, lastName } = req.body;
+// DOES REALLY NOTHING IN THIS STATE, ADD PERMISSIONS AND ADD BACK IN THE EMAIL AND OTHER INFO THAT I REMOVED
+router.put(
+    '/:id',
+    authenticateJWT,
+    authenticatePermissions('update-users'),
+    async (req, res) => {
+        const { username } = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        return res.status(400).json({ message: 'Invalid ID format' });
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({ message: 'Invalid ID format' });
+        }
+
+        try {
+            const updatedUser = await User.findByIdAndUpdate(
+                req.params.id,
+                { username },
+                { new: true }
+            ).select('-password'); // Exclude password from response
+
+            if (!updatedUser)
+                return res.status(404).json({ message: 'User not found' });
+            res.json(updatedUser);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
     }
-
-    try {
-        const updatedUser = await User.findByIdAndUpdate(
-            req.params.id,
-            { username, email, firstName, lastName },
-            { new: true }
-        ).select('-password'); // Exclude password from response
-
-        if (!updatedUser)
-            return res.status(404).json({ message: 'User not found' });
-        res.json(updatedUser);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-});
+);
 
 // Delete a user
-router.delete('/:id', async (req, res) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        return res.status(400).json({ message: 'Invalid ID format' });
-    }
+router.delete(
+    '/:id',
+    authenticateJWT,
+    authenticatePermissions('delete-users'),
+    async (req, res) => {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({ message: 'Invalid ID format' });
+        }
 
-    try {
-        const deletedUser = await User.findByIdAndDelete(req.params.id);
-        if (!deletedUser)
-            return res.status(404).json({ message: 'User not found' });
-        res.json({ message: 'User deleted' });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+        try {
+            const deletedUser = await User.findByIdAndDelete(req.params.id);
+            if (!deletedUser)
+                return res.status(404).json({ message: 'User not found' });
+            res.json({ message: 'User deleted' });
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
     }
-});
+);
 
 module.exports = router;
