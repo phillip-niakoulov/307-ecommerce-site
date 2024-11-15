@@ -1,4 +1,5 @@
 import '../styles/components/ImageGallery.css';
+import PropTypes from 'prop-types';
 
 const ImageGallery = ({ imageUrls }) => {
     return (
@@ -7,12 +8,16 @@ const ImageGallery = ({ imageUrls }) => {
                 <img
                     key={index}
                     src={url}
-                    alt={`Image ${url}`}
+                    alt={`${url}`}
                     className="imageGalleryImage"
                 />
             ))}
         </div>
     );
 };
+
+ImageGallery.propTypes = {
+    imageUrls: PropTypes.array
+}
 
 export default ImageGallery;

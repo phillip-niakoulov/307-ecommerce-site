@@ -26,6 +26,7 @@ async function handleAuth(token, action, options) {
 }
 
 async function checkPermission(user, action, option) {
+    console.log(action, option);
     const userobj = await User.findById(user);
     if (!userobj) return false;
     if (userobj['role'] === 'admin') return true;
