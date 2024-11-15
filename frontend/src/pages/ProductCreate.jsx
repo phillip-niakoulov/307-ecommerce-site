@@ -47,7 +47,7 @@ function ProductCreation() {
             <label htmlFor={'images'}>Image:</label>
             <input type="file" id="images" name="images" /> <br />
             <input type={'submit'} onClick={create} value="Submit" />
-            <div id="err">Test</div>
+            <div id="err"></div>
         </div>
     );
 }

@@ -27,7 +27,7 @@ const CartView = () => {
 
     return (
         <div>
-            {cart.map((product) => (
+            {cart == null ? "You must sign in first." : cart.map((product) => (
                 <div key={product.id}>
                     {product.id}: {product.count}
                     <input

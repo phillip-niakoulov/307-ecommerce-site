@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     }
 
     if (auth[0] === 401) {
-        res.status(401).json(auth[1]);
+        return res.status(401).json(null);
     }
 
     if (!idValid(auth[1])) {
