@@ -1,5 +1,3 @@
-import { api } from '../common/common';
-
 function Register() {
     async function submit_register() {
         const email = document.getElementById('email').value;
@@ -13,14 +11,17 @@ function Register() {
             return;
         }
 
-        await fetch(api + '/api/users/register-admin', {
-            method: 'POST',
-            body: JSON.stringify({ username, email, password }),
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `${localStorage.getItem('token')}`,
-            },
-        })
+        await fetch(
+            `${import.meta.env.VITE_API_BASE_URL}/api/users/register-admin`,
+            {
+                method: 'POST',
+                body: JSON.stringify({ username, email, password }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: localStorage.getItem('token'),
+                },
+            }
+        )
             .then((res) => {
                 if (res.status === 201) {
                     window.location.replace('/login');

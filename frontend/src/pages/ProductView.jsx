@@ -3,8 +3,6 @@ import { useParams } from 'react-router-dom';
 
 import ImageGallery from '../components/ImageGallery.jsx';
 
-import { api } from '../common/common.jsx';
-
 const ProductView = () => {
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
@@ -15,7 +13,9 @@ const ProductView = () => {
         const fetchProduct = async () => {
             try {
                 const response = await fetch(
-                    `${api}/api/products/${productId}`
+                    `${
+                        import.meta.env.VITE_API_BASE_URL
+                    }/api/products/${productId}`
                 );
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -63,30 +63,42 @@ const ProductView = () => {
                 type={'button'}
                 value={'Add to Cart'}
                 onClick={async () => {
-                    await fetch(`${api}/api/carts`, {
-                        method: 'PUT',
-                        body: JSON.stringify({
-                            product: productId,
-                            count: 1,
-                        }),
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `${localStorage.getItem('token')}`,
-                        },
-                    });
+                    await fetch(
+                        `${import.meta.env.VITE_API_BASE_URL}/api/carts`,
+                        {
+                            method: 'PUT',
+                            body: JSON.stringify({
+                                product: productId,
+                                count: 1,
+                            }),
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `${localStorage.getItem(
+                                    'token'
+                                )}`,
+                            },
+                        }
+                    );
                 }}
             />
             <input
                 value={'Remove'}
                 type={'button'}
                 onClick={async () =>
-                    await fetch(`${api}/api/products/${productId}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `${localStorage.getItem('token')}`,
-                        },
-                    }).then((res) => {
+                    await fetch(
+                        `${
+                            import.meta.env.VITE_API_BASE_URL
+                        }/api/products/${productId}`,
+                        {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `${localStorage.getItem(
+                                    'token'
+                                )}`,
+                            },
+                        }
+                    ).then((res) => {
                         if (res.status === 201) {
                             setProduct(null);
                         }

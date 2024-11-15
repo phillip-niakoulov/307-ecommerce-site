@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
 
-import { api } from '../common/common.jsx';
-
 const CartView = () => {
     const [cart, setCart] = React.useState([]);
 
     function getCart() {
-        return fetch(`${api}/api/carts`, {
+        return fetch(`${import.meta.env.VITE_API_BASE_URL}/api/carts`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -34,17 +32,24 @@ const CartView = () => {
                         type={'button'}
                         value={'+'}
                         onClick={async () => {
-                            const res = await fetch(`${api}/api/carts`, {
-                                method: 'Put',
-                                body: JSON.stringify({
-                                    product: product.id,
-                                    count: product.count + 1,
-                                }),
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    Authorization: `${localStorage.getItem('token')}`,
-                                },
-                            });
+                            const res = await fetch(
+                                `${
+                                    import.meta.env.VITE_API_BASE_URL
+                                }/api/carts`,
+                                {
+                                    method: 'Put',
+                                    body: JSON.stringify({
+                                        product: product.id,
+                                        count: product.count + 1,
+                                    }),
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        Authorization: `${localStorage.getItem(
+                                            'token'
+                                        )}`,
+                                    },
+                                }
+                            );
                             if (res.status === 201) {
                                 setCart(await getCart());
                             }
@@ -54,17 +59,24 @@ const CartView = () => {
                         type={'button'}
                         value={'-'}
                         onClick={async () => {
-                            const res = await fetch(`${api}/api/carts`, {
-                                method: 'PUT',
-                                body: JSON.stringify({
-                                    product: product.id,
-                                    count: product.count - 1,
-                                }),
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    Authorization: `${localStorage.getItem('token')}`,
-                                },
-                            });
+                            const res = await fetch(
+                                `${
+                                    import.meta.env.VITE_API_BASE_URL
+                                }/api/carts`,
+                                {
+                                    method: 'PUT',
+                                    body: JSON.stringify({
+                                        product: product.id,
+                                        count: product.count - 1,
+                                    }),
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        Authorization: `${localStorage.getItem(
+                                            'token'
+                                        )}`,
+                                    },
+                                }
+                            );
                             if (res.status === 201) {
                                 setCart(await getCart());
                             }
