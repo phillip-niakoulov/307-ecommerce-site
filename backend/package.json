@@ -5,8 +5,7 @@
     "scripts": {
         "start": "node server.js",
         "dev": "nodemon server.js",
-        "format": "npx prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
-        "lint": "npx eslint . --fix"
+        "lint": "npx eslint . --fix && npx prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
     },
     "keywords": [],
     "author": "",
