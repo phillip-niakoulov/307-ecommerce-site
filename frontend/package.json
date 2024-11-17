@@ -6,9 +6,8 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "lint": "eslint . --fix",
-        "preview": "vite preview",
-        "format": "npx prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
+        "lint": "eslint . --fix && npx prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config .prettierrc",
+        "preview": "vite preview"
     },
     "dependencies": {
         "react": "^18.3.1",

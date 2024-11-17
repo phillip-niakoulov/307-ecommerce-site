@@ -17,7 +17,7 @@ const ImageGallery = ({ imageUrls }) => {
 };
 
 ImageGallery.propTypes = {
-    imageUrls: PropTypes.array
-}
+    imageUrls: PropTypes.array,
+};
 
 export default ImageGallery;
