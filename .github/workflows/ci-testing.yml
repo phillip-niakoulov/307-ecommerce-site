@@ -1,7 +1,7 @@
 name: CI Testing
 on:
   push:
-    branches: [main, dev, dev-cicd]
+    branches: ["**"]
 jobs:
   build:
     runs-on: ubuntu-latest
