@@ -14,7 +14,7 @@ const ProductView = () => {
             try {
                 const response = await fetch(
                     `${
-                        import.meta.env.VITE_API_BASE_URL
+                        import.meta.env.VITE_API_BACKEND_URL
                     }/api/products/${productId}`
                 );
                 if (!response.ok) {
