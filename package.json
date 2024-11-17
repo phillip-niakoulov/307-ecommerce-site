@@ -1,0 +1,24 @@
+{
+  "name": "307-ecommerce-site",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Team 2's ecommerce site for CSC 307",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "frontend": "npm run dev -w frontend",
+    "backend": "npm run dev -w backend",
+    "cleanup": "npm run lint -w backend && npm run format -w backend && npm run lint -w frontend && npm run lint -w frontend"
+  },
+  "workspaces": [
+    "packages/*",
+    "frontend",
+    "backend"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "ISC"
+
+}
