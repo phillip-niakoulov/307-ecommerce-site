@@ -9,6 +9,7 @@ import NotFound from './src/pages/NotFound.jsx';
 import './src/styles/index.css';
 import './src/styles/pages/header.css'
 import './src/styles/pages/home.css'
+import './src/styles/pages/login.css'
 // import Footer from '../components/footer';
 
 createRoot(document.getElementById('root')).render(

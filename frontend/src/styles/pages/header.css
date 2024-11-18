@@ -1,4 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
 /* Header container styling */
+
 header {
     background-color: #000; /* Black background */
     color: #fff; /* White text for header */
@@ -18,6 +22,15 @@ header h1 {
 header h1 span {
     color: #00ff00; /* Light green for 'Pro' */
     text-shadow: 0 0 5px #00ff00, 0 0 15px #00ff00; /* Soft glowing effect */
+}
+
+header h1 .pro {
+    font-family: 'Poppins', sans-serif; /* Example modern font */
+    font-weight: 600; /* Make it bold for emphasis */
+    font-size: 1.25em; /* Slightly larger than the rest */
+    color: #00ff00; /* Light green color */
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px #00ff00, 0 0 15px #00ff00; /* Optional glow */
 }
 
 /* Navigation bar layout */
