@@ -1,0 +1,62 @@
+
+
+/* General styles for the 404 container */
+.notfound-container {
+    text-align: center;
+    margin: 50px auto;
+    font-family: 'Orbitron', sans-serif; /* Futuristic font */
+    color: #fff; /* white gray for text */
+    max-width: 600px;
+    background-color: #000; /* Black background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 255, 0, 0.3); /* Light green glow */
+}
+
+/* 404 heading */
+.notfound-container h1 {
+    font-size: 6rem;
+    color: #00ff00;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+}
+
+/* Message text */
+.notfound-container p {
+    font-size: 1.25rem;
+    margin: 20px 0;
+    color: #fff;
+}
+
+/* Home link button */
+.home-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #00ff00; /* Light green background for the button */
+    color: #000; /* Black text */
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    text-transform: uppercase;
+}
+
+/* Hover effect for home link */
+.home-link:hover {
+    background-color: #005f00; /* Darker green on hover */
+    color: #fff; /* White text on hover */
+    box-shadow: 0 4px 10px rgba(0, 255, 0, 0.7);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .notfound-container h1 {
+        font-size: 4rem;
+    }
+    .notfound-container p {
+        font-size: 1rem;
+    }
+    .home-link {
+        padding: 8px 16px;
+    }
+}
