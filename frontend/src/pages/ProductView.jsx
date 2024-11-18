@@ -1,13 +1,22 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
-import ImageGallery from '../components/ImageGallery.jsx';
+// import ImageGallery from '../components/ImageGallery.jsx';
 
 const ProductView = () => {
+    const navigate = useNavigate();
+
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [permissions, setPermissions] = useState({});
+
+    useEffect(() => {
+        const perms = JSON.parse(localStorage.getItem('permissions'));
+
+        setPermissions(perms || {});
+    }, []);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -48,64 +57,71 @@ const ProductView = () => {
     // ..\src\assets\1730854940588-Screenshot_2024_08_14_144600.png
 
     // SORRY, SHITTY SOLUTION I'LL DEAL WITH LATER
-    const editedImageUrls = product.imageUrls.map(
-        (url) => url.substring(0, 3) + url.substring(12)
-    );
+    // const editedImageUrls = product.imageUrls.map(
+    //     (url) => url.substring(0, 3) + url.substring(12)
+    // );
+
+    const addProductToCart = (quantity) => {
+        const cart = localStorage.getItem('cart')
+            ? JSON.parse(localStorage.getItem('cart'))
+            : [];
+
+        const existingItemIndex = cart.findIndex(
+            (cartItem) => cartItem.itemId === productId
+        );
+
+        if (existingItemIndex >= 0) {
+            cart[existingItemIndex].quantity += quantity;
+        } else {
+            cart.push({
+                itemId: productId,
+                quantity: 1,
+                createdAt: new Date().toISOString(),
+            });
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+    };
 
     return (
         <div>
             <h2>{product.name}</h2>
             <p>{product.description}</p>
             <p>Price: ${product.originalPrice}</p>
-            <ImageGallery imageUrls={editedImageUrls} />
+            {/* <ImageGallery imageUrls={editedImageUrls} /> */}
 
             <input
                 type={'button'}
                 value={'Add to Cart'}
-                onClick={async () => {
-                    await fetch(
-                        `${import.meta.env.VITE_API_BASE_URL}/api/carts`,
-                        {
-                            method: 'PUT',
-                            body: JSON.stringify({
-                                product: productId,
-                                count: 1,
-                            }),
-                            headers: {
-                                'Content-Type': 'application/json',
-                                Authorization: `${localStorage.getItem(
-                                    'token'
-                                )}`,
-                            },
-                        }
-                    );
-                }}
+                onClick={() => addProductToCart(1)}
             />
-            <input
-                value={'Remove'}
-                type={'button'}
-                onClick={async () =>
-                    await fetch(
-                        `${
-                            import.meta.env.VITE_API_BASE_URL
-                        }/api/products/${productId}`,
-                        {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                Authorization: `${localStorage.getItem(
-                                    'token'
-                                )}`,
-                            },
-                        }
-                    ).then((res) => {
-                        if (res.status === 201) {
-                            setProduct(null);
-                        }
-                        window.location.replace('/');
-                    })
-                }
-            />
+            {permissions['delete-product'] === true && (
+                <input
+                    value={'Remove'}
+                    type={'button'}
+                    onClick={async () =>
+                        await fetch(
+                            `${
+                                import.meta.env.VITE_API_BACKEND_URL
+                            }/api/products/${productId}`,
+                            {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    Authorization: `Bearer ${localStorage.getItem(
+                                        'token'
+                                    )}`,
+                                },
+                            }
+                        ).then((res) => {
+                            if (res.status === 201) {
+                                setProduct(null);
+                            }
+                            navigate('/');
+                        })
+                    }
+                />
+            )}
         </div>
     );
 };

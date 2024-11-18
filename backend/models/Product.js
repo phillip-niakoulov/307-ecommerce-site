@@ -17,19 +17,9 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    imageUrls: {
-        // Array to store multiple image paths
-        type: [String],
-        required: true,
-    },
     category: {
         type: String,
         required: true,
-    },
-    tags: {
-        // Optional
-        type: [String],
-        default: [],
     },
     createdAt: {
         type: Date,

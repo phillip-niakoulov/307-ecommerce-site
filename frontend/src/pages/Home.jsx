@@ -1,5 +1,6 @@
 import '../styles/pages/home.css';
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 function Home() {
     const [products, setProducts] = React.useState([]);
@@ -23,11 +24,15 @@ function Home() {
     return (
         <div>
             <h1>Product List</h1>
-            {products.map((item) => (
-                <div key={item._id}>
-                    <a href={`/product/${item._id}`}>{item.name}</a>
-                </div>
-            ))}
+            {products.length === 0 ? (
+                <p>No items (for now)</p>
+            ) : (
+                products.map((item) => (
+                    <div key={item._id}>
+                        <Link to={`/product/${item._id}`}>{item.name}</Link>
+                    </div>
+                ))
+            )}
         </div>
     );
 }

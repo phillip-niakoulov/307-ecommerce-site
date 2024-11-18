@@ -10,15 +10,12 @@ import './src/styles/index.css';
 import './src/styles/pages/header.css';
 import './src/styles/pages/home.css';
 import './src/styles/pages/login.css';
-import ProductCreate from './src/pages/ProductCreate.jsx';
 import NotFound from './src/pages/NotFound.jsx';
+import AdminDashboard from './src/pages/AdminDashboard.jsx';
 import RegisterAdmin from './src/pages/RegisterAdmin.jsx';
-import CartView from './src/pages/CartView.jsx';
 
-// import Footer from '../components/footer';
-
-createRoot(document.getElementById('root')).render(
-    <StrictMode>
+const App = () => {
+    return (
         <Router>
             <Header />
             <Routes>
@@ -26,11 +23,18 @@ createRoot(document.getElementById('root')).render(
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />
                 <Route path="registeradmin" element={<RegisterAdmin />} />
-                <Route path="cart" element={<CartView />} />
-                <Route path="product/create" element={<ProductCreate />} />
-                <Route path="*" element={<NotFound />} />
                 <Route path="product/:productId" element={<ProductView />} />
+                <Route path="admin" element={<AdminDashboard />} />
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </Router>
+    );
+};
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
     </StrictMode>
 );
+
+export default App;
