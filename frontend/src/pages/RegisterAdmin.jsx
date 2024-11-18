@@ -7,24 +7,21 @@ function Register() {
     const [permissions, setPermissions] = useState({});
 
     useEffect(() => {
-        const perms = JSON.parse(localStorage.getItem('permissions'));
-        if (!perms) {
-            navigate('/register');
+        setPermissions(JSON.parse(localStorage.getItem('permissions')));
+
+        if (!permissions) {
+            navigate('/login');
             console.error("You don't have perms");
             return;
         }
 
-        if (perms && perms['register-admin'] === false) {
+        if (permissions && permissions['register-admin'] === false) {
             navigate('/login');
             console.error("You don't have the right permission");
-            return;
         }
-
-        setPermissions(perms);
-    }, [navigate]);
+    }, [navigate, permissions]);
 
     async function submit_register() {
-        // const email = document.getElementById('email').value;
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const confirm = document.getElementById('confirm').value;
@@ -66,8 +63,6 @@ function Register() {
         <div>
             <h1>Register Admin</h1>
             <div id={'register_fields'}>
-                {/* <label htmlFor="email">Email:</label> */}
-                {/* <input type="text" id="email" name="email" /> <br /> */}
                 <label htmlFor="username">Username:</label>
                 <input type="text" id="username" name="username" /> <br />
                 <label htmlFor="password">Password:</label>
