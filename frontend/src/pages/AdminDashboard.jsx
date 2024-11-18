@@ -22,8 +22,8 @@ const AdminDashboard = () => {
             <h1>Admin Dashboard</h1>
             {permissions['get-users'] === true && <UserList />}
             {permissions['create-product'] === true && <ProductCreate />}
-            {permissions['get-users'] == false &&
-                permissions['create-product'] == false && (
+            {permissions['get-users'] === false &&
+                permissions['create-product'] === false && (
                     <p>Nothing to see here...</p>
                 )}
         </div>

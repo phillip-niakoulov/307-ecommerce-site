@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 // import ImageGallery from '../components/ImageGallery.jsx';
 
@@ -16,7 +15,7 @@ const ProductView = () => {
     useEffect(() => {
         const perms = JSON.parse(localStorage.getItem('permissions'));
 
-        setPermissions(perms ? perms : {});
+        setPermissions(perms || {});
     }, []);
 
     useEffect(() => {
