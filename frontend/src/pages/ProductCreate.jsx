@@ -19,6 +19,10 @@ function ProductCreate() {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
         }).then(async (res) => {
+            if (res.status === 201) {
+                window.location.replace('/');
+                return;
+            }
             res.json().then((j) => {
                 document.getElementById('err').innerHTML = j['message'];
             });
@@ -40,7 +44,7 @@ function ProductCreate() {
                 {/* <label htmlFor={'images'}>Image:</label>
                 <input type="file" id="images" name="images" /> <br /> */}
                 <input type={'submit'} onClick={create} value="Submit" />
-                <div id="err">Test</div>
+                <div id="err"></div>
             </div>
         </div>
     );

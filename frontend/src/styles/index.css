@@ -1,0 +1,52 @@
+/* Define global styles */
+:root {
+    --background-color: #000; /* Black background */
+    --text-color: #fff; /* White text */
+    --font-family: 'Arial', sans-serif; /* Default font */
+}
+
+/* Apply styles to the entire website */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color); /* Use the defined variable */
+    color: var(--text-color); /* Use the defined variable */
+    font-family: var(--font-family); /* Use the defined font */
+    line-height: 1.6; /* Better readability */
+}
+
+/* Default link styles */
+a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Default list styles */
+ul,
+ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Images to fit the container */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Headings consistent with global text color */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-color);
+    margin: 0;
+}
