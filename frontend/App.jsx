@@ -12,7 +12,7 @@ import './src/styles/pages/home.css';
 import './src/styles/pages/login.css';
 import NotFound from './src/pages/NotFound.jsx';
 import AdminDashboard from './src/pages/AdminDashboard.jsx';
-import RegisterAdmin from './src/pages/RegisterAdmin.jsx';
+import ProductEdit from './src/pages/ProductEdit.jsx';
 
 const App = () => {
     return (
@@ -22,8 +22,11 @@ const App = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />
-                <Route path="registeradmin" element={<RegisterAdmin />} />
                 <Route path="product/:productId" element={<ProductView />} />
+                <Route
+                    path="product/:productId/edit"
+                    element={<ProductEdit />}
+                />
                 <Route path="admin" element={<AdminDashboard />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>

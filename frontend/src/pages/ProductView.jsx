@@ -85,43 +85,26 @@ const ProductView = () => {
 
     return (
         <div>
-            <h2>{product.name}</h2>
-            <p>{product.description}</p>
-            <p>Price: ${product.originalPrice}</p>
+            <h2 id={'name'}>{product.name}</h2>
+            <p id={'description'}>{product.description}</p>
+            <p id={'price'}>Price: ${product.originalPrice}</p>
             {/* <ImageGallery imageUrls={editedImageUrls} /> */}
-
-            <input
-                type={'button'}
-                value={'Add to Cart'}
-                onClick={() => addProductToCart(1)}
-            />
-            {permissions['delete-product'] === true && (
+            <div id={'buttons'}>
                 <input
-                    value={'Remove'}
                     type={'button'}
-                    onClick={async () =>
-                        await fetch(
-                            `${
-                                import.meta.env.VITE_API_BACKEND_URL
-                            }/api/products/${productId}`,
-                            {
-                                method: 'DELETE',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    Authorization: `Bearer ${localStorage.getItem(
-                                        'token'
-                                    )}`,
-                                },
-                            }
-                        ).then((res) => {
-                            if (res.status === 201) {
-                                setProduct(null);
-                            }
-                            navigate('/');
-                        })
-                    }
+                    value={'Add to Cart'}
+                    onClick={() => addProductToCart(1)}
                 />
-            )}
+                {permissions['update-product'] === true && (
+                    <input
+                        value={'Edit'}
+                        type={'button'}
+                        onClick={async () =>
+                            navigate(`/product/${productId}/edit`)
+                        }
+                    />
+                )}
+            </div>
         </div>
     );
 };

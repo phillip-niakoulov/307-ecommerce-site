@@ -154,7 +154,7 @@ const UserList = () => {
                 [userId]: false,
             }));
 
-            if (userId == localStorage.getItem('userId')) {
+            if (userId === localStorage.getItem('userId')) {
                 localStorage.setItem(
                     'permissions',
                     JSON.stringify(modifiedPermissions[userId])
@@ -186,7 +186,10 @@ const UserList = () => {
                         onChange={() =>
                             handleCheckboxChange(user._id, permission)
                         }
-                        disabled={!hasManagePermissions} // Disable if user lacks permission
+                        disabled={
+                            !hasManagePermissions ||
+                            user._id === localStorage.getItem('userId')
+                        } // Disable if user lacks permission
                         style={{
                             cursor: hasManagePermissions
                                 ? 'pointer'
@@ -194,6 +197,7 @@ const UserList = () => {
                         }}
                     />
                     {permission}
+                    {hasManagePermissions}
                 </label>
             </div>
         ));
@@ -217,7 +221,7 @@ const UserList = () => {
                         onClick={() => deleteUser(user._id)}
                         disabled={
                             !hasDeletePermissions ||
-                            localStorage.getItem('userId') == user._id
+                            localStorage.getItem('userId') === user._id
                         }
                         style={{
                             cursor: hasDeletePermissions

@@ -1,25 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
 function Register() {
     // Kicks you if you're not logged in and only shows you the menus you have access to
-    const navigate = useNavigate();
-    const [permissions, setPermissions] = useState({});
-
-    useEffect(() => {
-        setPermissions(JSON.parse(localStorage.getItem('permissions')));
-
-        if (!permissions) {
-            navigate('/login');
-            console.error("You don't have perms");
-            return;
-        }
-
-        if (permissions && permissions['register-admin'] === false) {
-            navigate('/login');
-            console.error("You don't have the right permission");
-        }
-    }, [navigate, permissions]);
 
     async function submit_register() {
         const username = document.getElementById('username').value;
@@ -44,14 +24,10 @@ function Register() {
             }
         )
             .then((res) => {
-                if (res.status === 201) {
-                    return res.json().then((data) => {
-                        console.log(data); // Log the parsed JSON data
-                        navigate('/login'); // Redirect to login
-                    });
-                }
                 res.json().then((j) => {
-                    document.getElementById('error').innerHTML = j;
+                    document.getElementById('error').innerHTML = j['message']
+                        ? j['message']
+                        : j;
                 });
             })
             .catch((err) => {
