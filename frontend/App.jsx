@@ -6,6 +6,10 @@ import Login from './src/pages/Login.jsx';
 import Register from './src/pages/Register.jsx';
 import ProductView from './src/pages/ProductView.jsx';
 import Header from './src/components/Header.jsx';
+import './src/styles/index.css';
+import './src/styles/pages/header.css'
+import './src/styles/pages/home.css'
+import './src/styles/pages/login.css'
 import ProductCreate from './src/pages/ProductCreate.jsx';
 import NotFound from './src/pages/NotFound.jsx';
 import RegisterAdmin from './src/pages/RegisterAdmin.jsx';
