@@ -35,11 +35,6 @@ const productSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    options: {
-        //Sell Options. Ex. Small, Medium, Large
-        type: [String],
-        default: [],
-    },
 });
 
 const Product = mongoose.model('Product', productSchema);

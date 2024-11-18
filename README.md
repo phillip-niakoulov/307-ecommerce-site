@@ -7,6 +7,12 @@ Team 2's ecommerce site for CSC 307
 -   Frontend: `cd frontend && npm install`
 -   Database: `mkdir C:\data\db`
 -   Backend: `cd backend && npm install`
+-   DotEnv: `cd backend`
+    ```env
+        # backend/.env
+        DATABASE_URL="mongodb+srv://ecommerceapp:SNlCVgBoPEldIdXm@ecommercepro.vjker.mongodb.net/?retryWrites=true&w=majority&appName=EcommercePro"
+        JWT_KEY="MIIJQwIBADANBgkqhkiG9w0BAQEFAASCCS0wggkpAgEAAoICAQC8dBs72P9i5XyWAL+TKJr7xyT8VbgBectQVnIWT6MJ45tQ36fd ..."
+    ```
 
 ## Running dev
 

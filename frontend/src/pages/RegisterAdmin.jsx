@@ -11,19 +11,23 @@ function Register() {
             return;
         }
 
-        await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/users/register`, {
-            method: 'POST',
-            body: JSON.stringify({ username, email, password }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
+        await fetch(
+            `${import.meta.env.VITE_API_BASE_URL}/api/users/register-admin`,
+            {
+                method: 'POST',
+                body: JSON.stringify({ username, email, password }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: localStorage.getItem('token'),
+                },
+            }
+        )
             .then((res) => {
                 if (res.status === 201) {
                     window.location.replace('/login');
                 }
                 res.json().then((j) => {
-                    document.getElementById('error').innerHTML = j['message'];
+                    document.getElementById('error').innerHTML = j;
                 });
             })
             .catch((err) => {

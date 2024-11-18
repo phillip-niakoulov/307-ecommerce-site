@@ -4,11 +4,15 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
+const ah = require('../AuthHandler');
+
 const router = express.Router();
+
+const storagePath = '../frontend/src/assets'; // store images in "assets" directory
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // store images in "uploads" directory
+        cb(null, storagePath);
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + path.extname(file.originalname));
@@ -36,26 +40,17 @@ const upload = multer({
 
 // FRONTEND INTEGRATION MAYBE WILL BE TRICKY
 // Create a new product with image upload
-router.post('/create', upload.array('images', 10), async (req, res) => {
-    // 10 images max
+router.post('/create', async (req, res) => {
+    const auth = await ah(req.headers['authorization'], 'new_product', null);
 
-    if (req.fileValidationError) {
-        return res.status(400).json({ message: req.fileValidationError });
-    }
-    if (!req.files) {
-        return res.status(400).json({ message: 'No images were uploaded' });
+    if (auth[0] === 401) {
+        return res.status(401).json(auth[1]);
     }
 
     const { name, originalPrice, description, category, tags } = req.body;
 
     // Validate required fields
-    if (
-        !name ||
-        !originalPrice ||
-        !description ||
-        !req.files.length ||
-        !category
-    ) {
+    if (!name || !originalPrice || !description || !category) {
         return res.status(400).json({ message: 'Missing required fields' });
     }
 
@@ -64,23 +59,13 @@ router.post('/create', upload.array('images', 10), async (req, res) => {
         .toLowerCase()
         .replace(/\s+/g, '-')
         .replace(/[^a-z0-9-]/g, '')
-        .replace(/^-+|-+$/g, '');
-
-    const sanitizedFilenames = req.files.map((file) => {
-        return (
-            Date.now() + '-' + file.originalname.replace(/[^a-z0-9.]/gi, '_')
-        );
-    });
-    const imageUrls = sanitizedFilenames.map(
-        (filename) => `/uploads/${filename}`
-    );
+        .replace(/(^-+)|(-+$)/g, '');
 
     const product = new Product({
         _id: id,
         name: name,
         originalPrice: originalPrice,
         description: description,
-        imageUrls: imageUrls,
         category: category,
         tags: tags,
     });
@@ -98,17 +83,6 @@ router.post('/create', upload.array('images', 10), async (req, res) => {
                 .status(409)
                 .json({ message: 'Product with this ID already exists' });
         }
-
-        // Rename already uploaded files to sanitized filenames
-        await Promise.all(
-            req.files.map((file, index) => {
-                const newFilename = sanitizedFilenames[index];
-                return fs.promises.rename(
-                    path.join('uploads', file.filename),
-                    path.join('uploads', newFilename)
-                );
-            })
-        );
 
         const savedProduct = await product.save();
         res.status(201).json(savedProduct);
@@ -152,8 +126,7 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
         return res.status(400).json({ message: 'No images were uploaded' });
     }
 
-    const { name, originalPrice, description, category, tags, options } =
-        req.body;
+    const { name, originalPrice, description, category, tags } = req.body;
 
     // Validate required fields
     if (
@@ -189,15 +162,15 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
         .toLowerCase()
         .replace(/\s+/g, '-')
         .replace(/[^a-z0-9-]/g, '')
-        .replace(/^-+|-+$/g, '');
+        .replace(/(^-+)|(-+$)/g, '');
 
     const sanitizedFilenames = req.files.map((file) => {
         return (
             Date.now() + '-' + file.originalname.replace(/[^a-z0-9.]/gi, '_')
         );
     });
-    const imageUrls = sanitizedFilenames.map(
-        (filename) => `/uploads/${filename}`
+    const imageUrls = sanitizedFilenames.map((filename) =>
+        path.join(storagePath, filename)
     );
 
     // MUST CREATE NEW SINCE DIFFERENT ID
@@ -209,18 +182,31 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
         imageUrls: imageUrls,
         category: category,
         tags: tags,
-        options: options,
     });
 
     try {
         // Check for dupes
         const existingName = await Product.findOne({ name }); // If new name is already in use
         if (existingName) {
+            await Promise.all(
+                req.files.map((file) => {
+                    return fs.promises.unlink(
+                        path.join(storagePath, file.filename)
+                    );
+                })
+            );
             return res.status(409).json({ message: 'Name is already in use' });
         }
 
         const existingProduct = await Product.findById(id); // If new ID is already in use
         if (existingProduct) {
+            await Promise.all(
+                req.files.map((file) => {
+                    return fs.promises.unlink(
+                        path.join(storagePath, file.filename)
+                    );
+                })
+            );
             return res
                 .status(409)
                 .json({ message: 'Product with this ID already exists' });
@@ -231,8 +217,8 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
             req.files.map((file, index) => {
                 const newFilename = sanitizedFilenames[index];
                 return fs.promises.rename(
-                    path.join('uploads', file.filename),
-                    path.join('uploads', newFilename)
+                    path.join(storagePath, file.filename),
+                    path.join(storagePath, newFilename)
                 );
             })
         );
@@ -240,12 +226,25 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
         const savedProduct = await product.save();
         res.status(200).json(savedProduct);
     } catch (err) {
+        await Promise.all(
+            req.files.map((file) => {
+                return fs.promises.unlink(
+                    path.join(storagePath, file.filename)
+                );
+            })
+        );
         res.status(400).json({ message: err.message });
     }
 });
 
 // Delete a product
 router.delete('/:id', async (req, res) => {
+    const auth = await ah(req.headers['authorization'], 'delete_product', null);
+
+    if (auth[0] === 401) {
+        return res.status(401).json(auth[1]);
+    }
+
     try {
         // Find the product by ID
         const product = await Product.findById(req.params.id);
@@ -268,7 +267,7 @@ router.delete('/:id', async (req, res) => {
 
         // Delete the product from the database
         await Product.findByIdAndDelete(req.params.id);
-        res.json({ message: 'Product deleted' });
+        res.status(200).json({ message: 'Product deleted' });
     } catch (err) {
         console.error(err); // Log the error for debugging
         res.status(500).json({ message: err.message });

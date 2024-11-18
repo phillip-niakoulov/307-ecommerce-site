@@ -346,38 +346,15 @@ Removes the product based on the provided product ID. Also, remove associated fi
 
 ### Cart Routes
 
-#### 1. Create a Shopping Cart
+#### 1. Adding items to a Shopping Cart
 
-**POST** `/api/carts/create`
-In the body include:
-`{owner: id}`
+**PUT** `/api/carts/:id` where id is the user's id
 
--   **Output:**
-
-    -   **201:** When successful
-
-    ```json
-    {
-        "_id": "67208f629ef1419678913f85",
-        "products": [],
-        "createdAt": "2024-10-29T07:31:46.654Z",
-        "owner": "672046325e9415000ccd8e85",
-        "__v": 0
-    }
-    ```
-
-    -   **200:** Already exists
-
-    -   **400:** Owner is missing or is not in a valid format
-    -   **404:** Owner does not exist
-
----
-
-#### 2. Adding items to a Shopping Cart
-
-**PUT** `/api/carts/:id`
 **Body:**
-`{"product": product_id }`
+`{"product": product_id,
+    "count": count,
+    "option": option
+}`
 
 -   **Output**
     -   **201:** Added
@@ -387,9 +364,10 @@ In the body include:
 
 ---
 
-#### 3. Removing items to a Shopping Cart
+#### 2. Emptying a Shopping Cart
 
-**DELETE** `/api/carts/:id`
+**DELETE** `/api/carts/:id` where id is the user's id
+
 **Body:**
 `{"product": product_id }`
 
@@ -398,13 +376,13 @@ In the body include:
     -   **404:** Cannot find product or cart
     -   **400:** Product/cart not specified or in invalid format
 
-### **NOTE: Not including a body will remove the entire cart**
+### **NOTE: To remove an item, use put with a count of 0**
 
 ---
 
-### 4. Get the contents of a Shopping Cart
+#### 3. Get the contents of a Shopping Cart
 
-**GET** `/api/carts/:id`
+**GET** `/api/carts/:id` where id is the user's id
 
 -   **Output**
     -   **200:** Successful Retrieval
