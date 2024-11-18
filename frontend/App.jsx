@@ -7,6 +7,8 @@ import Register from './src/pages/Register.jsx';
 import Header from './src/components/Header.jsx';
 import NotFound from './src/pages/NotFound.jsx';
 import './src/styles/index.css';
+import './src/styles/pages/header.css'
+import './src/styles/pages/home.css'
 // import Footer from '../components/footer';
 
 createRoot(document.getElementById('root')).render(

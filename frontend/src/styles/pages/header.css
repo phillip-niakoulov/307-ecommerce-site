@@ -1,0 +1,54 @@
+/* Header container styling */
+header {
+    background-color: #000; /* Black background */
+    color: #fff; /* White text for header */
+    padding: 20px;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif; /* Modern font */
+    border-bottom: 2px solid #333; /* Subtle border for separation */
+}
+
+/* Highlight 'Pro' in green */
+header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    font-weight: bold;
+}
+
+header h1 span {
+    color: #00ff00; /* Light green for 'Pro' */
+    text-shadow: 0 0 5px #00ff00, 0 0 15px #00ff00; /* Soft glowing effect */
+}
+
+/* Navigation bar layout */
+nav {
+    margin: 15px 0;
+    display: flex;
+    justify-content: center; /* Centers links horizontally */
+    gap: 20px; /* Adds space between links */
+}
+
+/* Navigation links */
+nav a {
+    color: #fff; /* White text */
+    text-decoration: none;
+    font-size: 1.2rem;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    text-transform: uppercase; /* Makes link text uppercase */
+    font-weight: bold;
+}
+
+/* Soft glow effect on hover */
+nav a:hover {
+    color: #00ff00; /* Light green text on hover */
+    text-shadow: 0 0 5px #00ff00, 0 0 15px #00ff00; /* Soft glowing effect */
+}
+
+/* Page-specific headings */
+header h2 {
+    font-size: 1.5rem;
+    margin-top: 10px;
+    color: #a9a9a9; /* Subtle gray */
+    font-style: italic;
+}
