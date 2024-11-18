@@ -1,6 +1,30 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 function Register() {
+    // Kicks you if you're not logged in and only shows you the menus you have access to
+    const navigate = useNavigate();
+    const [permissions, setPermissions] = useState({});
+
+    useEffect(() => {
+        const perms = JSON.parse(localStorage.getItem('permissions'));
+        if (!perms) {
+            navigate('/register');
+            console.error("You don't have perms");
+            return;
+        }
+
+        if (perms && perms['register-admin'] === false) {
+            navigate('/login');
+            console.error("You don't have the right permission");
+            return;
+        }
+
+        setPermissions(perms);
+    }, [navigate]);
+
     async function submit_register() {
-        const email = document.getElementById('email').value;
+        // const email = document.getElementById('email').value;
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const confirm = document.getElementById('confirm').value;
@@ -15,10 +39,10 @@ function Register() {
             `${import.meta.env.VITE_API_BACKEND_URL}/api/users/register-admin`,
             {
                 method: 'POST',
-                body: JSON.stringify({ username, email, password }),
+                body: JSON.stringify({ username, password }),
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: localStorage.getItem('token'),
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             }
         )
@@ -26,7 +50,7 @@ function Register() {
                 if (res.status === 201) {
                     return res.json().then((data) => {
                         console.log(data); // Log the parsed JSON data
-                        window.location.replace('/login'); // Redirect to login
+                        navigate('/login'); // Redirect to login
                     });
                 }
                 res.json().then((j) => {
@@ -39,17 +63,20 @@ function Register() {
     }
 
     return (
-        <div id={'register_fields'}>
-            <label htmlFor="email">Email:</label>
-            <input type="text" id="email" name="email" /> <br />
-            <label htmlFor="username">Username:</label>
-            <input type="text" id="username" name="username" /> <br />
-            <label htmlFor="password">Password:</label>
-            <input type="password" id="password" name="password" /> <br />
-            <label htmlFor="confirm">Confirm Password:</label>
-            <input type="password" id="confirm" name="confirm" />
-            <p id={'error'}></p>
-            <input type="submit" onClick={submit_register} value="Submit" />
+        <div>
+            <h1>Register Admin</h1>
+            <div id={'register_fields'}>
+                {/* <label htmlFor="email">Email:</label> */}
+                {/* <input type="text" id="email" name="email" /> <br /> */}
+                <label htmlFor="username">Username:</label>
+                <input type="text" id="username" name="username" /> <br />
+                <label htmlFor="password">Password:</label>
+                <input type="password" id="password" name="password" /> <br />
+                <label htmlFor="confirm">Confirm Password:</label>
+                <input type="password" id="confirm" name="confirm" />
+                <p id={'error'}></p>
+                <input type="submit" onClick={submit_register} value="Submit" />
+            </div>
         </div>
     );
 }

@@ -11,7 +11,6 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     permissions: {
-        // if you add new perms, update /register-admin in userRoutes.js to include it
         'create-product': {
             type: Boolean,
             default: false,
@@ -33,6 +32,7 @@ const userSchema = new mongoose.Schema({
             default: false,
         },
         'update-users': {
+            // no real use for now since it does the same things as manage permissions
             type: Boolean,
             default: false,
         },
@@ -40,7 +40,12 @@ const userSchema = new mongoose.Schema({
             type: Boolean,
             default: false,
         },
+        'manage-permissions': {
+            type: Boolean,
+            default: false,
+        },
         // Add more permissions as needed
+        // if you add new perms, update /register-admin in userRoutes.js to include it
     },
     createdAt: {
         type: Date,

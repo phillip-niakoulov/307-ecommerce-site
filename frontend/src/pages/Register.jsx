@@ -1,6 +1,10 @@
+import { useNavigate } from 'react-router-dom';
+
 function Register() {
+    const navigate = useNavigate();
+
     async function submit_register() {
-        const email = document.getElementById('email').value;
+        // const email = document.getElementById('email').value;
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const confirm = document.getElementById('confirm').value;
@@ -15,7 +19,7 @@ function Register() {
             `${import.meta.env.VITE_API_BACKEND_URL}/api/users/register`,
             {
                 method: 'POST',
-                body: JSON.stringify({ username, email, password }),
+                body: JSON.stringify({ username, password }),
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -23,7 +27,7 @@ function Register() {
         )
             .then((res) => {
                 if (res.status === 201) {
-                    window.location.replace('/login');
+                    navigate('/login');
                 }
                 res.json().then((j) => {
                     document.getElementById('error').innerHTML = j['message'];
@@ -35,17 +39,20 @@ function Register() {
     }
 
     return (
-        <div id={'register_fields'}>
-            <label htmlFor="email">Email:</label>
-            <input type="text" id="email" name="email" /> <br />
-            <label htmlFor="username">Username:</label>
-            <input type="text" id="username" name="username" /> <br />
-            <label htmlFor="password">Password:</label>
-            <input type="password" id="password" name="password" /> <br />
-            <label htmlFor="confirm">Confirm Password:</label>
-            <input type="password" id="confirm" name="confirm" />
-            <p id={'error'}></p>
-            <input type="submit" onClick={submit_register} value="Submit" />
+        <div>
+            <h1>Register</h1>
+            <div id={'register_fields'}>
+                {/* <label htmlFor="email">Email:</label> */}
+                {/* <input type="text" id="email" name="email" /> <br /> */}
+                <label htmlFor="username">Username:</label>
+                <input type="text" id="username" name="username" /> <br />
+                <label htmlFor="password">Password:</label>
+                <input type="password" id="password" name="password" /> <br />
+                <label htmlFor="confirm">Confirm Password:</label>
+                <input type="password" id="confirm" name="confirm" />
+                <p id={'error'}></p>
+                <input type="submit" onClick={submit_register} value="Submit" />
+            </div>
         </div>
     );
 }

@@ -3,83 +3,56 @@ import React, { useEffect } from 'react';
 const CartView = () => {
     const [cart, setCart] = React.useState([]);
 
-    function getCart() {
-        return fetch(`${import.meta.env.VITE_API_BACKEND_URL}/api/carts`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: localStorage.getItem('token'),
-            },
-        }).then((response) => response.json());
-    }
-
     useEffect(() => {
-        getCart()
-            .then((result) => {
-                setCart(result);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        const storedCart = localStorage.getItem('cart')
+            ? JSON.parse(localStorage.getItem('cart'))
+            : [];
+
+        const sortedCart = storedCart.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+
+        setCart(sortedCart);
     }, []);
+
+    const editProduct = (productId, quantity) => {
+        const updatedCart = [...cart];
+        const existingItemIndex = updatedCart.findIndex(
+            (cartItem) => cartItem.itemId === productId
+        );
+
+        if (existingItemIndex >= 0) {
+            updatedCart[existingItemIndex].quantity += quantity;
+
+            if (updatedCart[existingItemIndex].quantity <= 0) {
+                updatedCart.splice(existingItemIndex, 1); // Remove item if quantity <= 0
+            }
+        } else {
+            console.error('No item found');
+        }
+
+        setCart(updatedCart); // Update state
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+    };
 
     return (
         <div>
+            <h1>Cart View</h1>
             {cart.map((product) => (
-                <div key={product.id}>
-                    {product.id}: {product.count}
+                <div key={product.itemId}>
+                    {product.itemId}: {product.quantity}
                     <input
-                        type={'button'}
-                        value={'+'}
-                        onClick={async () => {
-                            const res = await fetch(
-                                `${
-                                    import.meta.env.VITE_API_BACKEND_URL
-                                }/api/carts`,
-                                {
-                                    method: 'Put',
-                                    body: JSON.stringify({
-                                        product: product.id,
-                                        count: product.count + 1,
-                                    }),
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        Authorization: `${localStorage.getItem(
-                                            'token'
-                                        )}`,
-                                    },
-                                }
-                            );
-                            if (res.status === 201) {
-                                setCart(await getCart());
-                            }
+                        type="button"
+                        value="+"
+                        onClick={() => {
+                            editProduct(product.itemId, 1);
                         }}
                     />
                     <input
-                        type={'button'}
-                        value={'-'}
-                        onClick={async () => {
-                            const res = await fetch(
-                                `${
-                                    import.meta.env.VITE_API_BACKEND_URL
-                                }/api/carts`,
-                                {
-                                    method: 'PUT',
-                                    body: JSON.stringify({
-                                        product: product.id,
-                                        count: product.count - 1,
-                                    }),
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        Authorization: `${localStorage.getItem(
-                                            'token'
-                                        )}`,
-                                    },
-                                }
-                            );
-                            if (res.status === 201) {
-                                setCart(await getCart());
-                            }
+                        type="button"
+                        value="-"
+                        onClick={() => {
+                            editProduct(product.itemId, -1);
                         }}
                     />
                 </div>

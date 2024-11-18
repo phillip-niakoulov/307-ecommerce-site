@@ -1,12 +1,21 @@
+const User = require('./models/User');
+
 const permissionMiddleware = (requiredPermission) => {
-    return (req, res, next) => {
-        if (!req.user || !req.user.permissions) {
+    return async (req, res, next) => {
+        if (!req.id) {
             return res
                 .status(403)
-                .json({ message: 'Access denied. No permissions provided.' });
+                .json({ message: 'Access denied. No user id logged.' });
+        }
+        const user = await User.findById(req.id).select('-password');
+
+        if (user == null) {
+            return res.status(403).json({
+                message: "Can't find user.",
+            });
         }
 
-        if (!req.user.permissions[requiredPermission]) {
+        if (!user.permissions[requiredPermission]) {
             return res.status(403).json({
                 message:
                     'Access denied. You do not have the required permission.',

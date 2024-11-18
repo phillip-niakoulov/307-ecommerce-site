@@ -76,6 +76,7 @@ router.post(
                 username,
                 password: hashedPassword,
                 permissions: {
+                    // make at least register-admin and manage-permissions false
                     'create-product': true,
                     'update-product': true,
                     'delete-product': true,
@@ -83,6 +84,7 @@ router.post(
                     'register-admin': true,
                     'update-users': true,
                     'delete-users': true,
+                    'manage-permissions': true,
                 },
             });
 
@@ -148,13 +150,12 @@ router.get(
 );
 
 // Update user details
-// DOES REALLY NOTHING IN THIS STATE, ADD PERMISSIONS AND ADD BACK IN THE EMAIL AND OTHER INFO THAT I REMOVED
 router.put(
     '/:id',
     authenticateJWT,
-    authenticatePermissions('update-users'),
+    authenticatePermissions('manage-permissions'),
     async (req, res) => {
-        const { username } = req.body;
+        const { permissions } = req.body;
 
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             return res.status(400).json({ message: 'Invalid ID format' });
@@ -163,7 +164,7 @@ router.put(
         try {
             const updatedUser = await User.findByIdAndUpdate(
                 req.params.id,
-                { username },
+                { permissions },
                 { new: true }
             ).select('-password'); // Exclude password from response
 
