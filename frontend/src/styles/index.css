@@ -26,7 +26,8 @@ a:hover {
 }
 
 /* Default list styles */
-ul, ol {
+ul,
+ol {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -40,7 +41,12 @@ img {
 }
 
 /* Headings consistent with global text color */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     color: var(--text-color);
     margin: 0;
 }

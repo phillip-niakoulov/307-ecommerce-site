@@ -25,17 +25,3 @@ app.use('/api/carts', cartRoutes);
 app.listen(process.env.BACKEND_PORT, () => {
     console.log(`Server is running on ${process.env.BACKEND_URL}`);
 });
-
-// BE INCREDIBLY CAREFUL WITH THIS
-// async function clearDatabase() {
-//   await mongoose.connect(process.env.DATABASE_URL, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   });
-
-// Drop the database
-//   await mongoose.connection.db.dropDatabase();
-
-//   console.log("Database cleared!");
-//   await mongoose.disconnect();
-// }

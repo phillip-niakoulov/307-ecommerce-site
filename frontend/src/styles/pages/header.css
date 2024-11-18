@@ -21,7 +21,9 @@ header h1 {
 
 header h1 span {
     color: #00ff00; /* Light green for 'Pro' */
-    text-shadow: 0 0 5px #00ff00, 0 0 15px #00ff00; /* Soft glowing effect */
+    text-shadow:
+        0 0 5px #00ff00,
+        0 0 15px #00ff00; /* Soft glowing effect */
 }
 
 header h1 .pro {
@@ -30,7 +32,9 @@ header h1 .pro {
     font-size: 1.25em; /* Slightly larger than the rest */
     color: #00ff00; /* Light green color */
     letter-spacing: 2px;
-    text-shadow: 0 0 5px #00ff00, 0 0 15px #00ff00; /* Optional glow */
+    text-shadow:
+        0 0 5px #00ff00,
+        0 0 15px #00ff00; /* Optional glow */
 }
 
 /* Navigation bar layout */
@@ -55,7 +59,9 @@ nav a {
 /* Soft glow effect on hover */
 nav a:hover {
     color: #00ff00; /* Light green text on hover */
-    text-shadow: 0 0 5px #00ff00, 0 0 15px #00ff00; /* Soft glowing effect */
+    text-shadow:
+        0 0 5px #00ff00,
+        0 0 15px #00ff00; /* Soft glowing effect */
 }
 
 /* Page-specific headings */
