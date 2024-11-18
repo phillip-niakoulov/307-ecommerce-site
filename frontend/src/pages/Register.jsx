@@ -14,13 +14,16 @@ function Register() {
             return;
         }
 
-        await fetch(`${import.meta.env.VITE_API_BACKEND_URL}/api/users/register`, {
-            method: 'POST',
-            body: JSON.stringify({ username, password }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
+        await fetch(
+            `${import.meta.env.VITE_API_BACKEND_URL}/api/users/register`,
+            {
+                method: 'POST',
+                body: JSON.stringify({ username, password }),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
             .then((res) => {
                 if (res.status === 201) {
                     navigate('/login');
