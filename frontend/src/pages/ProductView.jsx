@@ -63,7 +63,7 @@ const ProductView = () => {
 
     const addProductToCart = (quantity) => {
         const cart = localStorage.getItem('cart')
-            ? JSON.parse(localStorage.getItem('cart'))
+            ? JSON.parse(atob(localStorage.getItem('cart')))
             : [];
 
         const existingItemIndex = cart.findIndex(
@@ -76,11 +76,11 @@ const ProductView = () => {
             cart.push({
                 itemId: productId,
                 quantity: 1,
-                createdAt: new Date().toISOString(),
+                name: product.name,
             });
         }
 
-        localStorage.setItem('cart', JSON.stringify(cart));
+        localStorage.setItem('cart', btoa(JSON.stringify(cart)));
     };
 
     return (

@@ -13,6 +13,7 @@ import './src/styles/pages/login.css';
 import NotFound from './src/pages/NotFound.jsx';
 import AdminDashboard from './src/pages/AdminDashboard.jsx';
 import ProductEdit from './src/pages/ProductEdit.jsx';
+import Cart from './src/pages/Cart.jsx';
 
 const App = () => {
     return (
@@ -27,6 +28,7 @@ const App = () => {
                     path="product/:productId/edit"
                     element={<ProductEdit />}
                 />
+                <Route path={'cart'} element={<Cart />} />
                 <Route path="admin" element={<AdminDashboard />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
