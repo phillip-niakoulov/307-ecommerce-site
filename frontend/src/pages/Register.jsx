@@ -1,7 +1,15 @@
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from '../other/UserContext.jsx';
 
 function Register() {
     const navigate = useNavigate();
+
+    const { loggedIn } = useContext(UserContext);
+
+    if (loggedIn) {
+        return navigate('/');
+    }
 
     async function submit_register() {
         const username = document.getElementById('username').value;

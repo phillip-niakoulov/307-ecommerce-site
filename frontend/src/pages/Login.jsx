@@ -1,8 +1,18 @@
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { UserContext } from '../other/UserContext.jsx';
 
-function Login() {
+const Login = () => {
     const navigate = useNavigate();
+    const { loggedIn, setLoggedIn, setUserId, setPermissions } =
+        useContext(UserContext);
+
+    useEffect(() => {
+        if (loggedIn) {
+            return navigate('/');
+        }
+    }, [loggedIn, navigate]);
 
     async function submit_login() {
         const username = document.getElementById('user').value;
@@ -19,14 +29,9 @@ function Login() {
                 res.json().then((j) => {
                     if (res.status === 200) {
                         localStorage.setItem('token', j['token']);
-                        localStorage.setItem(
-                            'permissions',
-                            JSON.stringify(jwtDecode(j['token'])['permissions'])
-                        );
-                        localStorage.setItem(
-                            'userId',
-                            jwtDecode(j['token'])['userId']
-                        );
+                        setPermissions(jwtDecode(j['token'])['permissions']);
+                        setLoggedIn(true);
+                        setUserId(jwtDecode(j['token'])['userId']);
                         navigate('/');
                         return;
                     }
@@ -34,6 +39,10 @@ function Login() {
                 });
             })
             .catch((err) => {
+                setLoggedIn(false);
+                setUserId('');
+                setPermissions({});
+                localStorage.clear();
                 console.log(err);
             });
     }
@@ -51,6 +60,6 @@ function Login() {
             </div>
         </div>
     );
-}
+};
 
 export default Login;
