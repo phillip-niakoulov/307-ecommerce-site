@@ -20,6 +20,6 @@ mongoose
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 
-app.listen(process.env.BACKEND_PORT, () => {
-    console.log(`Server is running on ${process.env.BACKEND_URL}`);
+app.listen(process.env.PORT || port, () => {
+    console.log(`Server is running on http://localhost:5000`);
 });
