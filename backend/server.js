@@ -20,6 +20,6 @@ mongoose
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 
-app.listen(process.env.PORT || port, () => {
+app.listen(process.env.PORT || 5000, () => {
     console.log(`Server is running on http://localhost:5000`);
 });
