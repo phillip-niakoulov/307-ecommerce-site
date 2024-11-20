@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import NotFound from './NotFound.jsx';
 
 const ProfileView = () => {
     const { user } = useParams();
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -20,6 +22,15 @@ const ProfileView = () => {
                         },
                     }
                 );
+                if (response.status === 401) {
+                    localStorage.removeItem('token');
+
+                    return navigate('/login');
+                }
+                if (response.status === 403 || response.status === 404) {
+                    return setUserData(null);
+                }
+
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -33,7 +44,7 @@ const ProfileView = () => {
         };
 
         fetchUserData();
-    }, [user]);
+    }, [navigate, user]);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -44,7 +55,7 @@ const ProfileView = () => {
     }
 
     if (!userData) {
-        return <div>No product found.</div>;
+        return <NotFound />;
     }
 
     return <p>{JSON.stringify(userData)}</p>;
