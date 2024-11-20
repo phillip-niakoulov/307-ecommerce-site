@@ -33,7 +33,8 @@ jobs:
           VITE_API_BACKEND_URL: ${{ secrets.VITE_API_BACKEND_URL }}
         run: |
           npm install --workspaces=false
-          npm run -w backend start --if-present
+          nohup npm run -w backend start --if-present &
+          sleep 30 # Wait for the server to start
           npm run -w backend test --if-present
         working-directory: backend
 
