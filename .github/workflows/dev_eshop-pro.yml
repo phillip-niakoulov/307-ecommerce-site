@@ -22,6 +22,12 @@ jobs:
           node-version: '20.x'
 
       - name: npm install, build, and test
+        env:
+          BACKEND_URL: ${{ secrets.BACKEND_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          JWT_KEY: ${{ secrets.JWT_KEY }}
+          VITE_API_BACKEND_PORT: ${{ secrets.VITE_API_BACKEND_PORT }}
+          VITE_API_BACKEND_URL: ${{ secrets.VITE_API_BACKEND_URL }}
         run: |
           npm install --workspaces=false
           npm run -w backend start --if-present
