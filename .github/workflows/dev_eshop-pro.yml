@@ -23,14 +23,6 @@ jobs:
 
       - name: Print all environment variables
         run: printenv
-  
-      - name: Check if DATABASE_URL is set
-        run: |
-          if [ -z "${{ secrets.DATABASE_URL }}" ]; then
-            echo "DATABASE_URL is not set."
-          else
-            echo "DATABASE_URL is set."
-          fi
             
       - name: npm install, build, and test
         env:
