@@ -20,7 +20,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
-          
+
+      - name: Print all environment variables
+        run: printenv
+  
       - name: Check if DATABASE_URL is set
         run: |
           if [ -z "${{ secrets.DATABASE_URL }}" ]; then
