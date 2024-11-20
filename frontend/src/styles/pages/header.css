@@ -8,7 +8,7 @@ header {
     color: #fff;
     padding: 20px;
     text-align: center;
-    font-family: 'Orbitron', sans-serif; /* Modern font */
+    font-family: 'Orbitron', sans-serif;
     border-bottom: 2px solid #333;
 }
 
@@ -47,27 +47,27 @@ nav {
 
 
 nav a {
-    color: #fff; /* White text */
+    color: #fff;
     text-decoration: none;
     font-size: 1.2rem;
     position: relative;
     transition: all 0.3s ease-in-out;
-    text-transform: uppercase; /* Makes link text uppercase */
+    text-transform: uppercase;
     font-weight: bold;
 }
 
 
 nav a:hover {
-    color: #00ff00; /* Light green text on hover */
+    color: #00ff00;
     text-shadow:
         0 0 5px #00ff00,
-        0 0 15px #00ff00; /* Soft glowing effect */
+        0 0 15px #00ff00;
 }
 
 /* Page-specific headings */
 header h2 {
     font-size: 1.5rem;
     margin-top: 10px;
-    color: #a9a9a9; /* Subtle gray */
+    color: #a9a9a9;
     font-style: italic;
 }

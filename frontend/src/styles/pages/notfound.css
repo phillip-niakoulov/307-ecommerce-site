@@ -2,13 +2,13 @@
 .notfound-container {
     text-align: center;
     margin: 50px auto;
-    font-family: 'Orbitron', sans-serif; /* Futuristic font */
-    color: #fff; /* white gray for text */
+    font-family: 'Orbitron', sans-serif;
+    color: #fff;
     max-width: 600px;
-    background-color: #000; /* Black background */
+    background-color: #000;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 255, 0, 0.3); /* Light green glow */
+    box-shadow: 0 4px 10px rgba(0, 255, 0, 0.3);
 }
 
 /* 404 heading */
@@ -21,7 +21,7 @@
         0 0 20px #00ff00;
 }
 
-/* Message text */
+/* message text */
 .notfound-container p {
     font-size: 1.25rem;
     margin: 20px 0;
@@ -32,8 +32,8 @@
 .home-link {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #00ff00; /* Light green background for the button */
-    color: #000; /* Black text */
+    background-color: #00ff00;
+    color: #000;
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
@@ -43,8 +43,8 @@
 
 /* Hover effect for home link */
 .home-link:hover {
-    background-color: #005f00; /* Darker green on hover */
-    color: #fff; /* White text on hover */
+    background-color: #005f00;
+    color: #fff;
     box-shadow: 0 4px 10px rgba(0, 255, 0, 0.7);
 }
 
