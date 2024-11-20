@@ -16,6 +16,7 @@ import ProductEdit from './src/pages/ProductEdit.jsx';
 import Cart from './src/pages/Cart.jsx';
 import { UserContext } from './src/other/UserContext.jsx';
 import { jwtDecode } from 'jwt-decode';
+import ProfileView from './src/pages/ProfileView.jsx';
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -59,6 +60,7 @@ const App = () => {
                     />
                     <Route path={'cart'} element={<Cart />} />
                     <Route path="admin" element={<AdminDashboard />} />
+                    <Route path="user/:user" element={<ProfileView />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </UserContext.Provider>
