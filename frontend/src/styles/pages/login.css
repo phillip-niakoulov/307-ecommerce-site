@@ -1,4 +1,4 @@
-/* Center the login container */
+
 #login_fields {
     display: flex;
     flex-direction: column;
@@ -10,13 +10,11 @@
     font-family: 'Arial', sans-serif; /* Simple, clean font */
 }
 
-/* Style the labels */
 #login_fields label {
     margin-bottom: 5px;
     font-size: 1.2rem;
 }
 
-/* Style the input boxes */
 #login_fields input[type='text'],
 #login_fields input[type='password'] {
     width: 300px;
@@ -31,13 +29,11 @@
     transition: border-color 0.3s ease-in-out;
 }
 
-/* Highlight input box on focus */
 #login_fields input[type='text']:focus,
 #login_fields input[type='password']:focus {
     border-color: #00ff00; /* Light green border on focus */
 }
 
-/* Style the error message */
 #error {
     color: red;
     font-size: 0.9rem;
@@ -50,7 +46,7 @@
     padding: 10px;
     margin-top: 15px;
     background-color: #333; /* Dark grey background */
-    color: #fff; /* White text */
+    color: #fff;
     border: 1px solid #00ff00; /* Light green border */
     border-radius: 5px;
     font-size: 1rem;
@@ -58,7 +54,7 @@
     transition: all 0.3s ease-in-out;
 }
 
-/* Glow effect on hover */
+
 #login_fields input[type='submit']:hover {
     background-color: #00ff00; /* Light green background */
     color: #000; /* Black text */
