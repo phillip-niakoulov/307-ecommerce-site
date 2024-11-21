@@ -46,15 +46,18 @@ function Register() {
     }
 
     return (
-        <div id={'register_fields'}>
-            <label htmlFor="username">Username:</label>
-            <input type="text" id="username" name="username" /> <br />
-            <label htmlFor="password">Password:</label>
-            <input type="password" id="password" name="password" /> <br />
-            <label htmlFor="confirm">Confirm Password:</label>
-            <input type="password" id="confirm" name="confirm" />
-            <p id={'error'}></p>
-            <input type="submit" onClick={submit_register} value="Submit" />
+        <div>
+            <h1>Register</h1>
+            <div id={'register_fields'}>
+                <label htmlFor="username">Username:</label>
+                <input type="text" id="username" name="username" /> <br />
+                <label htmlFor="password">Password:</label>
+                <input type="password" id="password" name="password" /> <br />
+                <label htmlFor="confirm">Confirm Password:</label>
+                <input type="password" id="confirm" name="confirm" />
+                <p id={'error'}></p>
+                <input type="submit" onClick={submit_register} value="Submit" />
+            </div>
         </div>
     );
 }

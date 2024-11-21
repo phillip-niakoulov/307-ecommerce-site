@@ -10,6 +10,7 @@ import './src/styles/index.css';
 import './src/styles/pages/header.css';
 import './src/styles/pages/home.css';
 import './src/styles/pages/login.css';
+import './src/styles/pages/register.css';
 import NotFound from './src/pages/NotFound.jsx';
 import AdminDashboard from './src/pages/AdminDashboard.jsx';
 import ProductEdit from './src/pages/ProductEdit.jsx';
