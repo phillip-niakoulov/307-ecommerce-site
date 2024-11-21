@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { UserContext } from '../other/UserContext.jsx';
 
 // import ImageGallery from '../components/ImageGallery.jsx';
 
@@ -10,13 +11,8 @@ const ProductView = () => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [permissions, setPermissions] = useState({});
 
-    useEffect(() => {
-        const perms = JSON.parse(localStorage.getItem('permissions'));
-
-        setPermissions(perms || {});
-    }, []);
+    const { loggedIn, permissions } = useContext(UserContext);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -62,8 +58,12 @@ const ProductView = () => {
     // );
 
     const addProductToCart = (quantity) => {
+        if (!loggedIn) {
+            return navigate('/login');
+        }
+
         const cart = localStorage.getItem('cart')
-            ? JSON.parse(localStorage.getItem('cart'))
+            ? JSON.parse(atob(localStorage.getItem('cart')))
             : [];
 
         const existingItemIndex = cart.findIndex(
@@ -76,11 +76,11 @@ const ProductView = () => {
             cart.push({
                 itemId: productId,
                 quantity: 1,
-                createdAt: new Date().toISOString(),
+                name: product.name,
             });
         }
 
-        localStorage.setItem('cart', JSON.stringify(cart));
+        localStorage.setItem('cart', btoa(JSON.stringify(cart)));
     };
 
     return (
@@ -95,7 +95,7 @@ const ProductView = () => {
                     value={'Add to Cart'}
                     onClick={() => addProductToCart(1)}
                 />
-                {permissions['update-product'] === true && (
+                {permissions && permissions['update-product'] === true && (
                     <input
                         value={'Edit'}
                         type={'button'}

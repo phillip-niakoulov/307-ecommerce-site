@@ -1,22 +1,20 @@
 import UserList from '../components/UserList';
 import ProductCreate from './ProductCreate.jsx';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RegisterAdmin from './RegisterAdmin.jsx';
+import { UserContext } from '../other/UserContext.jsx';
 
 const AdminDashboard = () => {
     // Kicks you if you're not logged in and only shows you the menus you have access to
     const navigate = useNavigate();
-    const [permissions, setPermissions] = useState({});
+    const { loggedIn, permissions } = useContext(UserContext);
 
     useEffect(() => {
-        const perms = JSON.parse(localStorage.getItem('permissions'));
-        if (!perms) {
+        if (!loggedIn || !permissions) {
             navigate('/login');
-            return;
         }
-        setPermissions(perms);
-    }, [navigate]);
+    }, [loggedIn, permissions, navigate]);
 
     return (
         <div>

@@ -1,18 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ProductView from './ProductView.jsx';
+import { UserContext } from '../other/UserContext.jsx';
 
 const ProductEdit = () => {
     const navigate = useNavigate();
 
     const { productId } = useParams();
-    const [permissions, setPermissions] = useState({});
-
-    useEffect(() => {
-        const perms = JSON.parse(localStorage.getItem('permissions'));
-
-        setPermissions(perms || {});
-    }, []);
+    const { permissions } = useContext(UserContext);
 
     if (permissions['update-product'] === false) {
         return navigate(`/product/${productId}`);
