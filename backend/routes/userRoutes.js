@@ -5,6 +5,8 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const authenticateJWT = require('../authMiddleware');
 const authenticatePermissions = require('../permissionMiddleware');
+const { isValidObjectId } = require('mongoose');
+
 require('dotenv').config();
 
 const router = express.Router();
@@ -21,6 +23,38 @@ router.get(
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
+    }
+);
+
+router.get(
+    '/:id',
+    authenticateJWT,
+    async (req, res, next) => {
+        let func = () => {};
+        if (req.params.id !== req.id) {
+            func = authenticatePermissions('get-users');
+        } else {
+            func = async (req, res, next) => {
+                next();
+            };
+        }
+        func(req, res, next);
+    },
+    async (req, res) => {
+        const id = req.params.id;
+
+        if (!isValidObjectId(id)) {
+            return res.status(404).json('Bad ID');
+        }
+        const user = await User.findById(id);
+
+        if (!user) {
+            return res.status(404).json('User not found');
+        }
+
+        return res
+            .status(200)
+            .json({ username: user.username, settings: user.settings });
     }
 );
 
