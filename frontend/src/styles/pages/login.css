@@ -1,4 +1,3 @@
-
 #login_fields {
     display: flex;
     flex-direction: column;
@@ -40,7 +39,6 @@
     margin-top: 5px;
 }
 
-
 #login_fields input[type='submit'] {
     width: 150px;
     padding: 10px;
@@ -53,7 +51,6 @@
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
-
 
 #login_fields input[type='submit']:hover {
     background-color: #00ff00;

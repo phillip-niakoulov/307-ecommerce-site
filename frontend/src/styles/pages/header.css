@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
-
-
 header {
     background-color: #000;
     color: #fff;
@@ -11,7 +9,6 @@ header {
     font-family: 'Orbitron', sans-serif;
     border-bottom: 2px solid #333;
 }
-
 
 header h1 {
     font-size: 2.5rem;
@@ -37,14 +34,12 @@ header h1 .pro {
         0 0 15px #00ff00;
 }
 
-
 nav {
     margin: 15px 0;
     display: flex;
     justify-content: center;
     gap: 20px;
 }
-
 
 nav a {
     color: #fff;
@@ -55,7 +50,6 @@ nav a {
     text-transform: uppercase;
     font-weight: bold;
 }
-
 
 nav a:hover {
     color: #00ff00;
