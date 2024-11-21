@@ -82,3 +82,8 @@ npm run format
 ```
 
 Committing will now run lint and format on both frontend and backend.
+
+## Diagrams
+![Register](https://raw.githubusercontent.com/phillip-niakoulov/307-ecommerce-site/refs/heads/dev/register.png)
+![Login](https://raw.githubusercontent.com/phillip-niakoulov/307-ecommerce-site/refs/heads/dev/Login.png)
+![Add Product](https://raw.githubusercontent.com/phillip-niakoulov/307-ecommerce-site/refs/heads/dev/CreateProduct.png)
