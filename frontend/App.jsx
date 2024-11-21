@@ -1,4 +1,4 @@
-import { StrictMode, useEffect, useState } from 'react';
+import { StrictMode, useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './src/pages/Home.jsx';
@@ -24,23 +24,37 @@ const App = () => {
     const [permissions, setPermissions] = useState({});
 
     useEffect(() => {
-        setLoggedIn(localStorage.getItem('token') !== null);
+        try {
+            setLoggedIn(localStorage.getItem('token') !== null);
+            if (loggedIn) {
+                const token = jwtDecode(localStorage.getItem('token'));
+                if (token['permissions'].length < 8) {
+                    localStorage.removeItem('token');
+                    setLoggedIn(false);
+                    return;
+                }
+                setPermissions(token['permissions']);
 
-        if (loggedIn) {
-            const token = jwtDecode(localStorage.getItem('token'));
-            setPermissions(token['permissions']);
-            setUserId(token['userId']);
+                setUserId(token['userId']);
+            }
+        } catch (e) {
+            console.log(e);
+            setLoggedIn(false);
+            setUserId("")
+            setPermissions({})
+            localStorage.removeItem('token');
         }
     }, [loggedIn, setLoggedIn, setPermissions, setUserId]);
-
-    const context = {
-        loggedIn,
-        setLoggedIn,
-        userId,
-        setUserId,
-        permissions,
-        setPermissions,
-    };
+    const context = useMemo(() => {
+        return {
+            loggedIn,
+            setLoggedIn,
+            userId,
+            setUserId,
+            permissions,
+            setPermissions,
+        }
+    }, [loggedIn, setLoggedIn, userId, permissions, setUserId, setPermissions]);
 
     return (
         <Router>
