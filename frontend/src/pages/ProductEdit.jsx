@@ -58,9 +58,8 @@ const ProductEdit = () => {
 
             if (response.ok) {
                 navigate(`/product/${productId}`);
-            } 
-        }
-        catch (err){
+            }
+        } catch (err) {
             console.error(err);
         }
     };
