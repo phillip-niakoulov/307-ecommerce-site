@@ -128,32 +128,32 @@ router.get('/:id', async (req, res) => {
 // Update a product
 // DOESNT WORK FOR NOW WHILE FINDING NEW WAY TO ADD IMAGES
 
-router.put(
-    '/:id',
-    authenticateJWT,
-    authenticatePermissions('update-product'),
-    //upload.array('images', 10), // location might be an issue, think it has to be after verification to prevent users from spamming images w/o perms
-    async (req, res) => {
-        if (req.fileValidationError) {
-            return res.status(400).json({ message: req.fileValidationError });
-        }
-        if (!req.files) {
-            return res.status(400).json({ message: 'No images were uploaded' });
-        }
+//  router.put(
+//      '/:id',
+//      authenticateJWT,
+//      authenticatePermissions('update-product'),
+     //upload.array('images', 10), // location might be an issue, think it has to be after verification to prevent users from spamming images w/o perms
+//      async (req, res) => {
+//          if (req.fileValidationError) {
+//              return res.status(400).json({ message: req.fileValidationError });
+//          }
+//          if (!req.files) {
+//              return res.status(400).json({ message: 'No images were uploaded' });
+//          }
 
-        //add tags
-        const { name, originalPrice, description, category } = req.body;
+        
+//          const { name, originalPrice, description, category} = req.body;
 
-        // Validate required fields
-        if (
-            !name ||
-            !originalPrice ||
-            !description ||
-            !req.files.length ||
-            !category
-        ) {
-            return res.status(400).json({ message: 'Missing required fields' });
-        }
+         // Validate required fields
+//          if (
+//              !name ||
+//              !originalPrice ||
+//              !description ||
+//              !req.files.length ||
+//              !category
+//          ) {
+//              return res.status(400).json({ message: 'Missing required fields' });
+//          }
 
         //         // Delete the old entry
         //         const existingProduct = await Product.findById(req.params.id); // If old ID isn't found
