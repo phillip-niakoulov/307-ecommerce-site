@@ -128,133 +128,133 @@ router.get('/:id', async (req, res) => {
 // Update a product
 // DOESNT WORK FOR NOW WHILE FINDING NEW WAY TO ADD IMAGES
 
- router.put(
-     '/:id',
-     authenticateJWT,
-     authenticatePermissions('update-product'),
-     //upload.array('images', 10), // location might be an issue, think it has to be after verification to prevent users from spamming images w/o perms
-     async (req, res) => {
-         if (req.fileValidationError) {
-             return res.status(400).json({ message: req.fileValidationError });
-         }
-         if (!req.files) {
-             return res.status(400).json({ message: 'No images were uploaded' });
-         }
+router.put(
+    '/:id',
+    authenticateJWT,
+    authenticatePermissions('update-product'),
+    //upload.array('images', 10), // location might be an issue, think it has to be after verification to prevent users from spamming images w/o perms
+    async (req, res) => {
+        if (req.fileValidationError) {
+            return res.status(400).json({ message: req.fileValidationError });
+        }
+        if (!req.files) {
+            return res.status(400).json({ message: 'No images were uploaded' });
+        }
 
         //add tags
-         const { name, originalPrice, description, category} = req.body;
+        const { name, originalPrice, description, category } = req.body;
 
-         // Validate required fields
-         if (
-             !name ||
-             !originalPrice ||
-             !description ||
-             !req.files.length ||
-             !category
-         ) {
-             return res.status(400).json({ message: 'Missing required fields' });
-         }
+        // Validate required fields
+        if (
+            !name ||
+            !originalPrice ||
+            !description ||
+            !req.files.length ||
+            !category
+        ) {
+            return res.status(400).json({ message: 'Missing required fields' });
+        }
 
-//         // Delete the old entry
-//         const existingProduct = await Product.findById(req.params.id); // If old ID isn't found
-//         if (!existingProduct) {
-//             return res.status(404).json({ message: 'Product not found' });
-//         }
-//         // Remove all old image files
-//         await Promise.all(
-//             existingProduct.imageUrls.map(async (url) => {
-//                 const filePath = path.join(__dirname, '..', url); // Adjust the path as necessary
-//                 try {
-//                     await fs.promises.unlink(filePath); // Delete the file
-//                 } catch (fileErr) {
-//                     console.error(`Error deleting file ${filePath}:`, fileErr);
-//                 }
-//             })
-//         );
-//         await Product.findByIdAndDelete(req.params.id);
+        //         // Delete the old entry
+        //         const existingProduct = await Product.findById(req.params.id); // If old ID isn't found
+        //         if (!existingProduct) {
+        //             return res.status(404).json({ message: 'Product not found' });
+        //         }
+        //         // Remove all old image files
+        //         await Promise.all(
+        //             existingProduct.imageUrls.map(async (url) => {
+        //                 const filePath = path.join(__dirname, '..', url); // Adjust the path as necessary
+        //                 try {
+        //                     await fs.promises.unlink(filePath); // Delete the file
+        //                 } catch (fileErr) {
+        //                     console.error(`Error deleting file ${filePath}:`, fileErr);
+        //                 }
+        //             })
+        //         );
+        //         await Product.findByIdAndDelete(req.params.id);
 
-//         // Converts "This Is An Item" to "this-is-an-item"
-//         const id = name
-//             .toLowerCase()
-//             .replace(/\s+/g, '-')
-//             .replace(/[^a-z0-9-]/g, '')
-//             .replace(/(^-+)|(-+$)/g, '');
+        //         // Converts "This Is An Item" to "this-is-an-item"
+        //         const id = name
+        //             .toLowerCase()
+        //             .replace(/\s+/g, '-')
+        //             .replace(/[^a-z0-9-]/g, '')
+        //             .replace(/(^-+)|(-+$)/g, '');
 
-//         const sanitizedFilenames = req.files.map((file) => {
-//             return (
-//                 Date.now() +
-//                 '-' +
-//                 file.originalname.replace(/[^a-z0-9.]/gi, '_')
-//             );
-//         });
-//         const imageUrls = sanitizedFilenames.map((filename) =>
-//             path.join(storagePath, filename)
-//         );
+        //         const sanitizedFilenames = req.files.map((file) => {
+        //             return (
+        //                 Date.now() +
+        //                 '-' +
+        //                 file.originalname.replace(/[^a-z0-9.]/gi, '_')
+        //             );
+        //         });
+        //         const imageUrls = sanitizedFilenames.map((filename) =>
+        //             path.join(storagePath, filename)
+        //         );
 
-//         // MUST CREATE NEW SINCE DIFFERENT ID
-//         const product = new Product({
-//             _id: id,
-//             name: name,
-//             originalPrice: originalPrice,
-//             description: description,
-//             imageUrls: imageUrls,
-//             category: category,
-//             tags: tags,
-//         });
+        //         // MUST CREATE NEW SINCE DIFFERENT ID
+        //         const product = new Product({
+        //             _id: id,
+        //             name: name,
+        //             originalPrice: originalPrice,
+        //             description: description,
+        //             imageUrls: imageUrls,
+        //             category: category,
+        //             tags: tags,
+        //         });
 
-//         try {
-//             // Check for dupes
-//             const existingName = await Product.findOne({ name }); // If new name is already in use
-//             if (existingName) {
-//                 await Promise.all(
-//                     req.files.map((file) => {
-//                         return fs.promises.unlink(
-//                             path.join(storagePath, file.filename)
-//                         );
-//                     })
-//                 );
-//                 return res
-//                     .status(409)
-//                     .json({ message: 'Name is already in use' });
-//             }
+        //         try {
+        //             // Check for dupes
+        //             const existingName = await Product.findOne({ name }); // If new name is already in use
+        //             if (existingName) {
+        //                 await Promise.all(
+        //                     req.files.map((file) => {
+        //                         return fs.promises.unlink(
+        //                             path.join(storagePath, file.filename)
+        //                         );
+        //                     })
+        //                 );
+        //                 return res
+        //                     .status(409)
+        //                     .json({ message: 'Name is already in use' });
+        //             }
 
-//             const existingProduct = await Product.findById(id); // If new ID is already in use
-//             if (existingProduct) {
-//                 await Promise.all(
-//                     req.files.map((file) => {
-//                         return fs.promises.unlink(
-//                             path.join(storagePath, file.filename)
-//                         );
-//                     })
-//                 );
-//                 return res
-//                     .status(409)
-//                     .json({ message: 'Product with this ID already exists' });
-//             }
+        //             const existingProduct = await Product.findById(id); // If new ID is already in use
+        //             if (existingProduct) {
+        //                 await Promise.all(
+        //                     req.files.map((file) => {
+        //                         return fs.promises.unlink(
+        //                             path.join(storagePath, file.filename)
+        //                         );
+        //                     })
+        //                 );
+        //                 return res
+        //                     .status(409)
+        //                     .json({ message: 'Product with this ID already exists' });
+        //             }
 
-//             // Rename already uploaded files to sanitized filenames
-//             await Promise.all(
-//                 req.files.map((file, index) => {
-//                     const newFilename = sanitizedFilenames[index];
-//                     return fs.promises.rename(
-//                         path.join(storagePath, file.filename),
-//                         path.join(storagePath, newFilename)
-//                     );
-//                 })
-//             );
+        //             // Rename already uploaded files to sanitized filenames
+        //             await Promise.all(
+        //                 req.files.map((file, index) => {
+        //                     const newFilename = sanitizedFilenames[index];
+        //                     return fs.promises.rename(
+        //                         path.join(storagePath, file.filename),
+        //                         path.join(storagePath, newFilename)
+        //                     );
+        //                 })
+        //             );
 
-//             const savedProduct = await product.save();
-//             res.status(200).json(savedProduct);
-//         } catch (err) {
-//             await Promise.all(
-//                 req.files.map((file) => {
-//                     return fs.promises.unlink(
-//                         path.join(storagePath, file.filename)
-//                     );
-//                 })
-//             );
-//             res.status(400).json({ message: err.message });
-//         }
+        //             const savedProduct = await product.save();
+        //             res.status(200).json(savedProduct);
+        //         } catch (err) {
+        //             await Promise.all(
+        //                 req.files.map((file) => {
+        //                     return fs.promises.unlink(
+        //                         path.join(storagePath, file.filename)
+        //                     );
+        //                 })
+        //             );
+        //             res.status(400).json({ message: err.message });
+        //         }
     }
 );
 

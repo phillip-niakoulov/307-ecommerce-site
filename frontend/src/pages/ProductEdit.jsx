@@ -5,7 +5,11 @@ const ProductEdit = () => {
     const navigate = useNavigate();
     const { productId } = useParams();
     const [permissions, setPermissions] = useState({});
-    const [productData, setProductData] = useState({ name: '', price: '', description: '' });
+    const [productData, setProductData] = useState({
+        name: '',
+        price: '',
+        description: '',
+    });
 
     // Fetch permissions from localStorage
     useEffect(() => {
@@ -17,7 +21,9 @@ const ProductEdit = () => {
     useEffect(() => {
         const fetchProductDetails = async () => {
             // Simulated fetch (replace with actual API call)
-            const product = await fetch(`/api/products/${productId}`).then((res) => res.json());
+            const product = await fetch(`/api/products/${productId}`).then(
+                (res) => res.json()
+            );
             setProductData(product);
         };
 
@@ -41,19 +47,21 @@ const ProductEdit = () => {
         e.preventDefault();
 
         // Simulated API call (replace with actual endpoint)
-        const response = await fetch(`/api/products/${productId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(productData),
-        });
+        try {
+            const response = await fetch(`/api/products/${productId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(productData),
+            });
 
-        if (response.ok) {
-            // Navigate back to the product view page after successful update
-            navigate(`/product/${productId}`);
-        } else {
-            console.error('Failed to update product');
+            if (response.ok) {
+                navigate(`/product/${productId}`);
+            } 
+        }
+        catch (err){
+            console.error(err);
         }
     };
 
