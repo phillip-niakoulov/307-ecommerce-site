@@ -1,6 +1,6 @@
 import { StrictMode, useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './src/pages/Home.jsx';
 import Login from './src/pages/Login.jsx';
 import Register from './src/pages/Register.jsx';
@@ -18,6 +18,7 @@ import { jwtDecode } from 'jwt-decode';
 import ProfileView from './src/pages/ProfileView.jsx';
 import Cart from './src/pages/Cart.jsx';
 import { UserContext } from './src/other/UserContext.jsx';
+
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [userId, setUserId] = useState('');
@@ -54,7 +55,9 @@ const App = () => {
             setPermissions,
         };
     }, [loggedIn, setLoggedIn, userId, permissions, setUserId, setPermissions]);
-
+    useEffect(() => {
+        console.log(import.meta.env);
+    });
     return (
         <Router>
             <UserContext.Provider value={context}>
