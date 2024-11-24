@@ -139,6 +139,30 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.put(
+    `/:id`,
+    authenticateJWT,
+    authenticatePermissions('update-product'),
+    async (req, res) => {
+        try {
+            const { name, originalPrice, description, category } = req.body;
+            const prod = await Product.findByIdAndUpdate(req.params.id, {
+                name,
+                originalPrice,
+                description,
+                category,
+            });
+            if (!prod) {
+                return res.status(404).json({ message: 'Product not found' });
+            }
+            return res.status(201).json(prod);
+        } catch (err) {
+            console.error(err);
+            return res.status(500).json({ message: err.message });
+        }
+    }
+);
+
 // Delete a product
 router.delete(
     '/:id',

@@ -16,7 +16,7 @@ const ProductEdit = () => {
     const { permissions } = useContext(UserContext);
 
     useEffect(() => {
-        if (permissions['update-product'] === false) {
+        if (!permissions['update-product']) {
             return navigate(`/product/${productId}`);
         }
     }, [navigate, productId, permissions]);
@@ -53,6 +53,7 @@ const ProductEdit = () => {
                 {
                     method: 'PUT',
                     headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(productData),
@@ -86,7 +87,6 @@ const ProductEdit = () => {
                     <label>
                         Price:
                         <input
-                            type="number"
                             name="originalPrice"
                             value={productData.originalPrice}
                             onChange={handleChange}
