@@ -1,6 +1,6 @@
 import { StrictMode, useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './src/pages/Home.jsx';
 import Login from './src/pages/Login.jsx';
 import Register from './src/pages/Register.jsx';
@@ -41,8 +41,8 @@ const App = () => {
         } catch (e) {
             console.log(e);
             setLoggedIn(false);
-            setUserId("")
-            setPermissions({})
+            setUserId('');
+            setPermissions({});
             localStorage.removeItem('token');
         }
     }, [loggedIn, setLoggedIn, setPermissions, setUserId]);
@@ -54,7 +54,7 @@ const App = () => {
             setUserId,
             permissions,
             setPermissions,
-        }
+        };
     }, [loggedIn, setLoggedIn, userId, permissions, setUserId, setPermissions]);
 
     return (

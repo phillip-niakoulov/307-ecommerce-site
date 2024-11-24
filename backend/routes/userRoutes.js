@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const Order = require('../models/Order');
+
 const jwt = require('jsonwebtoken');
 const authenticateJWT = require('../authMiddleware');
 const authenticatePermissions = require('../permissionMiddleware');
@@ -231,5 +233,23 @@ router.delete(
         }
     }
 );
+
+router.post('/checkout', authenticateJWT, async (req, res) => {
+    try {
+        const { cart } = req.body;
+        console.log(req.body);
+
+        const order = new Order({
+            owner: req.id,
+            cart,
+        });
+
+        const saved = await order.save();
+        return res.status(200).json(saved);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: err.message });
+    }
+});
 
 module.exports = router;
