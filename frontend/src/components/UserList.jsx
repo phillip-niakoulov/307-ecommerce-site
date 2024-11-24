@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../other/UserContext.jsx';
 
 const UserList = () => {
     // State Initialization
@@ -9,22 +10,16 @@ const UserList = () => {
     const [hasManagePermissions, setHasManagePermissions] = useState(false);
     const [hasDeletePermissions, setHasDeletePermissions] = useState(true);
 
+    const { permissions, userId } = useContext(UserContext);
     // Decode Token and Check Permissions
     useEffect(() => {
         try {
-            const hasManagePermission = JSON.parse(
-                localStorage.getItem('permissions')
-            )['manage-permissions'];
-            setHasManagePermissions(hasManagePermission);
-
-            const hasDeletePermission = JSON.parse(
-                localStorage.getItem('permissions')
-            )['delete-users'];
-            setHasDeletePermissions(hasDeletePermission);
+            setHasManagePermissions(permissions['manage-permissions']);
+            setHasDeletePermissions(permissions['delete-users']);
         } catch (error) {
             console.error('Error decoding token:', error);
         }
-    }, []);
+    }, [permissions]);
 
     // Fetch Users Logic
     const getUsers = async () => {
@@ -118,10 +113,10 @@ const UserList = () => {
         }));
     };
 
-    const handleConfirmChanges = async (userId) => {
+    const handleConfirmChanges = async (user) => {
         try {
             const response = await fetch(
-                `${import.meta.env.VITE_API_BACKEND_URL}/api/users/${userId}`,
+                `${import.meta.env.VITE_API_BACKEND_URL}/api/users/${user}`,
                 {
                     method: 'PUT',
                     headers: {
@@ -131,7 +126,7 @@ const UserList = () => {
                         )}`,
                     },
                     body: JSON.stringify({
-                        permissions: modifiedPermissions[userId],
+                        permissions: modifiedPermissions[user],
                     }),
                 }
             );
@@ -141,29 +136,20 @@ const UserList = () => {
             const updatedUser = await response.json();
 
             setUsers((prev) =>
-                prev.map((user) => (user._id === userId ? updatedUser : user))
+                prev.map((user) =>
+                    user._id === updatedUser ? updatedUser : user
+                )
             );
 
             setModifiedPermissions((prev) => ({
                 ...prev,
-                [userId]: { ...updatedUser.permissions },
+                [updatedUser]: { ...updatedUser.permissions },
             }));
 
             setChangesMade((prev) => ({
                 ...prev,
-                [userId]: false,
+                [user]: false,
             }));
-
-            if (userId === localStorage.getItem('userId')) {
-                localStorage.setItem(
-                    'permissions',
-                    JSON.stringify(modifiedPermissions[userId])
-                );
-
-                setHasManagePermissions(
-                    modifiedPermissions[userId]['manage-permissions']
-                );
-            }
         } catch (error) {
             console.error('Error updating permissions:', error);
         }
@@ -186,10 +172,7 @@ const UserList = () => {
                         onChange={() =>
                             handleCheckboxChange(user._id, permission)
                         }
-                        disabled={
-                            !hasManagePermissions ||
-                            user._id === localStorage.getItem('userId')
-                        } // Disable if user lacks permission
+                        disabled={!hasManagePermissions || user._id === userId} // Disable if user lacks permission
                         style={{
                             cursor: hasManagePermissions
                                 ? 'pointer'
@@ -219,10 +202,7 @@ const UserList = () => {
                 <td>
                     <button
                         onClick={() => deleteUser(user._id)}
-                        disabled={
-                            !hasDeletePermissions ||
-                            localStorage.getItem('userId') === user._id
-                        }
+                        disabled={!hasDeletePermissions || userId === user._id}
                         style={{
                             cursor: hasDeletePermissions
                                 ? 'pointer'

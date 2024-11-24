@@ -1,26 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { UserContext } from '../other/UserContext.jsx';
 
 const ProductEdit = () => {
     const navigate = useNavigate();
+
     const { productId } = useParams();
-    const [permissions, setPermissions] = useState({});
     const [productData, setProductData] = useState({
         name: '',
         price: '',
         description: '',
     });
 
-    // Fetch permissions from localStorage
-    useEffect(() => {
-        const perms = JSON.parse(localStorage.getItem('permissions'));
-        setPermissions(perms || {});
-    }, []);
+    const { permissions } = useContext(UserContext);
 
     // Fetch product details (simulate API call)
     useEffect(() => {
         const fetchProductDetails = async () => {
-            // Simulated fetch (replace with actual API call)
             const product = await fetch(`/api/products/${productId}`).then(
                 (res) => res.json()
             );
@@ -32,8 +28,7 @@ const ProductEdit = () => {
 
     // Redirect if the user lacks permissions
     if (permissions['update-product'] === false) {
-        navigate(`/product/${productId}`);
-        return null; // Prevent rendering
+        return navigate(`/product/${productId}`);
     }
 
     // Handle form field changes
@@ -46,7 +41,6 @@ const ProductEdit = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Simulated API call (replace with actual endpoint)
         try {
             const response = await fetch(`/api/products/${productId}`, {
                 method: 'PUT',
