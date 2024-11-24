@@ -14,15 +14,14 @@ import './src/styles/pages/register.css';
 import NotFound from './src/pages/NotFound.jsx';
 import AdminDashboard from './src/pages/AdminDashboard.jsx';
 import ProductEdit from './src/pages/ProductEdit.jsx';
+import { jwtDecode } from 'jwt-decode';
+import ProfileView from './src/pages/ProfileView.jsx';
 import Cart from './src/pages/Cart.jsx';
 import { UserContext } from './src/other/UserContext.jsx';
-import { jwtDecode } from 'jwt-decode';
-
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [userId, setUserId] = useState('');
     const [permissions, setPermissions] = useState({});
-
     useEffect(() => {
         try {
             setLoggedIn(localStorage.getItem('token') !== null);
@@ -40,8 +39,8 @@ const App = () => {
         } catch (e) {
             console.log(e);
             setLoggedIn(false);
-            setUserId("")
-            setPermissions({})
+            setUserId('');
+            setPermissions({});
             localStorage.removeItem('token');
         }
     }, [loggedIn, setLoggedIn, setPermissions, setUserId]);
@@ -53,7 +52,7 @@ const App = () => {
             setUserId,
             permissions,
             setPermissions,
-        }
+        };
     }, [loggedIn, setLoggedIn, userId, permissions, setUserId, setPermissions]);
 
     return (
@@ -74,6 +73,7 @@ const App = () => {
                     />
                     <Route path={'cart'} element={<Cart />} />
                     <Route path="admin" element={<AdminDashboard />} />
+                    <Route path="user/:user" element={<ProfileView />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </UserContext.Provider>

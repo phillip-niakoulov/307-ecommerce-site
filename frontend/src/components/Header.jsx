@@ -3,7 +3,8 @@ import { useContext } from 'react';
 import { UserContext } from '../other/UserContext.jsx';
 
 const Header = () => {
-    const { loggedIn, setLoggedIn, permissions } = useContext(UserContext);
+    const { loggedIn, setLoggedIn, permissions, userId } =
+        useContext(UserContext);
     return (
         <header>
             <h1>
@@ -23,6 +24,9 @@ const Header = () => {
                 ) : (
                     ''
                 )}
+
+                {loggedIn && <a href={`/user/${userId}`}>Profile</a>}
+
                 {loggedIn ? (
                     <a
                         id={'logout'}

@@ -188,8 +188,8 @@ const UserList = () => {
     const renderUsers = () =>
         users.map((user) => (
             <tr key={user._id}>
-                <td>{user._id}</td>
-                <td>{user.username}</td>
+                <td>{<a href={`/user/${user._id}`}>{user._id}</a>}</td>
+                <td>{<a href={`/user/${user._id}`}>{user.username}</a>}</td>
                 <td>{new Date(user.createdAt).toLocaleString()}</td>
                 <td>
                     {renderUserPermissions(user)}
