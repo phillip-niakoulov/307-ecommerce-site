@@ -1,5 +1,6 @@
 const express = require('express');
 const Product = require('../models/Product');
+const Fuse = require('fuse.js');
 // const multer = require('multer');
 // const path = require('path');
 // const fs = require('fs');
@@ -104,10 +105,53 @@ router.post(
 );
 
 // Get all products
+// UNUSED!
 router.get('/', async (req, res) => {
     try {
-        const products = await Product.find();
+        const products = await Product.find().sort({ name: 1 });
         res.json(products);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// Search
+router.get('/search', async (req, res) => {
+    const { query, sortField = 'name', sortOrder = 'asc' } = req.query; // Default values
+
+    try {
+        // Fetch all products from the database
+        const products = await Product.find();
+
+        // If a query is provided, perform fuzzy search
+        let results = products;
+        if (query) {
+            const options = {
+                keys: ['name', 'description'],
+                threshold: 0.3, // Adjust threshold for fuzziness (0.0 - exact match, 1.0 - no match)
+            };
+
+            const fuse = new Fuse(products, options);
+            const fuseResults = fuse.search(query);
+            results = fuseResults.map((result) => result.item); // Get the matched items
+        }
+
+        // Sort the results based on sortField and sortOrder
+        results.sort((a, b) => {
+            let comparison = 0;
+
+            if (sortField === 'price') {
+                comparison = a.originalPrice - b.originalPrice; // Assuming originalPrice is a number
+            } else {
+                // Default to sorting by name
+                comparison = a.name.localeCompare(b.name);
+            }
+
+            return sortOrder === 'asc' ? comparison : -comparison; // Reverse comparison for descending order
+        });
+
+        // Return the sorted results
+        res.json(results);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
