@@ -5,31 +5,35 @@ import { UserContext } from '../other/UserContext.jsx';
 const ProductEdit = () => {
     const navigate = useNavigate();
 
-    const { productId } = useParams();
     const [productData, setProductData] = useState({
         name: '',
         price: '',
         description: '',
     });
 
+    const { productId } = useParams();
+
     const { permissions } = useContext(UserContext);
+
+    useEffect(() => {
+        if (permissions['update-product'] === false) {
+            return navigate(`/product/${productId}`);
+        }
+    }, [navigate, productId, permissions]);
 
     // Fetch product details (simulate API call)
     useEffect(() => {
-        const fetchProductDetails = async () => {
-            const product = await fetch(`/api/products/${productId}`).then(
-                (res) => res.json()
-            );
-            setProductData(product);
+        const fetchProductData = async () => {
+            await fetch(
+                `${import.meta.env.VITE_API_BACKEND_URL}/api/products/${productId}`
+            )
+                .then((res) => res.json())
+                .then((data) => {
+                    setProductData(data);
+                });
         };
-
-        fetchProductDetails();
-    }, [productId]);
-
-    // Redirect if the user lacks permissions
-    if (permissions['update-product'] === false) {
-        return navigate(`/product/${productId}`);
-    }
+        fetchProductData();
+    }, [setProductData, productId]);
 
     // Handle form field changes
     const handleChange = (e) => {
@@ -42,13 +46,18 @@ const ProductEdit = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch(`/api/products/${productId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(productData),
-            });
+            const response = await fetch(
+                `${
+                    import.meta.env.VITE_API_BACKEND_URL
+                }/api/products/${productId}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(productData),
+                }
+            );
 
             if (response.ok) {
                 navigate(`/product/${productId}`);
@@ -78,8 +87,8 @@ const ProductEdit = () => {
                         Price:
                         <input
                             type="number"
-                            name="price"
-                            value={productData.price}
+                            name="originalPrice"
+                            value={productData.originalPrice}
                             onChange={handleChange}
                         />
                     </label>
