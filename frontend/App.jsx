@@ -55,9 +55,7 @@ const App = () => {
             setPermissions,
         };
     }, [loggedIn, setLoggedIn, userId, permissions, setUserId, setPermissions]);
-    useEffect(() => {
-        console.log(import.meta.env);
-    });
+
     return (
         <Router>
             <UserContext.Provider value={context}>
