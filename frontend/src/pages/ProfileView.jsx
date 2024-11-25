@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
 import NotFound from './NotFound.jsx';
+import { UserContext } from '../other/UserContext.jsx';
+import LogoutButton from '../components/HeaderButtons/LogoutButton.jsx';
 
 const ProfileView = () => {
     const { user } = useParams();
-    const [userData, setUserData] = useState(null);
+    const [profileData, setProfileData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+
+    const { userId, loggedIn } = useContext(UserContext);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -28,14 +32,14 @@ const ProfileView = () => {
                     return navigate('/login');
                 }
                 if (response.status === 403 || response.status === 404) {
-                    return setUserData(null);
+                    return setProfileData(null);
                 }
 
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                setUserData(data);
+                setProfileData(data);
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -54,11 +58,16 @@ const ProfileView = () => {
         return <div>Error: {error}</div>;
     }
 
-    if (!userData) {
+    if (!profileData) {
         return <NotFound />;
     }
 
-    return <p>{JSON.stringify(userData)}</p>;
+    return (
+        <div>
+            {loggedIn && userId === user ? <LogoutButton /> : ''}
+            <p>{JSON.stringify(profileData)}</p>
+        </div>
+    );
 };
 
 export default ProfileView;

@@ -18,7 +18,7 @@ export const InitContext = () => {
                             headers: {
                                 Authorization: `Bearer ${localStorage.getItem('token')}`,
                             },
-                        },
+                        }
                     )
                         .then((response) => {
                             if (response.status === 403) {

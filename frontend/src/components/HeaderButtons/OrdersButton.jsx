@@ -39,7 +39,7 @@ const OrdersButton = () => {
         }
 
         fetchOrders();
-    }, [setOrderCount]);
+    }, [orderCount, setOrderCount]);
     if (loggedIn && permissions !== null && permissions['view-orders']) {
         return <Link to="/orders">Orders ({orderCount})</Link>;
     }

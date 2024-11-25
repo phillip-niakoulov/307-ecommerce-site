@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../other/UserContext.jsx';
-import Logout from './HeaderButtons/LogoutButton.jsx';
 import OrdersButton from './HeaderButtons/OrdersButton.jsx';
 import AdminButton from './HeaderButtons/AdminButton.jsx';
+import ProfileButton from './HeaderButtons/ProfileButton.jsx';
 
 const Header = () => {
-    const { loggedIn, userId } = useContext(UserContext);
+    const { loggedIn } = useContext(UserContext);
     return (
         <header>
             <h1>
@@ -20,9 +20,7 @@ const Header = () => {
                 {<AdminButton />}
                 {<OrdersButton />}
 
-                {loggedIn && <Link to={`/user/${userId}`}>Profile</Link>}
-
-                {loggedIn ? <Logout /> : ''}
+                {<ProfileButton />}
             </nav>
         </header>
     );

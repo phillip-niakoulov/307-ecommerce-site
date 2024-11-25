@@ -1,10 +1,12 @@
 import { useContext } from 'react';
 import { UserContext } from '../../other/UserContext.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const LogoutButton = () => {
+    const navigate = useNavigate();
     const { setLoggedIn } = useContext(UserContext);
     return (
-        <a
+        <button
             id={'logoutButton'}
             style={{
                 cursor: 'pointer',
@@ -14,11 +16,12 @@ const LogoutButton = () => {
                     localStorage.clear();
                     document.getElementById('logoutButton').hidden = true;
                     setLoggedIn(false);
+                    navigate('/');
                 })
             }
         >
             Logout
-        </a>
+        </button>
     );
 };
 export default LogoutButton;
