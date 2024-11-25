@@ -32,7 +32,7 @@ const Login = () => {
                         setPermissions(jwtDecode(j['token'])['permissions']);
                         setLoggedIn(true);
                         setUserId(jwtDecode(j['token'])['userId']);
-                        navigate('/');
+                        window.location.replace('/');
                         return;
                     }
                     document.getElementById('error').innerHTML = j['message'];

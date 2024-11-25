@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const ProductList = () => {
@@ -34,7 +34,6 @@ const ProductList = () => {
                 );
                 data = await response.json();
 
-                console.log('Search results:', data);
                 setProducts(data);
             } catch (error) {
                 console.error('Error fetching search results:', error);

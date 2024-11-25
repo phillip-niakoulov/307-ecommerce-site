@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const Order = require('../models/Order');
+
 const jwt = require('jsonwebtoken');
 const authenticateJWT = require('../authMiddleware');
 const authenticatePermissions = require('../permissionMiddleware');
@@ -46,15 +48,13 @@ router.get(
         if (!isValidObjectId(id)) {
             return res.status(404).json('Bad ID');
         }
-        const user = await User.findById(id);
+        const user = await User.findById(id).select('-password');
 
         if (!user) {
             return res.status(404).json('User not found');
         }
 
-        return res
-            .status(200)
-            .json({ username: user.username, settings: user.settings });
+        return res.status(200).json({ user });
     }
 );
 
@@ -110,7 +110,6 @@ router.post(
                 username,
                 password: hashedPassword,
                 permissions: {
-                    // make at least register-admin and manage-permissions false
                     'create-product': true,
                     'update-product': true,
                     'delete-product': true,
@@ -119,6 +118,8 @@ router.post(
                     'update-users': true,
                     'delete-users': true,
                     'manage-permissions': true,
+                    'view-orders': true,
+                    'update-orders': true,
                 },
             });
 
@@ -231,5 +232,23 @@ router.delete(
         }
     }
 );
+
+router.post('/checkout', authenticateJWT, async (req, res) => {
+    try {
+        const { cart } = req.body;
+        console.log(req.body);
+
+        const order = new Order({
+            owner: req.id,
+            cart,
+        });
+
+        const saved = await order.save();
+        return res.status(200).json(saved);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: err.message });
+    }
+});
 
 module.exports = router;
