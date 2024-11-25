@@ -34,7 +34,6 @@ const ProductList = () => {
                 );
                 data = await response.json();
 
-                console.log('Search results:', data);
                 setProducts(data);
             } catch (error) {
                 console.error('Error fetching search results:', error);

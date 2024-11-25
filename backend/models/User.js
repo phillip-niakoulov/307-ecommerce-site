@@ -43,6 +43,10 @@ const userSchema = new mongoose.Schema({
             type: Boolean,
             default: false,
         },
+        'update-orders': {
+            type: Boolean,
+            default: false,
+        },
         // Add more permissions as needed
         // if you add new perms, update /register-admin in userRoutes.js to include it
     },

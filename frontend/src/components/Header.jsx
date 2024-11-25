@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../other/UserContext.jsx';
+import Logout from './HeaderButtons/LogoutButton.jsx';
+import OrdersButton from './HeaderButtons/OrdersButton.jsx';
 
 const Header = () => {
-    const { loggedIn, setLoggedIn, permissions, userId } =
-        useContext(UserContext);
+    const { loggedIn, permissions, userId } = useContext(UserContext);
     return (
         <header>
             <h1>
@@ -24,28 +25,11 @@ const Header = () => {
                 ) : (
                     ''
                 )}
+                {<OrdersButton />}
 
                 {loggedIn && <a href={`/user/${userId}`}>Profile</a>}
 
-                {loggedIn ? (
-                    <a
-                        id={'logout'}
-                        style={{
-                            cursor: 'pointer',
-                        }}
-                        onClick={() =>
-                            new Promise(() => {
-                                localStorage.clear();
-                                document.getElementById('logout').hidden = true;
-                                setLoggedIn(false);
-                            })
-                        }
-                    >
-                        Logout
-                    </a>
-                ) : (
-                    ''
-                )}
+                {loggedIn ? <Logout /> : ''}
             </nav>
         </header>
     );

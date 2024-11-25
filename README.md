@@ -59,27 +59,7 @@ paste the following in the file:
     }
     ```
 
-#### Option 2: Git pre-commit hook
-
-In the .git/ directory navigate to ./git/hooks and create a new file titled `pre-commit`, with the following contents.
-
-```sh
-#!/bin/sh
-
-set -eo pipefail
-
-cd backend
-
-npm run lint
-
-npm run format
-
-cd ../frontend
-
-npm run lint
-
-npm run format
-```
+## Make sure to run `npm run cleanup` before commiting.
 
 Committing will now run lint and format on both frontend and backend.
 

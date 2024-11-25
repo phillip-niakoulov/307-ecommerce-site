@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../other/UserContext.jsx';
 import OrderPlaced from './OrderPlaced.jsx';
 
-C;
-
 const Cart = () => {
     const navigate = useNavigate();
 
@@ -54,7 +52,7 @@ const Cart = () => {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
-            },
+            }
         );
         if (res.status === 200) {
             localStorage.removeItem('cart');

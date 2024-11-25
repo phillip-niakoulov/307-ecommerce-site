@@ -112,7 +112,6 @@ router.post(
                 username,
                 password: hashedPassword,
                 permissions: {
-                    // make at least register-admin and manage-permissions false
                     'create-product': true,
                     'update-product': true,
                     'delete-product': true,
@@ -121,6 +120,8 @@ router.post(
                     'update-users': true,
                     'delete-users': true,
                     'manage-permissions': true,
+                    'view-orders': true,
+                    'update-orders': true,
                 },
             });
 

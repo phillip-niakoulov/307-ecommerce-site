@@ -18,6 +18,8 @@ import Cart from './src/pages/Cart.jsx';
 import { UserContext } from './src/other/UserContext.jsx';
 import { jwtDecode } from 'jwt-decode';
 import ProfileView from './src/pages/ProfileView.jsx';
+import OrderList from './src/pages/OrderList.jsx';
+import OrderView from './src/pages/OrderView.jsx';
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -76,6 +78,8 @@ const App = () => {
                     <Route path={'cart'} element={<Cart />} />
                     <Route path="admin" element={<AdminDashboard />} />
                     <Route path="user/:user" element={<ProfileView />} />
+                    <Route path="orders" element={<OrderList />} />
+                    <Route path="order/:order" element={<OrderView />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </UserContext.Provider>
