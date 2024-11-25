@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../other/UserContext.jsx';
 
 // import ImageGallery from '../components/ImageGallery.jsx';
@@ -74,13 +74,16 @@ const ProductView = () => {
             cart[existingItemIndex].quantity += quantity;
         } else {
             cart.push({
-                itemId: productId,
+                itemId: product._id,
                 quantity: 1,
                 name: product.name,
+                price: product.originalPrice,
             });
         }
 
         localStorage.setItem('cart', btoa(JSON.stringify(cart)));
+
+        navigate('/cart');
     };
 
     return (

@@ -31,16 +31,19 @@ const userSchema = new mongoose.Schema({
             type: Boolean,
             default: false,
         },
-        'update-users': {
-            // no real use for now since it does the same things as manage permissions
-            type: Boolean,
-            default: false,
-        },
         'delete-users': {
             type: Boolean,
             default: false,
         },
         'manage-permissions': {
+            type: Boolean,
+            default: false,
+        },
+        'view-orders': {
+            type: Boolean,
+            default: false,
+        },
+        'update-orders': {
             type: Boolean,
             default: false,
         },
@@ -51,14 +54,10 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    settings: {
-        name: {
-            type: String,
-        },
-        email: {
-            type: String,
-        },
-    },
+    firstName: String,
+    lastName: String,
+    email: String,
+    phone: String,
 });
 
 const User = mongoose.model('User', userSchema);
