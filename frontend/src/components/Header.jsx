@@ -3,9 +3,10 @@ import { useContext } from 'react';
 import { UserContext } from '../other/UserContext.jsx';
 import Logout from './HeaderButtons/LogoutButton.jsx';
 import OrdersButton from './HeaderButtons/OrdersButton.jsx';
+import AdminButton from './HeaderButtons/AdminButton.jsx';
 
 const Header = () => {
-    const { loggedIn, permissions, userId } = useContext(UserContext);
+    const { loggedIn, userId } = useContext(UserContext);
     return (
         <header>
             <h1>
@@ -16,15 +17,7 @@ const Header = () => {
                 {loggedIn ? '' : <Link to="/login">Login</Link>}
                 {loggedIn ? '' : <Link to="/register">Register</Link>}
                 {loggedIn ? <Link to="/cart">Cart</Link> : ''}
-                {loggedIn &&
-                permissions !== null &&
-                (permissions['create-product'] ||
-                    permissions['get-users'] ||
-                    permissions['register-admin']) ? (
-                    <Link to="/admin">Admin Dashboard</Link>
-                ) : (
-                    ''
-                )}
+                {<AdminButton />}
                 {<OrdersButton />}
 
                 {loggedIn && <a href={`/user/${userId}`}>Profile</a>}

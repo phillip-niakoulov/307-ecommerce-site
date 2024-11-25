@@ -5,14 +5,14 @@ const LogoutButton = () => {
     const { setLoggedIn } = useContext(UserContext);
     return (
         <a
-            id={'logout'}
+            id={'logoutButton'}
             style={{
                 cursor: 'pointer',
             }}
             onClick={() =>
                 new Promise(() => {
                     localStorage.clear();
-                    document.getElementById('logout').hidden = true;
+                    document.getElementById('logoutButton').hidden = true;
                     setLoggedIn(false);
                 })
             }
