@@ -54,14 +54,10 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    settings: {
-        name: {
-            type: String,
-        },
-        email: {
-            type: String,
-        },
-    },
+    firstName: String,
+    lastName: String,
+    email: String,
+    phone: String,
 });
 
 const User = mongoose.model('User', userSchema);

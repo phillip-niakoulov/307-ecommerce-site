@@ -20,7 +20,7 @@ const Header = () => {
                 {<AdminButton />}
                 {<OrdersButton />}
 
-                {loggedIn && <a href={`/user/${userId}`}>Profile</a>}
+                {loggedIn && <Link to={`/user/${userId}`}>Profile</Link>}
 
                 {loggedIn ? <Logout /> : ''}
             </nav>

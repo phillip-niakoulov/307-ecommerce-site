@@ -48,15 +48,13 @@ router.get(
         if (!isValidObjectId(id)) {
             return res.status(404).json('Bad ID');
         }
-        const user = await User.findById(id);
+        const user = await User.findById(id).select('-password');
 
         if (!user) {
             return res.status(404).json('User not found');
         }
 
-        return res
-            .status(200)
-            .json({ username: user.username, settings: user.settings });
+        return res.status(200).json({ user });
     }
 );
 

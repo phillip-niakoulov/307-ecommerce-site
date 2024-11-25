@@ -16,7 +16,7 @@ const OrdersButton = () => {
                         Accept: 'application/json',
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
-                },
+                }
             )
                 .then((res) => {
                     if (res.status !== 200) {

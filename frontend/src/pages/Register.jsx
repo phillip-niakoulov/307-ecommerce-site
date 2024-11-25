@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../other/UserContext.jsx';
+import '../styles/pages/register.css';
 
 function Register() {
     const navigate = useNavigate();

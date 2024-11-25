@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../other/UserContext.jsx';
+import { Link } from 'react-router-dom';
 
 const UserList = () => {
     // State Initialization
@@ -188,7 +189,9 @@ const UserList = () => {
     const renderUsers = () =>
         users.map((user) => (
             <tr key={user._id}>
-                <td>{user._id}</td>
+                <td>
+                    <Link to={`/user/${user._id}`}>{user._id}</Link>
+                </td>
                 <td>{user.username}</td>
                 <td>{new Date(user.createdAt).toLocaleString()}</td>
                 <td>
