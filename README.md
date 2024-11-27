@@ -1,3 +1,5 @@
+AZURE_STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=https;AccountName=csc307images;AccountKey=e4EWfNQbc+pIsQEXsIFNRsEkH0qgMPVkTl/ZR7vhroWp+VmFH50kNyyLFcjuNvkxB30CgZrR9Uqu+AStDmSGew==;EndpointSuffix=core.windows.net
+
 # E-SHOP (PRO)
 
 Welcome to E-SHOP (PRO), an e-commerce platform designed with a strong emphasis on user security and administrative functionality. We are utilizing the MERN stack along with Azure for Continuous Integration (CI), Continuous Deployment (CD), and Content Delivery Network (CDN) services.
