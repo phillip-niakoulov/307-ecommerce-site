@@ -51,7 +51,14 @@ function ProductCreate() {
                 <label htmlFor={'category'}>Category:</label>
                 <input type="text" id="category" name="category" /> <br />
                 <label htmlFor={'images'}>Images:</label>
-                <input type="file" id="images" name="images" multiple /> <br />
+                <input
+                    type="file"
+                    id="images"
+                    name="images"
+                    accept={'image/gif,image/png,image/jpeg'}
+                    multiple
+                />{' '}
+                <br />
                 <input type={'submit'} onClick={create} value="Submit" />
                 <div id="err"></div>
             </div>

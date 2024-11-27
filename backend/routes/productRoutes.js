@@ -172,14 +172,26 @@ router.put(
     `/:id`,
     authenticateJWT,
     authenticatePermissions('update-product'),
+    upload.array('images', 10),
     async (req, res) => {
         try {
             const { name, originalPrice, description, category } = req.body;
-            const prod = await Product.findByIdAndUpdate(req.params.id, {
+            const id = req.params.id;
+            const body = {
                 name,
                 originalPrice,
                 description,
                 category,
+            };
+
+            if (req.files) {
+                await clearFiles(id);
+                body['imageUrls'] = await uploadFiles(req.files, id);
+            }
+            console.log(body);
+
+            const prod = await Product.findByIdAndUpdate(req.params.id, {
+                body,
             });
             if (!prod) {
                 return res.status(404).json({ message: 'Product not found' });
@@ -192,6 +204,32 @@ router.put(
     }
 );
 
+async function clearFiles(id) {
+    const product = await Product.findById(id);
+
+    for (const imageUrl of product.imageUrls) {
+        const blobName = imageUrl.split('/').pop();
+        const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+
+        await blockBlobClient.deleteIfExists();
+    }
+}
+
+async function uploadFiles(files, id) {
+    const imageUrls = [];
+    for (const file of files) {
+        const timestamp = Date.now();
+        const fileExtension = path.extname(file.originalname);
+        const blockBlobClient = containerClient.getBlockBlobClient(
+            `${id}-${timestamp}${fileExtension}`,
+        );
+
+        // Upload the file buffer to Azure Blob Storage
+        await blockBlobClient.upload(file.buffer, file.size);
+        imageUrls.push(blockBlobClient.url); // Store the URL of the uploaded file
+    }
+    return imageUrls;
+}
 // Delete a product
 router.delete(
     '/:id',
@@ -205,13 +243,7 @@ router.delete(
                 return res.status(404).json({ message: 'Product not found' });
             }
 
-            for (const imageUrl of product.imageUrls) {
-                const blobName = imageUrl.split('/').pop();
-                const blockBlobClient =
-                    containerClient.getBlockBlobClient(blobName);
-
-                await blockBlobClient.deleteIfExists();
-            }
+            await clearFiles(req.params.id);
 
             // Delete the product from the database
             await Product.findByIdAndDelete(req.params.id);

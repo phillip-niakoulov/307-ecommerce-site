@@ -41,43 +41,61 @@ const ProductEdit = () => {
         setProductData((prev) => ({ ...prev, [name]: value }));
     };
 
-    // Handle form submission
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    function create() {
+        const request = new FormData(); // Use FormData to handle file uploads
 
-        try {
-            const response = await fetch(
-                `${
-                    import.meta.env.VITE_API_BACKEND_URL
-                }/api/products/${productId}`,
-                {
-                    method: 'PUT',
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(productData),
-                }
-            );
+        request.append('name', document.getElementById('name').value);
+        request.append('originalPrice', document.getElementById('price').value);
+        request.append(
+            'description',
+            document.getElementById('description').value,
+        );
+        request.append('category', document.getElementById('category').value);
 
-            if (response.ok) {
-                navigate(`/product/${productId}`);
-            }
-        } catch (err) {
-            console.error(err);
+        const files = document.getElementById('images').files;
+        for (let i = 0; i < files.length; i++) {
+            request.append('images', files[i]);
         }
-    };
+
+        if (isNaN(parseFloat(request.get('originalPrice')))) {
+            document.getElementById('err').innerHTML = 'Invalid price';
+            return;
+        }
+
+        fetch(
+            `${import.meta.env.VITE_API_BACKEND_URL}/api/products/${productId}`,
+            {
+                method: 'PUT',
+                body: request,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    // Don't set 'Content-Type' header when using FormData
+                },
+            },
+        ).then(async (res) => {
+            if (res.status === 201) {
+                navigate(`/product/${productId}`);
+                return;
+            }
+            res.json().then((j) => {
+                document.getElementById('err').innerHTML = j['message'];
+            });
+        });
+    }
+
+    // Handle form submission
 
     return (
         <div>
             <h1>Edit Product</h1>
-            <form onSubmit={handleSubmit}>
+            <div>
                 <div>
                     <label>
                         Name:
                         <input
                             type="text"
                             name="name"
+                            id={'name'}
                             value={productData.name}
                             onChange={handleChange}
                         />
@@ -88,6 +106,7 @@ const ProductEdit = () => {
                         Price:
                         <input
                             name="originalPrice"
+                            id={'price'}
                             value={productData.originalPrice}
                             onChange={handleChange}
                         />
@@ -98,13 +117,40 @@ const ProductEdit = () => {
                         Description:
                         <textarea
                             name="description"
+                            id={'description'}
                             value={productData.description}
                             onChange={handleChange}
                         />
                     </label>
                 </div>
-                <button type="submit">Save Changes</button>
-            </form>
+                <div>
+                    <label>
+                        Category:
+                        <input
+                            name="category"
+                            id={'category'}
+                            value={productData.category}
+                            onChange={handleChange}
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        Files:
+                        <input
+                            type="file"
+                            id="images"
+                            name="images"
+                            accept={'image/gif,image/png,image/jpeg'}
+                            multiple
+                        />
+                    </label>
+                </div>
+                <button type="submit" onClick={create}>
+                    Save Changes
+                </button>
+                <div id="err"></div>
+            </div>
         </div>
     );
 };

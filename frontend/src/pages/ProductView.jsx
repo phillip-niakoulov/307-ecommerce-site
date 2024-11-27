@@ -99,6 +99,27 @@ const ProductView = () => {
                         }
                     />
                 )}
+                {permissions && permissions['delete-product'] === true && (
+                    <input
+                        value={'Delete'}
+                        type={'button'}
+                        onClick={async () =>
+                            await fetch(
+                                `${
+                                    import.meta.env.VITE_API_BACKEND_URL
+                                }/api/products/${productId}`,
+                                {
+                                    method: 'DELETE',
+                                    headers: {
+                                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                                    },
+                                },
+                            ).then(() => {
+                                navigate(`/`);
+                            })
+                        }
+                    />
+                )}
             </div>
         </div>
     );
