@@ -2,7 +2,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import { UserContext } from '../other/UserContext.jsx';
-import '../styles/pages/Login.css';
+import '../styles/pages/login.css';
 
 const Login = () => {
     const navigate = useNavigate();
