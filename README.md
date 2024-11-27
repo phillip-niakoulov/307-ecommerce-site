@@ -1,24 +1,18 @@
 # E-SHOP (PRO)
 
-Team 2's ecommerce site for CSC 307
+We're making an e-commerce site with heavy emphasis on security for users and funcitonality for administrators. We are currently using the MERN stack along with Azure for CI, CD, & CDN.
 
 ## Init
-
 -   Frontend: `cd frontend && npm install`
--   Database: `mkdir C:\data\db`
+-   DotEnv: Add a `.env` to `/frontend` containing the variables `VITE_API_BACKEND_PORT & VITE_API_BACKEND_URL`
 -   Backend: `cd backend && npm install`
--   DotEnv: `cd backend`
-    ```env
-        # backend/.env
-        DATABASE_URL="mongodb+srv://ecommerceapp:SNlCVgBoPEldIdXm@ecommercepro.vjker.mongodb.net/?retryWrites=true&w=majority&appName=EcommercePro"
-        JWT_KEY="MIIJQwIBADANBgkqhkiG9w0BAQEFAASCCS0wggkpAgEAAoICAQC8dBs72P9i5XyWAL+TKJr7xyT8VbgBectQVnIWT6MJ45tQ36fd ..."
-    ```
+-   DotEnv: Add a `.env` to `/backend` containing the variables `DATABASE_URL, JWT_KEY, & AZURE_STORAGE_CONNECTION_STRING`
 
 ## Running dev
 
 -   Frontend: `cd frontend && npm run dev`
--   Database: `."C:\Program Files\MongoDB\Server\8.0\bin\mongod.exe"`
 -   Backend: `cd backend && npm run dev`
+-   Database (if running locally): `."C:\Program Files\MongoDB\Server\8.0\bin\mongod.exe"`
 
 ## Contributing
 
@@ -59,11 +53,8 @@ paste the following in the file:
     }
     ```
 
-## Make sure to run `npm run cleanup` before commiting.
+> [!NOTE]  
+> Make sure to run `npm run cleanup` in root before commitin.
 
-Committing will now run lint and format on both frontend and backend.
 
-## Diagrams
-![Register](https://raw.githubusercontent.com/phillip-niakoulov/307-ecommerce-site/refs/heads/dev/register.png)
-![Login](https://raw.githubusercontent.com/phillip-niakoulov/307-ecommerce-site/refs/heads/dev/Login.png)
-![Add Product](https://raw.githubusercontent.com/phillip-niakoulov/307-ecommerce-site/refs/heads/dev/CreateProduct.png)
+## [UML Diagrams](DIAGRAMS.md)
