@@ -1,19 +1,44 @@
 const express = require('express');
 const Product = require('../models/Product');
 const Fuse = require('fuse.js');
-// const multer = require('multer');
-// const path = require('path');
-// const fs = require('fs');
+const path = require('path');
+const multer = require('multer');
+const { BlobServiceClient } = require('@azure/storage-blob');
 const authenticateJWT = require('../authMiddleware');
 const authenticatePermissions = require('../permissionMiddleware');
 
 const router = express.Router();
+const storage = multer.memoryStorage();
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 512 * 1024 * 1024 }, // Limit file size to 512MB
+    fileFilter: (req, file, cb) => {
+        const filetypes = /jpeg|jpg|png|gif/;
+        const mimetype = filetypes.test(file.mimetype);
+        const extname = filetypes.test(
+            path.extname(file.originalname).toLowerCase()
+        );
+        if (mimetype && extname) {
+            return cb(null, true);
+        }
+        cb(
+            'Error: File upload only supports the following filetypes - ' +
+                filetypes
+        );
+    },
+});
+
+const blobServiceClient = BlobServiceClient.fromConnectionString(
+    process.env.AZURE_STORAGE_CONNECTION_STRING
+);
+const containerClient = blobServiceClient.getContainerClient('images');
 
 // Create a new product with image upload
 router.post(
     '/create',
     authenticateJWT,
     authenticatePermissions('create-product'),
+    upload.array('images', 10),
     async (req, res) => {
         const { name, originalPrice, description, category } = req.body;
 
@@ -47,6 +72,7 @@ router.post(
             name: name,
             originalPrice: originalPrice,
             description: description,
+            imageUrls: [],
             category: category,
         });
 
@@ -66,6 +92,20 @@ router.post(
                     .json({ message: 'Product with this ID already exists' });
             }
 
+            if (req.files) {
+                for (const file of req.files) {
+                    const timestamp = Date.now();
+                    const fileExtension = path.extname(file.originalname);
+                    const blockBlobClient = containerClient.getBlockBlobClient(
+                        `${id}-${timestamp}${fileExtension}`
+                    );
+
+                    // Upload the file buffer to Azure Blob Storage
+                    await blockBlobClient.upload(file.buffer, file.size);
+                    product.imageUrls.push(blockBlobClient.url); // Store the URL of the uploaded file
+                }
+            }
+
             const savedProduct = await product.save();
             res.status(201).json(savedProduct);
         } catch (err) {
@@ -73,17 +113,6 @@ router.post(
         }
     }
 );
-
-// Get all products
-// UNUSED!
-router.get('/', async (req, res) => {
-    try {
-        const products = await Product.find().sort({ name: 1 });
-        res.json(products);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
 
 // Search
 router.get('/search', async (req, res) => {
@@ -174,6 +203,14 @@ router.delete(
             const product = await Product.findById(req.params.id);
             if (!product) {
                 return res.status(404).json({ message: 'Product not found' });
+            }
+
+            for (const imageUrl of product.imageUrls) {
+                const blobName = imageUrl.split('/').pop();
+                const blockBlobClient =
+                    containerClient.getBlockBlobClient(blobName);
+
+                await blockBlobClient.deleteIfExists();
             }
 
             // Delete the product from the database

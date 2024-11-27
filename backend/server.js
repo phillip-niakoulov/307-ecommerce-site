@@ -12,9 +12,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-console.log(
-    `PORT: ${process.env.PORT}, BACKEND_URL: ${process.env.BACKEND_URL}, DATABASE_URL: ${process.env.DATABASE_URL}, VITE_API_BACKEND_PORT: ${process.env.VITE_API_BACKEND_PORT}, VITE_API_BACKEND_URL: ${process.env.VITE_API_BACKEND_URL}`
-);
+console.log(`PORT: ${process.env.PORT}`);
 
 mongoose
     .connect(process.env.DATABASE_URL)
