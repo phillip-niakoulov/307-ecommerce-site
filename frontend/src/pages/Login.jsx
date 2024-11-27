@@ -1,4 +1,3 @@
-import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import { UserContext } from '../other/UserContext.jsx';
@@ -30,9 +29,6 @@ const Login = () => {
                 res.json().then((j) => {
                     if (res.status === 200) {
                         localStorage.setItem('token', j['token']);
-                        setPermissions(jwtDecode(j['token'])['permissions']);
-                        setLoggedIn(true);
-                        setUserId(jwtDecode(j['token'])['userId']);
                         window.location.replace('/');
                         return;
                     }

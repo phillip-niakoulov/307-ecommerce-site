@@ -27,16 +27,20 @@ export const InitContext = () => {
                         .then((data) => {
                             setUserData(data['user']);
                             setPermissions(data['user']['permissions']);
+                        }).catch(error => {
+                            console.error(error);
+                            localStorage.removeItem('token');
+                            setLoggedIn(false);
                         });
                 };
                 getData();
             }
         } catch (e) {
+            localStorage.removeItem('token');
             console.log(e);
             setLoggedIn(false);
             setUserId('');
             setPermissions({});
-            localStorage.removeItem('token');
         }
     }, [loggedIn, setLoggedIn, setPermissions, setUserId, setUserData]);
 };
