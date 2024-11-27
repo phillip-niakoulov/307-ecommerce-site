@@ -1,60 +1,108 @@
 # E-SHOP (PRO)
 
-We're making an e-commerce site with heavy emphasis on security for users and funcitonality for administrators. We are currently using the MERN stack along with Azure for CI, CD, & CDN.
+Welcome to E-SHOP (PRO), an e-commerce platform designed with a strong emphasis on user security and administrative functionality. We are utilizing the MERN stack along with Azure for Continuous Integration (CI), Continuous Deployment (CD), and Content Delivery Network (CDN) services.
 
-## Init
--   Frontend: `cd frontend && npm install`
--   DotEnv: Add a `.env` to `/frontend` containing the variables `VITE_API_BACKEND_PORT & VITE_API_BACKEND_URL`
--   Backend: `cd backend && npm install`
--   DotEnv: Add a `.env` to `/backend` containing the variables `DATABASE_URL, JWT_KEY, & AZURE_STORAGE_CONNECTION_STRING`
+## Getting Started
 
-## Running dev
+### Initialization
 
--   Frontend: `cd frontend && npm run dev`
--   Backend: `cd backend && npm run dev`
--   Database (if running locally): `."C:\Program Files\MongoDB\Server\8.0\bin\mongod.exe"`
+1. **Frontend Setup**
+   - Navigate to the frontend directory:
+     ```bash
+     cd frontend
+     ```
+   - Install dependencies:
+     ```bash
+     npm install
+     ```
+   - Create a `.env` file in the `/frontend` directory with the following variables:
+     ```
+     VITE_API_BACKEND_PORT
+     VITE_API_BACKEND_URL
+     ```
+
+2. **Backend Setup**
+   - Navigate to the backend directory:
+     ```bash
+     cd backend
+     ```
+   - Install dependencies:
+     ```bash
+     npm install
+     ```
+   - Create a `.env` file in the `/backend` directory with the following variables:
+     ```
+     DATABASE_URL
+     JWT_KEY
+     AZURE_STORAGE_CONNECTION_STRING
+     ```
+
+### Running the Development Environment
+
+- **Frontend**: 
+  ```bash
+  cd frontend && npm run dev
+  ```
+- **Backend**: 
+  ```bash
+  cd backend && npm run dev
+  ```
+- **Database (if running locally)**: 
+  ```bash
+  "C:\Program Files\MongoDB\Server\8.0\bin\mongod.exe"
+  ```
 
 ## Contributing
 
--   Use ESLint for linting (`npx eslint . --fix`) and Prettier for formatting (`npm run format`).
--   Semicolons; Singles quotes > double quotes; 4 spaces per tab; trailing commas
--   Ensure that your code passes all ESLint checks before submitting a pull request.
--   To set up your development environment, please install the ESLint and Prettier extensions in your IDE.
+To maintain code quality, please adhere to the following guidelines:
+
+- Use **ESLint** for linting:
+  ```bash
+  npx eslint . --fix
+  ```
+- Use **Prettier** for formatting:
+  ```bash
+  npm run format
+  ```
+- Code Style Guidelines:
+  - Use semicolons.
+  - Prefer single quotes over double quotes.
+  - Use 4 spaces per tab.
+  - Include trailing commas where applicable.
+- Ensure that your code passes all ESLint checks before submitting a pull request.
+- Install the ESLint and Prettier extensions in your IDE for a smoother development experience.
 
 ### Setting Up Your IDE
 
-#### Optional if you don't want to type `npx eslint . --fix` and `npm run format` every time.
+#### Optional: Automate Formatting and Linting
 
-For VSCode:
+For **Visual Studio Code** users:
 
-1. Install the ESLint and Prettier extensions (and also a spellcheck extension).
-2.
+1. Install the **ESLint** and **Prettier** extensions (consider adding a spellcheck extension as well).
+2. Open your settings in JSON format:
+   - Navigate to `File > Preferences > Settings`, then click on the Open Settings (JSON) icon in the top right.
+3. Add the following configuration to enable automatic formatting and linting on save:
+   ```json
+   {
+       "editor.formatOnSave": true,
+       "editor.codeActionsOnSave": {
+           "source.fixAll.eslint": true
+       }
+   }
+   ```
+4. Follow the instructions on the Prettier extension installation page to add the following to your settings:
+   ```json
+   {
+       "editor.defaultFormatter": "esbenp.prettier-vscode",
+       "[javascript]": {
+           "editor.defaultFormatter": "esbenp.prettier-vscode"
+       }
+   }
+   ```
 
-Under `File > Preferences> Settings > Open Settings (JSON) icon (in the top right, looks like a document with an arrow)`,
-paste the following in the file:
-
-```json
-{
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
-    }
-}
-```
-
-3. Follow instructions on Prettier extension install page to add to `Open Settings (JSON)`. Here was what I needed to
-   do:
-    ```json
-    {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "[javascript]": {
-            "editor.defaultFormatter": "esbenp.prettier-vscode"
-        }
-    }
-    ```
-
-> [!NOTE]  
-> Make sure to run `npm run cleanup` in root before commitin.
-
+> **Note:**  
+> Make sure to run `npm run cleanup` in the root directory before committing your changes.
 
 ## [UML Diagrams](DIAGRAMS.md)
+
+For more info about the architecture and design, please refer to the UML diagrams provided in the linked document.
