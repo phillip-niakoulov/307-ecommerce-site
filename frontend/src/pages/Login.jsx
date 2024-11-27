@@ -2,6 +2,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import { UserContext } from '../other/UserContext.jsx';
+import '../styles/pages/Login.css';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -49,7 +50,6 @@ const Login = () => {
 
     return (
         <div>
-            <h1>Login</h1>
             <div id={'login_fields'}>
                 <label htmlFor="user">Username:</label>
                 <input type="text" id="user" name="user" /> <br />

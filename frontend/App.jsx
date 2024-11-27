@@ -6,11 +6,6 @@ import Login from './src/pages/Login.jsx';
 import Register from './src/pages/Register.jsx';
 import ProductView from './src/pages/ProductView.jsx';
 import Header from './src/components/Header.jsx';
-import './src/styles/index.css';
-import './src/styles/pages/header.css';
-import './src/styles/pages/home.css';
-import './src/styles/pages/login.css';
-import './src/styles/pages/register.css';
 import NotFound from './src/pages/NotFound.jsx';
 import AdminDashboard from './src/pages/AdminDashboard.jsx';
 import ProductEdit from './src/pages/ProductEdit.jsx';
@@ -18,6 +13,8 @@ import { jwtDecode } from 'jwt-decode';
 import ProfileView from './src/pages/ProfileView.jsx';
 import Cart from './src/pages/Cart.jsx';
 import { UserContext } from './src/other/UserContext.jsx';
+import './src/styles/index.css';
+
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [userId, setUserId] = useState('');

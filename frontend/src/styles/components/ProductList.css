@@ -1,0 +1,52 @@
+.search-container {
+    display: flex;
+    justify-content: center; /* Center the items horizontally */
+    align-items: center; /* Center the items vertically */
+    margin: 20px 0; /* Add some margin above and below the search bar */
+}
+
+.search-input {
+    padding: 10px;
+    width: 200px; /* Set a fixed width for the input */
+    border: 1px solid #ccc; /* Add a border */
+    border-radius: 4px; /* Rounded corners */
+    margin-right: 10px; /* Space between input and select */
+    outline: none; /* Remove outline on focus */
+    transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+.search-input:focus {
+    border-color: #007bff; /* Change border color on focus */
+}
+
+.sort-select {
+    padding: 10px;
+    border: 1px solid #ccc; /* Add a border */
+    border-radius: 4px; /* Rounded corners */
+    outline: none; /* Remove outline on focus */
+    transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+.sort-select:focus {
+    border-color: #007bff; /* Change border color on focus */
+}
+
+.product-list {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap onto the next line */
+    justify-content: space-between; /* Adjusts spacing between items */
+    gap: 16px; /* Optional: adds space between the cards */
+}
+
+.product-card-container {
+    flex: 1 1 calc(25% - 16px); /* Adjusts the width of each card */
+    max-width: calc(25% - 16px); /* Ensures cards do not exceed this width */
+    box-sizing: border-box; /* Ensures padding and border are included in the width */
+}
+
+@media (max-width: 768px) {
+    .product-card-container {
+        flex: 1 1 calc(50% - 16px); /* 2 cards per row on smaller screens */
+        max-width: calc(50% - 16px);
+    }
+}

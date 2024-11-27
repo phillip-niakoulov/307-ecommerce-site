@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import ProductCard from './ProductCard.jsx';
+import '../styles/components/ProductList.css';
 
 const ProductList = () => {
     const [products, setProducts] = useState([]);
@@ -49,35 +50,43 @@ const ProductList = () => {
 
     return (
         <div>
-            <input
-                type="text"
-                value={query}
-                onChange={handleInputChange}
-                placeholder="Search..."
-                style={{ padding: '10px', width: '200px', marginRight: '10px' }}
-            />
-            <select
-                value={sortBy}
-                onChange={handleSortChange}
-                style={{ marginRight: '10px' }}
-            >
-                <option value="name-asc">Alphabetical (A-Z)</option>
-                <option value="name-desc">Alphabetical (Z-A)</option>
-                <option value="price-asc">Price (Low to High)</option>
-                <option value="price-desc">Price (High to Low)</option>
-            </select>
+            <div className="search-container">
+                <input
+                    type="text"
+                    value={query}
+                    onChange={handleInputChange}
+                    placeholder="Search..."
+                    className="search-input"
+                />
+                <select
+                    value={sortBy}
+                    onChange={handleSortChange}
+                    className="sort-select"
+                >
+                    <option value="name-asc">Alphabetical (A-Z)</option>
+                    <option value="name-desc">Alphabetical (Z-A)</option>
+                    <option value="price-asc">Price (Low to High)</option>
+                    <option value="price-desc">Price (High to Low)</option>
+                </select>
+            </div>
+
             {loading ? (
                 <span>Loading...</span>
             ) : (
                 <span style={{ visibility: 'hidden' }}>Loading...</span> // Keep space for loading text
             )}
-            <div>
+            <div className="product-list">
                 {products.length === 0 ? (
                     <p>No items (for now)</p>
                 ) : (
                     products.map((item) => (
-                        <div key={item._id}>
-                            <Link to={`/product/${item._id}`}>{item.name}</Link>
+                        <div key={item._id} className="product-card-container">
+                            <ProductCard
+                                id={item._id}
+                                imageUrl={item.imageUrls[0]}
+                                name={item.name}
+                                price={item.originalPrice}
+                            />
                         </div>
                     ))
                 )}

@@ -1,10 +1,9 @@
-import '../styles/pages/home.css';
+import '../styles/pages/Home.css';
 import ProductList from '../components/ProductList';
 
 function Home() {
     return (
-        <div>
-            <h1>Product List</h1>
+        <div id="home-wrapper">
             <ProductList />
         </div>
     );
