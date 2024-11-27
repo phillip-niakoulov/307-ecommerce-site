@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../other/UserContext.jsx';
-import '../styles/pages/register.css';
+import '../styles/pages/Register.css';
 
 function Register() {
     const navigate = useNavigate();
@@ -48,7 +48,6 @@ function Register() {
 
     return (
         <div>
-            <h1>Register</h1>
             <div id={'register_fields'}>
                 <label htmlFor="username">Username:</label>
                 <input
