@@ -31,6 +31,7 @@ jobs:
           JWT_KEY: ${{ secrets.JWT_KEY }}
           VITE_API_BACKEND_PORT: ${{ secrets.VITE_API_BACKEND_PORT }}
           VITE_API_BACKEND_URL: ${{ secrets.VITE_API_BACKEND_URL }}
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
         run: |
           npm install --workspaces=false
           nohup npm run -w backend start --if-present &
