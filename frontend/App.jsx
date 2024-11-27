@@ -1,4 +1,4 @@
-import { StrictMode, useEffect, useMemo, useState } from 'react';
+import { StrictMode, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './src/pages/Home.jsx';
@@ -14,10 +14,12 @@ import './src/styles/pages/register.css';
 import NotFound from './src/pages/NotFound.jsx';
 import AdminDashboard from './src/pages/AdminDashboard.jsx';
 import ProductEdit from './src/pages/ProductEdit.jsx';
-import { jwtDecode } from 'jwt-decode';
 import ProfileView from './src/pages/ProfileView.jsx';
 import Cart from './src/pages/Cart.jsx';
 import { UserContext } from './src/other/UserContext.jsx';
+import InitContext from './src/other/InitContext.jsx';
+import OrderView from './src/pages/OrderView.jsx';
+import OrderList from './src/pages/OrderList.jsx';
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -25,40 +27,6 @@ const App = () => {
     const [permissions, setPermissions] = useState({});
     const [userData, setUserData] = useState({});
 
-    useEffect(() => {
-        try {
-            setLoggedIn(localStorage.getItem('token') !== null);
-            if (loggedIn) {
-                const id = jwtDecode(localStorage.getItem('token'))['userId'];
-                setUserId(id);
-                const getData = async () => {
-                    console.log('a');
-                    await fetch(
-                        `${import.meta.env.VITE_API_BACKEND_URL}/api/users/${id}`,
-                        {
-                            method: 'GET',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                Authorization: `Bearer ${localStorage.getItem('token')}`,
-                            },
-                        },
-                    )
-                        .then((res) => res.json())
-                        .then((data) => {
-                            setUserData(data['user']);
-                            setPermissions(data['user']['permissions']);
-                        });
-                };
-                getData();
-            }
-        } catch (e) {
-            console.log(e);
-            setLoggedIn(false);
-            setUserId('');
-            setPermissions({});
-            localStorage.removeItem('token');
-        }
-    }, [loggedIn, setLoggedIn, setPermissions, setUserId]);
     const context = useMemo(() => {
         return {
             loggedIn,
@@ -84,6 +52,7 @@ const App = () => {
     return (
         <Router>
             <UserContext.Provider value={context}>
+                <InitContext />
                 <Header />
                 <Routes>
                     <Route path="/" element={<Home />} />
@@ -100,6 +69,9 @@ const App = () => {
                     <Route path={'cart'} element={<Cart />} />
                     <Route path="admin" element={<AdminDashboard />} />
                     <Route path="user/:user" element={<ProfileView />} />
+                    <Route path={'orders'} element={<OrderList />} />
+                    <Route path={'order/:order'} element={<OrderView />} />
+
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </UserContext.Provider>
