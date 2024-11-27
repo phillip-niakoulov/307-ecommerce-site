@@ -40,9 +40,17 @@ function Register() {
             <h1>Register Admin</h1>
             <div id={'register_fields'}>
                 <label htmlFor="username">Username:</label>
-                <input type="text" id="username" name="username" /> <br />
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                /> <br />
                 <label htmlFor="password">Password:</label>
-                <input type="password" id="password" name="password" /> <br />
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                /> <br />
                 <label htmlFor="confirm">Confirm Password:</label>
                 <input type="password" id="confirm" name="confirm" />
                 <p id={'error'}></p>

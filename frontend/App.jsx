@@ -1,6 +1,6 @@
 import { StrictMode, useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './src/pages/Home.jsx';
 import Login from './src/pages/Login.jsx';
 import Register from './src/pages/Register.jsx';
@@ -18,23 +18,38 @@ import { jwtDecode } from 'jwt-decode';
 import ProfileView from './src/pages/ProfileView.jsx';
 import Cart from './src/pages/Cart.jsx';
 import { UserContext } from './src/other/UserContext.jsx';
+
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [userId, setUserId] = useState('');
     const [permissions, setPermissions] = useState({});
+    const [userData, setUserData] = useState({});
+
     useEffect(() => {
         try {
             setLoggedIn(localStorage.getItem('token') !== null);
             if (loggedIn) {
-                const token = jwtDecode(localStorage.getItem('token'));
-                if (token['permissions'].length < 8) {
-                    localStorage.removeItem('token');
-                    setLoggedIn(false);
-                    return;
-                }
-                setPermissions(token['permissions']);
-
-                setUserId(token['userId']);
+                const id = jwtDecode(localStorage.getItem('token'))['userId'];
+                setUserId(id);
+                const getData = async () => {
+                    console.log('a');
+                    await fetch(
+                        `${import.meta.env.VITE_API_BACKEND_URL}/api/users/${id}`,
+                        {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                            },
+                        },
+                    )
+                        .then((res) => res.json())
+                        .then((data) => {
+                            setUserData(data['user']);
+                            setPermissions(data['user']['permissions']);
+                        });
+                };
+                getData();
             }
         } catch (e) {
             console.log(e);
@@ -52,8 +67,19 @@ const App = () => {
             setUserId,
             permissions,
             setPermissions,
+            userData,
+            setUserData,
         };
-    }, [loggedIn, setLoggedIn, userId, permissions, setUserId, setPermissions]);
+    }, [
+        loggedIn,
+        setLoggedIn,
+        userId,
+        permissions,
+        setUserId,
+        setPermissions,
+        userData,
+        setUserData,
+    ]);
 
     return (
         <Router>
