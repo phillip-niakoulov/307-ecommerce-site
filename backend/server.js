@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
+const orderRouts = require('./routes/orderRoutes');
 
 const app = express();
 
@@ -21,6 +22,7 @@ mongoose
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/orders', orderRouts);
 
 app.listen(process.env.PORT || 5000, () => {
     console.log(`Server is running on http://localhost:5000`);
