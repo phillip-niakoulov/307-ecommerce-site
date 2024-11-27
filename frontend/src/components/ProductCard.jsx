@@ -1,7 +1,14 @@
 import { Link } from 'react-router-dom';
 import '../styles/components/ProductCard.css';
+import PropTypes from 'prop-types';
 
 const ProductCard = ({ id, imageUrl, name, price }) => {
+    ProductCard.propTypes = {
+        id: PropTypes.string,
+        imageUrl: PropTypes.string,
+        name: PropTypes.string,
+        price: PropTypes.number,
+    };
     return (
         <div className="card" id={id}>
             <Link to={`/product/${id}`}>
