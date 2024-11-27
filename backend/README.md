@@ -5,7 +5,7 @@
 **POST** `/api/users/register`  
 Creates a new user.
 
--   **Input:**
+- **Input:**
 
     ```json
     {
@@ -15,13 +15,13 @@ Creates a new user.
     }
     ```
 
--   **Output:** - **201**: When successful
-    `
+- **Output:** - **201**: When successful
+  `
 {
 "message": "User registered successfully",
 "userId": "67189d94ff2e38b3a36bdf14"
 }` - **409**: When username or email is already in use
-    `
+  `
 {
 "message": "Username or email is already in use"
 }`
@@ -33,7 +33,7 @@ Creates a new user.
 **POST** `/api/users/login`  
 Login with email and password.
 
--   **Input:**
+- **Input:**
 
     ```json
     {
@@ -42,13 +42,13 @@ Login with email and password.
     }
     ```
 
--   **Output:** - **201**: When successful
-    `
+- **Output:** - **201**: When successful
+  `
 {
 "message": "Login successful",
 "userId": "6718a28ed34dfcec43ac1ee7"
 }` - **403**: When email or password is invalid
-    `
+  `
 {
 "message": "Invalid email or password"
 }`
@@ -60,8 +60,8 @@ Login with email and password.
 **GET** `/api/users/:id`  
 Gets information about the provided user ID.
 
--   **Output:** - **200**: When successful
-    `
+- **Output:** - **200**: When successful
+  `
 {
 "_id": "67189d94ff2e38b3a36bdf14",
 "username": "myusername",
@@ -70,11 +70,11 @@ Gets information about the provided user ID.
 "createdAt": "2024-10-23T06:54:12.524Z",
 "__v": 0
 }` - **400**: When the ID format is invalid
-    `
+  `
 {
 "message": "Invalid ID format"
 }` - **404**: When the user is not found
-    `
+  `
 {
 "message": "User not found"
 }`
@@ -86,8 +86,8 @@ Gets information about the provided user ID.
 **PUT** `/api/users/:id`  
 Update using the provided user ID.
 
--   **Output:** - **200**: When successful
-    `
+- **Output:** - **200**: When successful
+  `
 {
 "_id": "67189d94ff2e38b3a36bdf14",
 "username": "myusername",
@@ -96,11 +96,11 @@ Update using the provided user ID.
 "createdAt": "2024-10-23T06:54:12.524Z",
 "__v": 0
 }` - **400**: When the ID format is invalid
-    `
+  `
 {
 "message": "Invalid ID format"
 }` - **404**: When the user is not found
-    `
+  `
 {
 "message": "User not found"
 }`
@@ -112,16 +112,16 @@ Update using the provided user ID.
 **DELETE** `/api/users/:id`  
 Removes the user based on the provided user ID.
 
--   **Output:** - **200**: When successful
-    `
+- **Output:** - **200**: When successful
+  `
 {
 "message": "User deleted"
 }` - **400**: When the ID format is invalid
-    `
+  `
 {
 "message": "Invalid ID format"
 }` - **404**: When the user is not found
-    `
+  `
 {
 "message": "User not found"
 }`
@@ -135,8 +135,8 @@ Removes the user based on the provided user ID.
 **POST** `/api/products/create`  
 Create a new product.
 
--   **Input:**  
-    Instead of json, pass through form-data with ability to file attach.
+- **Input:**  
+  Instead of json, pass through form-data with ability to file attach.
 
     ```json
     {
@@ -150,9 +150,9 @@ Create a new product.
     }
     ```
 
--   **Output:**
+- **Output:**
 
-    -   **201**: When successful
+    - **201**: When successful
         ```json
         {
             "_id": "nike-leather-shoes",
@@ -168,26 +168,26 @@ Create a new product.
         }
         ```
 
--   **400**: When no images are uploaded
-    `
+- **400**: When no images are uploaded
+  `
 {
 "message": "No images were uploaded"
 }`
 
--   **400**: When a required field is missing
-    `
+- **400**: When a required field is missing
+  `
 {
 "message": "Missing required fields"
 }`
 
--   **409**: When a name is already in use
-    `
+- **409**: When a name is already in use
+  `
 {
 "message": "Name is already in use"
 }`
 
--   **409**: When an ID is already in use (if the lowercase "url" version exists)
-    `
+- **409**: When an ID is already in use (if the lowercase "url" version exists)
+  `
 {
 "message": "Product with this ID already exists"
 }`
@@ -199,8 +199,8 @@ Create a new product.
 **GET** `/api/products/`  
 Gets information about all products.
 
--   **Output:**
-    -   **200**: When successful
+- **Output:**
+    - **200**: When successful
         ```json
         [
             {
@@ -235,9 +235,9 @@ Gets information about all products.
 **GET** `/api/products/:id`  
 Gets information about the provided user ID.
 
--   **Output:**
+- **Output:**
 
-    -   **200**: When successful
+    - **200**: When successful
         ```json
         {
             "_id": "nike-leather-shoes",
@@ -252,8 +252,8 @@ Gets information about the provided user ID.
         }
         ```
 
--   **404**: When the ID format is invalid or the item is not found
-    `
+- **404**: When the ID format is invalid or the item is not found
+  `
 {
 "message": "Product not found"
 }`
@@ -265,8 +265,8 @@ Gets information about the provided user ID.
 **PUT** `/api/users/:id`  
 Update using the provided product ID.
 
--   **Input:**  
-    Instead of json, pass through form-data with ability to file attach.
+- **Input:**  
+  Instead of json, pass through form-data with ability to file attach.
 
     ```json
     {
@@ -279,9 +279,9 @@ Update using the provided product ID.
     }
     ```
 
--   **Output:**
+- **Output:**
 
-    -   **200**: When successful
+    - **200**: When successful
         ```json
         {
             "_id": "orange-nike-shoes",
@@ -296,31 +296,31 @@ Update using the provided product ID.
         }
         ```
 
--   **400**: When no images are uploaded
-    `
+- **400**: When no images are uploaded
+  `
 {
 "message": "No images were uploaded"
 }`
--   **400**: When a required field is missing
-    `
+- **400**: When a required field is missing
+  `
 {
 "message": "Missing required fields"
 }`
 
--   **404**: When the provided ID can't be found
-    `
+- **404**: When the provided ID can't be found
+  `
 {
 "message": "Product not found"
 }`
 
--   **409**: When a name is already in use
-    `
+- **409**: When a name is already in use
+  `
 {
 "message": "Name is already in use"
 }`
 
--   **409**: When an ID is already in use (if the lowercase "url" version exists)
-    `
+- **409**: When an ID is already in use (if the lowercase "url" version exists)
+  `
 {
 "message": "Product with this ID already exists"
 }`
@@ -332,12 +332,12 @@ Update using the provided product ID.
 **DELETE** `/api/products/:id`  
 Removes the product based on the provided product ID. Also, remove associated files in "/uploads".
 
--   **Output:** - **200**: When successful
-    `
+- **Output:** - **200**: When successful
+  `
 {
 "message": "Product deleted"
 }` - **404**: When the product is not found
-    `
+  `
 {
 "message": "Product not found"
 }`
@@ -356,11 +356,11 @@ Removes the product based on the provided product ID. Also, remove associated fi
     "option": option
 }`
 
--   **Output**
-    -   **201:** Added
-    -   **200:** Product already in cart
-    -   **404:** Cannot find product or cart
-    -   **400:** Product/cart not specified or in invalid format
+- **Output**
+    - **201:** Added
+    - **200:** Product already in cart
+    - **404:** Cannot find product or cart
+    - **400:** Product/cart not specified or in invalid format
 
 ---
 
@@ -371,10 +371,10 @@ Removes the product based on the provided product ID. Also, remove associated fi
 **Body:**
 `{"product": product_id }`
 
--   **Output**
-    -   **200:** Deleted
-    -   **404:** Cannot find product or cart
-    -   **400:** Product/cart not specified or in invalid format
+- **Output**
+    - **200:** Deleted
+    - **404:** Cannot find product or cart
+    - **400:** Product/cart not specified or in invalid format
 
 ### **NOTE: To remove an item, use put with a count of 0**
 
@@ -384,7 +384,7 @@ Removes the product based on the provided product ID. Also, remove associated fi
 
 **GET** `/api/carts/:id` where id is the user's id
 
--   **Output**
-    -   **200:** Successful Retrieval
-    -   **400:** Invalid Id Format
-    -   **404:** Cart not found
+- **Output**
+    - **200:** Successful Retrieval
+    - **400:** Invalid Id Format
+    - **404:** Cart not found

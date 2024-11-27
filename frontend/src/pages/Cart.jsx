@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../other/UserContext.jsx';
-import OrderPlaced from './OrderPlaced.jsx';
 
 const Cart = () => {
     const navigate = useNavigate();
@@ -63,7 +62,7 @@ const Cart = () => {
     }
 
     if (orderId !== null) {
-        return <OrderPlaced />;
+        return navigate(`/order/${orderId}`);
     }
 
     return (

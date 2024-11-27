@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../other/UserContext.jsx';
 
-// import ImageGallery from '../components/ImageGallery.jsx';
+import ImageGallery from '../components/ImageGallery.jsx';
 
 const ProductView = () => {
     const navigate = useNavigate();
@@ -49,14 +49,6 @@ const ProductView = () => {
         return <div>No product found.</div>;
     }
 
-    // ..\frontend\src\assets\1730854940588-Screenshot_2024_08_14_144600.png
-    // ..\src\assets\1730854940588-Screenshot_2024_08_14_144600.png
-
-    // SORRY, SHITTY SOLUTION I'LL DEAL WITH LATER
-    // const editedImageUrls = product.imageUrls.map(
-    //     (url) => url.substring(0, 3) + url.substring(12)
-    // );
-
     const addProductToCart = (quantity) => {
         if (!loggedIn) {
             return navigate('/login');
@@ -91,7 +83,7 @@ const ProductView = () => {
             <h2 id={'name'}>{product.name}</h2>
             <p id={'description'}>{product.description}</p>
             <p id={'price'}>Price: ${product.originalPrice}</p>
-            {/* <ImageGallery imageUrls={editedImageUrls} /> */}
+            <ImageGallery imageUrls={product.imageUrls} />
             <div id={'buttons'}>
                 <input
                     type={'button'}

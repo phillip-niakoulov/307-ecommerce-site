@@ -6,15 +6,14 @@ require('dotenv').config();
 
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
+const orderRouts = require('./routes/orderRoutes');
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 
-console.log(
-    `PORT: ${process.env.PORT}, BACKEND_URL: ${process.env.BACKEND_URL}, DATABASE_URL: ${process.env.DATABASE_URL}, VITE_API_BACKEND_PORT: ${process.env.VITE_API_BACKEND_PORT}, VITE_API_BACKEND_URL: ${process.env.VITE_API_BACKEND_URL}`
-);
+console.log(`PORT: ${process.env.PORT}`);
 
 mongoose
     .connect(process.env.DATABASE_URL)
@@ -23,6 +22,7 @@ mongoose
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/orders', orderRouts);
 
 app.listen(process.env.PORT || 5000, () => {
     console.log(`Server is running on http://localhost:5000`);

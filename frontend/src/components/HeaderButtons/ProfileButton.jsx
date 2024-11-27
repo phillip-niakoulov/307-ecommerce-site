@@ -8,6 +8,7 @@ const ProfileButton = () => {
         return '';
     }
     let name = '';
+    if (!userData) return '';
     if (userData['firstName']) {
         name = userData['firstName'];
     } else {

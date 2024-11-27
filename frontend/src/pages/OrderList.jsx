@@ -1,5 +1,5 @@
 const OrderList = () => {
-    return <div></div>;
+    return <div>Orders go here</div>;
 };
 
 export default OrderList;

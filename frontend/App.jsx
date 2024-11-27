@@ -1,6 +1,6 @@
-import { StrictMode, useEffect, useMemo, useState } from 'react';
+import { StrictMode, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './src/pages/Home.jsx';
 import Login from './src/pages/Login.jsx';
 import Register from './src/pages/Register.jsx';
@@ -9,38 +9,20 @@ import Header from './src/components/Header.jsx';
 import NotFound from './src/pages/NotFound.jsx';
 import AdminDashboard from './src/pages/AdminDashboard.jsx';
 import ProductEdit from './src/pages/ProductEdit.jsx';
-import { jwtDecode } from 'jwt-decode';
 import ProfileView from './src/pages/ProfileView.jsx';
 import Cart from './src/pages/Cart.jsx';
 import { UserContext } from './src/other/UserContext.jsx';
 import './src/styles/index.css';
+import InitContext from './src/other/InitContext.jsx';
+import OrderView from './src/pages/OrderView.jsx';
+import OrderList from './src/pages/OrderList.jsx';
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [userId, setUserId] = useState('');
     const [permissions, setPermissions] = useState({});
-    useEffect(() => {
-        try {
-            setLoggedIn(localStorage.getItem('token') !== null);
-            if (loggedIn) {
-                const token = jwtDecode(localStorage.getItem('token'));
-                if (token['permissions'].length < 8) {
-                    localStorage.removeItem('token');
-                    setLoggedIn(false);
-                    return;
-                }
-                setPermissions(token['permissions']);
+    const [userData, setUserData] = useState({});
 
-                setUserId(token['userId']);
-            }
-        } catch (e) {
-            console.log(e);
-            setLoggedIn(false);
-            setUserId('');
-            setPermissions({});
-            localStorage.removeItem('token');
-        }
-    }, [loggedIn, setLoggedIn, setPermissions, setUserId]);
     const context = useMemo(() => {
         return {
             loggedIn,
@@ -49,12 +31,24 @@ const App = () => {
             setUserId,
             permissions,
             setPermissions,
+            userData,
+            setUserData,
         };
-    }, [loggedIn, setLoggedIn, userId, permissions, setUserId, setPermissions]);
+    }, [
+        loggedIn,
+        setLoggedIn,
+        userId,
+        permissions,
+        setUserId,
+        setPermissions,
+        userData,
+        setUserData,
+    ]);
 
     return (
         <Router>
             <UserContext.Provider value={context}>
+                <InitContext />
                 <Header />
                 <Routes>
                     <Route path="/" element={<Home />} />
@@ -71,6 +65,9 @@ const App = () => {
                     <Route path={'cart'} element={<Cart />} />
                     <Route path="admin" element={<AdminDashboard />} />
                     <Route path="user/:user" element={<ProfileView />} />
+                    <Route path={'orders'} element={<OrderList />} />
+                    <Route path={'order/:order'} element={<OrderView />} />
+
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </UserContext.Provider>

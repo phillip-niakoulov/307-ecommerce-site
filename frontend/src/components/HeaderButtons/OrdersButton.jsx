@@ -7,6 +7,9 @@ const OrdersButton = () => {
     const [orderCount, setOrderCount] = useState(NaN);
 
     useEffect(() => {
+        if (!loggedIn || !permissions || !permissions['view-orders']) {
+            return;
+        }
         async function fetchOrders() {
             return await fetch(
                 `${import.meta.env.VITE_API_BACKEND_URL}/api/orders/`,
@@ -39,7 +42,8 @@ const OrdersButton = () => {
         }
 
         fetchOrders();
-    }, [orderCount, setOrderCount]);
+    }, [loggedIn, permissions, orderCount, setOrderCount]);
+
     if (loggedIn && permissions !== null && permissions['view-orders']) {
         return <Link to="/orders">Orders ({orderCount})</Link>;
     }

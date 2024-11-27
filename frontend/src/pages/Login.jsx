@@ -52,7 +52,11 @@ const Login = () => {
         <div>
             <div id={'login_fields'}>
                 <label htmlFor="user">Username:</label>
-                <input type="text" id="user" name="user" /> <br />
+                <input
+                    type="text"
+                    id="user"
+                    name="user"
+                /> <br />
                 <label htmlFor="password">Password:</label>
                 <input type="password" id="password" name="password" />
                 <p id={'error'}></p>
