@@ -188,15 +188,14 @@ router.put(
                 await clearFiles(id);
                 body['imageUrls'] = await uploadFiles(req.files, id);
             }
-            console.log(body);
 
-            const prod = await Product.findByIdAndUpdate(req.params.id, {
-                body,
+            const prod = await Product.findByIdAndUpdate(id, body, {
+                new: true,
             });
             if (!prod) {
                 return res.status(404).json({ message: 'Product not found' });
             }
-            return res.status(201).json(prod);
+            return res.status(200).json(prod);
         } catch (err) {
             console.error(err);
             return res.status(500).json({ message: err.message });
@@ -221,7 +220,7 @@ async function uploadFiles(files, id) {
         const timestamp = Date.now();
         const fileExtension = path.extname(file.originalname);
         const blockBlobClient = containerClient.getBlockBlobClient(
-            `${id}-${timestamp}${fileExtension}`,
+            `${id}-${timestamp}${fileExtension}`
         );
 
         // Upload the file buffer to Azure Blob Storage

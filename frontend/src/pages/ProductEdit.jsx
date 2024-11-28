@@ -25,7 +25,9 @@ const ProductEdit = () => {
     useEffect(() => {
         const fetchProductData = async () => {
             await fetch(
-                `${import.meta.env.VITE_API_BACKEND_URL}/api/products/${productId}`
+                `${
+                    import.meta.env.VITE_API_BACKEND_URL
+                }/api/products/${productId}`
             )
                 .then((res) => res.json())
                 .then((data) => {
@@ -48,7 +50,7 @@ const ProductEdit = () => {
         request.append('originalPrice', document.getElementById('price').value);
         request.append(
             'description',
-            document.getElementById('description').value,
+            document.getElementById('description').value
         );
         request.append('category', document.getElementById('category').value);
 
@@ -71,9 +73,9 @@ const ProductEdit = () => {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                     // Don't set 'Content-Type' header when using FormData
                 },
-            },
+            }
         ).then(async (res) => {
-            if (res.status === 201) {
+            if (res.status === 200) {
                 navigate(`/product/${productId}`);
                 return;
             }
