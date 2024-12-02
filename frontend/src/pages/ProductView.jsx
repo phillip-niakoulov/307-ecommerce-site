@@ -1,17 +1,15 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../other/UserContext.jsx';
-
 import ImageGallery from '../components/ImageGallery.jsx';
+import '../styles/pages/ProductView.css';
 
 const ProductView = () => {
     const navigate = useNavigate();
-
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
     const { loggedIn, permissions } = useContext(UserContext);
 
     useEffect(() => {
@@ -37,21 +35,14 @@ const ProductView = () => {
         fetchProduct();
     }, [productId]);
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
+    if (!product) return <div>No product found.</div>;
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
-
-    if (!product) {
-        return <div>No product found.</div>;
-    }
-
-    const addProductToCart = (quantity) => {
+    const addProductToCart = () => {
         if (!loggedIn) {
-            return navigate('/login');
+            navigate('/login');
+            return;
         }
 
         const cart = localStorage.getItem('cart')
@@ -63,7 +54,7 @@ const ProductView = () => {
         );
 
         if (existingItemIndex >= 0) {
-            cart[existingItemIndex].quantity += quantity;
+            cart[existingItemIndex].quantity += 1;
         } else {
             cart.push({
                 itemId: product._id,
@@ -74,52 +65,66 @@ const ProductView = () => {
         }
 
         localStorage.setItem('cart', btoa(JSON.stringify(cart)));
-
         navigate('/cart');
     };
 
     return (
-        <div>
-            <h2 id={'name'}>{product.name}</h2>
-            <p id={'description'}>{product.description}</p>
-            <p id={'price'}>Price: ${product.originalPrice}</p>
-            <ImageGallery imageUrls={product.imageUrls} />
-            <div id={'buttons'}>
-                <input
-                    type={'button'}
-                    value={'Add to Cart'}
-                    onClick={() => addProductToCart(1)}
-                />
-                {permissions && permissions['update-product'] === true && (
-                    <input
-                        value={'Edit'}
-                        type={'button'}
-                        onClick={async () =>
-                            navigate(`/product/${productId}/edit`)
-                        }
-                    />
-                )}
-                {permissions && permissions['delete-product'] === true && (
-                    <input
-                        value={'Delete'}
-                        type={'button'}
-                        onClick={async () =>
-                            await fetch(
-                                `${
-                                    import.meta.env.VITE_API_BACKEND_URL
-                                }/api/products/${productId}`,
-                                {
-                                    method: 'DELETE',
-                                    headers: {
-                                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                                    },
-                                },
-                            ).then(() => {
-                                navigate(`/`);
-                            })
-                        }
-                    />
-                )}
+        <div className="product-view">
+            <div className="product-layout">
+                <div className="product-images">
+                    <ImageGallery imageUrls={product.imageUrls} />
+                </div>
+                <div className="product-details">
+                    <div>
+                        <h2>{product.name}</h2>
+                        <p className="price">${product.originalPrice}</p>
+                    </div>
+
+                    <div className="description">{product.description}</div>
+
+                    <div>
+                        <button
+                            className="cart-button"
+                            onClick={addProductToCart}
+                        >
+                            Add to Cart
+                        </button>
+                        <div className="admin-buttons">
+                            {permissions?.['update-product'] && (
+                                <button
+                                    onClick={() =>
+                                        navigate(`/product/${productId}/edit`)
+                                    }
+                                >
+                                    Edit
+                                </button>
+                            )}
+                            {permissions?.['delete-product'] && (
+                                <button
+                                    onClick={async () => {
+                                        await fetch(
+                                            `${
+                                                import.meta.env
+                                                    .VITE_API_BACKEND_URL
+                                            }/api/products/${productId}`,
+                                            {
+                                                method: 'DELETE',
+                                                headers: {
+                                                    Authorization: `Bearer ${localStorage.getItem(
+                                                        'token'
+                                                    )}`,
+                                                },
+                                            }
+                                        );
+                                        navigate('/');
+                                    }}
+                                >
+                                    Delete
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
