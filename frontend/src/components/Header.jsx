@@ -10,10 +10,12 @@ const Header = () => {
     const { loggedIn } = useContext(UserContext);
     return (
         <header>
-            <h1 id="logo">
-                E-Shop <span className="pro">PRO</span>
-            </h1>
-            <div id="nav-wrapper">
+            <Link className="logo-nav" to="/">
+                <h1 className="logo">
+                    E-Shop <span className="pro">PRO</span>
+                </h1>
+            </Link>
+            <div className="nav-wrapper">
                 <nav>
                     <Link to="/">Home</Link>
                     {loggedIn ? '' : <Link to="/login">Login</Link>}
