@@ -72,6 +72,11 @@ nav > a:hover {
     text-decoration: none;
 }
 
+.active {
+    color: #00ff00;
+    text-shadow: 0 0 5px #00ff00, 0 0 15px #00ff00;
+}
+
 @media (max-width: 1250px) {
     .logo-nav {
         position: relative;

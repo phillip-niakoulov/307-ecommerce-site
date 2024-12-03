@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../../other/UserContext.jsx';
 
@@ -14,7 +14,7 @@ const ProfileButton = () => {
     } else {
         name = userData['username'];
     }
-    return <Link to={`/user/${userId}`}>Hello, {name}</Link>;
+    return <NavLink to={`/user/${userId}`}>Hello, {name}</NavLink>;
 };
 
 export default ProfileButton;

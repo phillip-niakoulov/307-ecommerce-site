@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../other/UserContext.jsx';
 
@@ -17,7 +17,9 @@ const OrdersButton = () => {
                     method: 'GET',
                     headers: {
                         Accept: 'application/json',
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'token'
+                        )}`,
                     },
                 }
             )
@@ -45,7 +47,7 @@ const OrdersButton = () => {
     }, [loggedIn, permissions, orderCount, setOrderCount]);
 
     if (loggedIn && permissions !== null && permissions['view-orders']) {
-        return <Link to="/orders">Orders ({orderCount})</Link>;
+        return <NavLink to="/orders">Orders ({orderCount})</NavLink>;
     }
     return '';
 };

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../other/UserContext.jsx';
 import OrdersButton from './HeaderButtons/OrdersButton.jsx';
@@ -17,13 +17,14 @@ const Header = () => {
             </Link>
             <div className="nav-wrapper">
                 <nav>
-                    <Link to="/">Home</Link>
-                    {loggedIn ? '' : <Link to="/login">Login</Link>}
-                    {loggedIn ? '' : <Link to="/register">Register</Link>}
-                    {loggedIn ? <Link to="/cart">Cart</Link> : ''}
+                    <NavLink to="/" end>
+                        Home
+                    </NavLink>
+                    {loggedIn ? '' : <NavLink to="/login">Login</NavLink>}
+                    {loggedIn ? '' : <NavLink to="/register">Register</NavLink>}
+                    {loggedIn ? <NavLink to="/cart">Cart</NavLink> : ''}
                     {<AdminButton />}
                     {<OrdersButton />}
-
                     {<ProfileButton />}
                 </nav>
             </div>

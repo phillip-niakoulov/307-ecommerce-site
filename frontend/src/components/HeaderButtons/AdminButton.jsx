@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../../other/UserContext.jsx';
 
@@ -11,7 +11,7 @@ const AdminButton = () => {
             permissions['get-users'] ||
             permissions['register-admin'])
     ) {
-        return <Link to="/admin">Admin Dashboard</Link>;
+        return <NavLink to="/admin">Admin Dashboard</NavLink>;
     }
     return '';
 };
