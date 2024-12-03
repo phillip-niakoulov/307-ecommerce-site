@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { useNavigate, NavLink, Routes, Route } from 'react-router-dom';
+import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 import UserList from '../components/UserList';
 import ProductCreate from './ProductCreate.jsx';
 import RegisterAdmin from './RegisterAdmin.jsx';

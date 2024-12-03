@@ -31,7 +31,7 @@ function Register() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-            },
+            }
         )
             .then((res) => {
                 if (res.status === 201) {

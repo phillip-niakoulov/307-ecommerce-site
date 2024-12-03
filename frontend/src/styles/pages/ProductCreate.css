@@ -87,5 +87,6 @@
 #product_fields input[type='submit']:hover {
     background-color: #00ff00;
     color: #000;
-    box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+    box-shadow: 0 0 10px #00ff00,
+    0 0 20px #00ff00;
 }

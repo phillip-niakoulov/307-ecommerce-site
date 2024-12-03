@@ -27,7 +27,7 @@ const ProductEdit = () => {
             await fetch(
                 `${
                     import.meta.env.VITE_API_BACKEND_URL
-                }/api/products/${productId}`,
+                }/api/products/${productId}`
             )
                 .then((res) => res.json())
                 .then((data) => {
@@ -73,7 +73,7 @@ const ProductEdit = () => {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                     // Don't set 'Content-Type' header when using FormData
                 },
-            },
+            }
         ).then(async (res) => {
             if (res.status === 200) {
                 navigate(`/product/${productId}`);
