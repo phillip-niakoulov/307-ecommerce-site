@@ -7,10 +7,25 @@ import LogoutButton from '../components/HeaderButtons/LogoutButton.jsx';
 
 const ProfileView = () => {
     const { user } = useParams();
+    const { setLoggedIn } = useContext(UserContext);
+    const viewer = useContext(UserContext).userId;
     const [profileData, setProfileData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+
+    const deleteUser = async () => {
+        return await fetch(
+            `${import.meta.env.VITE_API_BACKEND_URL}/api/users/${viewer}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            },
+        );
+    };
 
     const { userId, loggedIn, permissions } = useContext(UserContext);
 
@@ -72,6 +87,21 @@ const ProfileView = () => {
                     }}
                 >
                     View Orders
+                </button>
+            ) : (
+                ''
+            )}
+            {loggedIn && user === userId ? (
+                <button
+                    onClick={async () => {
+                        if ((await deleteUser()).ok) {
+                            localStorage.clear();
+                            setLoggedIn(false);
+                            navigate(`/`);
+                        }
+                    }}
+                >
+                    Delete Account
                 </button>
             ) : (
                 ''

@@ -15,7 +15,7 @@ const OrderListAdmin = () => {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`,
                         },
-                    },
+                    }
                 );
                 if (!data.ok) {
                     setOrders(null);
@@ -51,7 +51,7 @@ const OrderListAdmin = () => {
                 </thead>
                 <tbody>
                 {orders
-                    .sort((a, b) => {
+                    .toSorted((a, b) => {
                         const scompare = a.order_status?.status
                             .toLocaleString()
                             .localeCompare(
