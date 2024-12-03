@@ -19,7 +19,7 @@ const UserOrders = () => {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`,
                         },
-                    },
+                    }
                 );
                 if (!data.ok) {
                     setOrders(null);

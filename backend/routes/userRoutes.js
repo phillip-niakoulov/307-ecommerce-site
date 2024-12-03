@@ -236,10 +236,11 @@ router.delete(
 router.post('/checkout', authenticateJWT, async (req, res) => {
     try {
         const { cart } = req.body;
-        console.log(req.body);
-
+        const user = await User.findById(req.id);
+        console.log(user);
         const order = new Order({
             owner: req.id,
+            username: user.username,
             cart,
         });
 
