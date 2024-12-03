@@ -7,13 +7,15 @@ const permissionMiddleware = (requiredPermission) => {
                 .status(403)
                 .json({ message: 'Access denied. No user id logged.' });
         }
-        const user = await User.findById(req.id).select('-password');
+        const foundUser = await User.findById(req.id);
 
-        if (user == null) {
+        if (!foundUser) {
             return res.status(403).json({
                 message: "Can't find user.",
             });
         }
+
+        const user = await foundUser.select('-password');
 
         if (!user.permissions[requiredPermission]) {
             return res.status(403).json({
@@ -21,7 +23,6 @@ const permissionMiddleware = (requiredPermission) => {
                     'Access denied. You do not have the required permission.',
             });
         }
-
         next(); // User has the required permission, proceed to the next middleware or route handler
     };
 };

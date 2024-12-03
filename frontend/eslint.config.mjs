@@ -24,6 +24,11 @@ export default [
                 version: '18.3.1',
             },
         },
+        env: {
+            'cypress/globals': true,
+        },
+        plugins: ['cypress'],
+        extends: ['eslint:recommended', 'plugin:cypress/recommended'],
     },
     pluginJs.configs.recommended,
     pluginReact.configs.flat.recommended,
