@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../other/UserContext.jsx';
 import ImageGallery from '../components/ImageGallery.jsx';
+import Toast from '../components/Toast.jsx';
 import '../styles/pages/ProductView.css';
 
 const ProductView = () => {
@@ -11,6 +12,7 @@ const ProductView = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { loggedIn, permissions } = useContext(UserContext);
+    const [showToast, setShowToast] = useState(false);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -66,7 +68,9 @@ const ProductView = () => {
         }
 
         localStorage.setItem('cart', btoa(JSON.stringify(cart)));
-        navigate('/cart');
+
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3000);
     };
 
     return (
@@ -127,6 +131,7 @@ const ProductView = () => {
                     </div>
                 </div>
             </div>
+            {showToast && <Toast message="Added to cart!" />}
         </div>
     );
 };
