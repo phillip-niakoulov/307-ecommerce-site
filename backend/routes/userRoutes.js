@@ -246,8 +246,8 @@ router.delete(
 router.post('/checkout', authenticateJWT, async (req, res) => {
     try {
         const { cart } = req.body;
+        //TODO: Verify cart prices
         const user = await User.findById(req.id);
-        console.log(user);
         const order = new Order({
             owner: req.id,
             username: user.username,

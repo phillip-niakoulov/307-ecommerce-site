@@ -83,7 +83,8 @@ const OrderListAdmin = () => {
                                     .map((item) => {
                                         return item.price * item.quantity;
                                     })
-                                    .reduce((a, b) => a + b, 0)}
+                                    .reduce((a, b) => a + b, 0)
+                                    .toFixed(2)}
                             </td>
                             <td>{order.order_status?.status}</td>
                             <td>
