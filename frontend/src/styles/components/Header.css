@@ -28,7 +28,8 @@ h1.logo > span {
     font-family: 'Poppins', sans-serif;
     font-weight: 900;
     color: #00ff00;
-    text-shadow: 0 0 5px #00ff00, 0 0 15px #00ff00;
+    text-shadow: 0 0 5px #00ff00,
+    0 0 15px #00ff00;
 }
 
 .logo-nav {
@@ -64,7 +65,8 @@ nav > a {
 
 nav > a:hover {
     color: #00ff00;
-    text-shadow: 0 0 5px #00ff00, 0 0 15px #00ff00;
+    text-shadow: 0 0 5px #00ff00,
+    0 0 15px #00ff00;
     text-decoration: underline;
 }
 
@@ -74,7 +76,8 @@ nav > a:hover {
 
 .active {
     color: #00ff00;
-    text-shadow: 0 0 5px #00ff00, 0 0 15px #00ff00;
+    text-shadow: 0 0 5px #00ff00,
+    0 0 15px #00ff00;
 }
 
 @media (max-width: 1250px) {

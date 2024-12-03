@@ -1,10 +1,11 @@
-import { NavLink, Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../other/UserContext.jsx';
 import OrdersButton from './HeaderButtons/OrdersButton.jsx';
 import AdminButton from './HeaderButtons/AdminButton.jsx';
 import ProfileButton from './HeaderButtons/ProfileButton.jsx';
 import '../styles/components/Header.css';
+import MyOrdersButton from './HeaderButtons/MyOrdersButton.jsx';
 
 const Header = () => {
     const { loggedIn } = useContext(UserContext);
@@ -24,6 +25,7 @@ const Header = () => {
                     {loggedIn ? '' : <NavLink to="/register">Register</NavLink>}
                     {loggedIn ? <NavLink to="/cart">Cart</NavLink> : ''}
                     {<AdminButton />}
+                    {<MyOrdersButton />}
                     {<OrdersButton />}
                     {<ProfileButton />}
                 </nav>

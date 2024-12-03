@@ -27,7 +27,8 @@ export const InitContext = () => {
                         .then((data) => {
                             setUserData(data['user']);
                             setPermissions(data['user']['permissions']);
-                        }).catch(error => {
+                        })
+                        .catch((error) => {
                             console.error(error);
                             localStorage.removeItem('token');
                             setLoggedIn(false);
