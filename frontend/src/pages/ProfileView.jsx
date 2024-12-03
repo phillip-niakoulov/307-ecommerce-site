@@ -12,7 +12,7 @@ const ProfileView = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const { userId, loggedIn } = useContext(UserContext);
+    const { userId, loggedIn, permissions } = useContext(UserContext);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -65,6 +65,17 @@ const ProfileView = () => {
     return (
         <div>
             {loggedIn && userId === user ? <LogoutButton /> : ''}
+            {loggedIn && permissions?.['view-orders'] ? (
+                <button
+                    onClick={() => {
+                        navigate(`/orders/${user}`);
+                    }}
+                >
+                    View Orders
+                </button>
+            ) : (
+                ''
+            )}
             <p>{JSON.stringify(profileData)}</p>
         </div>
     );

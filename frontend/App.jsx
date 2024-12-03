@@ -16,6 +16,7 @@ import './src/styles/index.css';
 import InitContext from './src/other/InitContext.jsx';
 import OrderView from './src/pages/OrderView.jsx';
 import UserOrders from './src/pages/UserOrders.jsx';
+import OrderListAdmin from './src/pages/admin/OrderListAdmin.jsx';
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -65,7 +66,7 @@ const App = () => {
                     <Route path={'cart'} element={<Cart />} />
                     <Route path="admin/*" element={<AdminDashboard />} />
                     <Route path="user/:user" element={<ProfileView />} />
-                    <Route path={'orders'} element={<UserOrders />} />
+                    <Route path={'orders'} element={<OrderListAdmin />} />
                     <Route path={'order/:order'} element={<OrderView />} />
                     <Route path={'orders/:user'} element={<UserOrders />} />
 
