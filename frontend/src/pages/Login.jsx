@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import { UserContext } from '../other/UserContext.jsx';
-import '../styles/pages/login.css';
+import '../styles/pages/Login.css';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -44,6 +44,12 @@ const Login = () => {
             });
     }
 
+    function handleKeyPress(e) {
+        if (e.key === 'Enter') {
+            submit_login();
+        }
+    }
+
     return (
         <div>
             <div id={'login_fields'}>
@@ -52,9 +58,16 @@ const Login = () => {
                     type="text"
                     id="user"
                     name="user"
-                /> <br />
+                    onKeyPress={handleKeyPress} // Add this line
+                />
+                <br />
                 <label htmlFor="password">Password:</label>
-                <input type="password" id="password" name="password" />
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    onKeyPress={handleKeyPress} // Add this line
+                />
                 <p id={'error'}></p>
                 <input type="submit" onClick={submit_login} value="Submit" />
             </div>
