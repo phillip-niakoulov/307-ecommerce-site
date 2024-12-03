@@ -1,0 +1,73 @@
+.userlist-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.userlist-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+.userlist-header {
+    color: white;
+    padding: 12px;
+    border-bottom: 2px solid white;
+}
+
+.userlist-cell {
+    padding: 12px;
+    border: 2px solid white;
+}
+
+/* Link Styling */
+.userlist-link {
+    color: #00ff00;
+    text-decoration: none;
+}
+
+.userlist-link:hover {
+    text-decoration: underline;
+}
+
+.userlist-confirm-button,
+.userlist-delete-button {
+    padding: 8px 12px;
+    margin: 4px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.userlist-confirm-button {
+    background-color: #00ff00;
+    color: black;
+}
+
+.userlist-delete-button {
+    background-color: #ff5c5c;
+    color: #fff;
+}
+
+.userlist-confirm-button:hover:not(:disabled),
+.userlist-delete-button:hover:not(:disabled) {
+    opacity: 0.9;
+}
+
+.userlist-confirm-button:disabled,
+.userlist-delete-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.userlist-checkbox {
+    margin-right: 8px;
+}
+
+.userlist-permission {
+    margin-bottom: 8px;
+}

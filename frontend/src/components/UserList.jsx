@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../other/UserContext.jsx';
 import { Link } from 'react-router-dom';
+import '../styles/components/UserList.css';
 
 const UserList = () => {
-    // State Initialization
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [modifiedPermissions, setModifiedPermissions] = useState({});
@@ -12,7 +12,6 @@ const UserList = () => {
     const [hasDeletePermissions, setHasDeletePermissions] = useState(true);
 
     const { permissions, userId } = useContext(UserContext);
-    // Decode Token and Check Permissions
     useEffect(() => {
         try {
             setHasManagePermissions(permissions['manage-permissions']);
@@ -22,7 +21,6 @@ const UserList = () => {
         }
     }, [permissions]);
 
-    // Fetch Users Logic
     const getUsers = async () => {
         try {
             const response = await fetch(
@@ -96,7 +94,6 @@ const UserList = () => {
         fetchUsers();
     }, []);
 
-    // Permission Handlers
     const handleCheckboxChange = (userId, permission) => {
         if (!hasManagePermissions) return;
 
@@ -156,61 +153,58 @@ const UserList = () => {
         }
     };
 
-    // Rendering Logic
     if (loading) {
         return <p>Loading users...</p>;
     }
 
     const renderUserPermissions = (user) =>
         Object.keys(user.permissions).map((permission) => (
-            <div key={permission}>
+            <div key={permission} className="userlist-permission">
                 <label>
                     <input
                         type="checkbox"
+                        className="userlist-checkbox"
                         checked={
                             modifiedPermissions[user._id]?.[permission] || false
                         }
                         onChange={() =>
                             handleCheckboxChange(user._id, permission)
                         }
-                        disabled={!hasManagePermissions || user._id === userId} // Disable if user lacks permission
-                        style={{
-                            cursor: hasManagePermissions
-                                ? 'pointer'
-                                : 'not-allowed',
-                        }}
+                        disabled={!hasManagePermissions || user._id === userId}
                     />
                     {permission}
-                    {hasManagePermissions}
                 </label>
             </div>
         ));
 
     const renderUsers = () =>
         users.map((user) => (
-            <tr key={user._id}>
-                <td>
-                    <Link to={`/user/${user._id}`}>{user._id}</Link>
+            <tr key={user._id} className="userlist-row">
+                <td className="userlist-cell">
+                    <Link to={`/user/${user._id}`} className="userlist-link">
+                        {user._id}
+                    </Link>
                 </td>
-                <td>{user.username}</td>
-                <td>{new Date(user.createdAt).toLocaleString()}</td>
-                <td>
+                <td className="userlist-cell">{user.username}</td>
+                <td className="userlist-cell">
+                    {new Date(user.createdAt).toLocaleString()}
+                </td>
+                <td className="userlist-cell">
                     {renderUserPermissions(user)}
                     {changesMade[user._id] && hasManagePermissions && (
-                        <button onClick={() => handleConfirmChanges(user._id)}>
+                        <button
+                            onClick={() => handleConfirmChanges(user._id)}
+                            className="userlist-confirm-button"
+                        >
                             Confirm Changes
                         </button>
                     )}
                 </td>
-                <td>
+                <td className="userlist-cell">
                     <button
                         onClick={() => deleteUser(user._id)}
+                        className="userlist-delete-button"
                         disabled={!hasDeletePermissions || userId === user._id}
-                        style={{
-                            cursor: hasDeletePermissions
-                                ? 'pointer'
-                                : 'not-allowed',
-                        }}
                     >
                         X
                     </button>
@@ -219,16 +213,15 @@ const UserList = () => {
         ));
 
     return (
-        <div>
-            <h2>User List</h2>
-            <table>
+        <div className="userlist-container">
+            <table className="userlist-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Username</th>
-                        <th>Created At</th>
-                        <th>Permissions</th>
-                        <th>Delete User</th>
+                        <th className="userlist-header">ID</th>
+                        <th className="userlist-header">Username</th>
+                        <th className="userlist-header">Created At</th>
+                        <th className="userlist-header">Permissions</th>
+                        <th className="userlist-header">Delete User</th>
                     </tr>
                 </thead>
                 <tbody>{renderUsers()}</tbody>

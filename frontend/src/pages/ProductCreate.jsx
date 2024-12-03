@@ -1,6 +1,8 @@
+import '../styles/pages/ProductCreate.css';
+
 function ProductCreate() {
     function create() {
-        const request = new FormData(); // Use FormData to handle file uploads
+        const request = new FormData();
 
         request.append('name', document.getElementById('name').value);
         request.append('originalPrice', document.getElementById('price').value);
@@ -25,7 +27,6 @@ function ProductCreate() {
             body: request,
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
-                // Don't set 'Content-Type' header when using FormData
             },
         }).then(async (res) => {
             if (res.status === 201) {
@@ -39,29 +40,37 @@ function ProductCreate() {
     }
 
     return (
-        <div>
-            <h1>Create Product</h1>
-            <div id={'data'}>
-                <label htmlFor={'name'}>Name:</label>
-                <input type="text" id="name" name="name" /> <br />
-                <label htmlFor={'price'}>Price: </label>
-                <input type="text" id="price" name="price" /> <br />
-                <label htmlFor={'description'}>Description:</label>
-                <input type="text" id="description" name="description" /> <br />
-                <label htmlFor={'category'}>Category:</label>
-                <input type="text" id="category" name="category" /> <br />
-                <label htmlFor={'images'}>Images:</label>
+        <div id="product_fields">
+            <h2>Create New Product</h2>
+            <form onSubmit={(e) => e.preventDefault()}>
+                <label htmlFor="name">Name:</label>
+                <input type="text" id="name" name="name" required />
+
+                <label htmlFor="price">Price:</label>
+                <input type="text" id="price" name="price" required />
+
+                <label htmlFor="description">Description:</label>
+                <textarea
+                    id="description"
+                    name="description"
+                    required
+                ></textarea>
+
+                <label htmlFor="category">Category:</label>
+                <input type="text" id="category" name="category" required />
+
+                <label htmlFor="images">Images:</label>
                 <input
                     type="file"
                     id="images"
                     name="images"
-                    accept={'image/gif,image/png,image/jpeg'}
+                    accept="image/gif,image/png,image/jpeg"
                     multiple
-                />{' '}
-                <br />
-                <input type={'submit'} onClick={create} value="Submit" />
+                />
+
+                <input type="submit" onClick={create} value="Submit" />
                 <div id="err"></div>
-            </div>
+            </form>
         </div>
     );
 }

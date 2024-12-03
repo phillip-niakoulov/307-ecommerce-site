@@ -1,12 +1,12 @@
+import { useContext, useEffect } from 'react';
+import { useNavigate, NavLink, Routes, Route } from 'react-router-dom';
 import UserList from '../components/UserList';
 import ProductCreate from './ProductCreate.jsx';
-import { useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import RegisterAdmin from './RegisterAdmin.jsx';
 import { UserContext } from '../other/UserContext.jsx';
+import '../styles/pages/AdminDashboard.css';
 
 const AdminDashboard = () => {
-    // Kicks you if you're not logged in and only shows you the menus you have access to
     const navigate = useNavigate();
     const { loggedIn, permissions } = useContext(UserContext);
 
@@ -17,16 +17,58 @@ const AdminDashboard = () => {
     }, [loggedIn, permissions, navigate]);
 
     return (
-        <div>
-            <h1>Admin Dashboard</h1>
-            {permissions['get-users'] === true && <UserList />}
-            {permissions['create-product'] === true && <ProductCreate />}
-            {permissions['register-admin'] === true && <RegisterAdmin />}
-            {permissions['get-users'] === false &&
-                permissions['create-product'] === false &&
-                permissions['register-admin'] === false && (
-                    <p>Nothing to see here...</p>
-                )}
+        <div className="admin-dashboard">
+            {permissions &&
+            (permissions['get-users'] ||
+                permissions['create-product'] ||
+                permissions['register-admin']) ? (
+                <>
+                    <nav className="subtabs">
+                        {permissions['get-users'] && (
+                            <NavLink to="users" activeClassName="active">
+                                User Management
+                            </NavLink>
+                        )}
+                        {permissions['create-product'] && (
+                            <NavLink to="products" activeClassName="active">
+                                Product Creation
+                            </NavLink>
+                        )}
+                        {permissions['register-admin'] && (
+                            <NavLink
+                                to="register-admin"
+                                activeClassName="active"
+                            >
+                                Admin Registration
+                            </NavLink>
+                        )}
+                    </nav>
+
+                    <Routes>
+                        {permissions['get-users'] && (
+                            <Route path="users" element={<UserList />} />
+                        )}
+                        {permissions['create-product'] && (
+                            <Route
+                                path="products"
+                                element={<ProductCreate />}
+                            />
+                        )}
+                        {permissions['register-admin'] && (
+                            <Route
+                                path="register-admin"
+                                element={<RegisterAdmin />}
+                            />
+                        )}
+                        <Route
+                            path="*"
+                            element={<p>Select an option above.</p>}
+                        />
+                    </Routes>
+                </>
+            ) : (
+                <p>Nothing to see here...</p>
+            )}
         </div>
     );
 };
