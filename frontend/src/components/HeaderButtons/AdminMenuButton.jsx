@@ -1,8 +1,8 @@
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../../other/UserContext.jsx';
 
-const AdminButton = () => {
+const AdminMenuButton = () => {
     const { loggedIn, permissions } = useContext(UserContext);
     if (
         loggedIn &&
@@ -11,9 +11,9 @@ const AdminButton = () => {
             permissions['get-users'] ||
             permissions['register-admin'])
     ) {
-        return <NavLink to="/admin">Admin Dashboard</NavLink>;
+        return <Link to="/admin">Admin Dashboard</Link>;
     }
-    return '';
+    return null;
 };
 
-export default AdminButton;
+export default AdminMenuButton;

@@ -1,11 +1,35 @@
-.imageGallery {
+.image-gallery {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-direction: column;
+    align-items: center;
 }
 
-.imageGalleryImage {
-    max-width: 200px;
-    max-height: 200px;
+.main-image img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.thumbnail-gallery {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 5px 0;
+}
+
+.thumbnail-gallery img {
+    width: 60px;
+    height: 60px;
     object-fit: cover;
+    border: 2px none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.thumbnail-gallery img.active,
+.thumbnail-gallery img:hover {
+    border-color: #00ff00;
 }

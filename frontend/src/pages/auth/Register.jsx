@@ -1,5 +1,16 @@
+import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from '../../other/UserContext.jsx';
+import '../../styles/pages/register.css';
+
 function Register() {
-    // Kicks you if you're not logged in and only shows you the menus you have access to
+    const navigate = useNavigate();
+
+    const { loggedIn } = useContext(UserContext);
+
+    if (loggedIn) {
+        return navigate('/');
+    }
 
     async function submit_register() {
         const username = document.getElementById('username').value;
@@ -13,21 +24,21 @@ function Register() {
         }
 
         await fetch(
-            `${import.meta.env.VITE_API_BACKEND_URL}/api/users/register-admin`,
+            `${import.meta.env.VITE_API_BACKEND_URL}/api/users/register`,
             {
                 method: 'POST',
                 body: JSON.stringify({ username, password }),
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             }
         )
             .then((res) => {
+                if (res.status === 201) {
+                    navigate('/login');
+                }
                 res.json().then((j) => {
-                    document.getElementById('error').innerHTML = j['message']
-                        ? j['message']
-                        : j;
+                    document.getElementById('error').innerHTML = j['message'];
                 });
             })
             .catch((err) => {
@@ -35,24 +46,38 @@ function Register() {
             });
     }
 
+    function handleKeyPress(e) {
+        if (e.key === 'Enter') {
+            submit_register();
+        }
+    }
+
     return (
         <div>
-            <h1>Register Admin</h1>
             <div id={'register_fields'}>
                 <label htmlFor="username">Username:</label>
                 <input
                     type="text"
                     id="username"
                     name="username"
-                /> <br />
+                    onKeyPress={handleKeyPress}
+                />
+                <br />
                 <label htmlFor="password">Password:</label>
                 <input
                     type="password"
                     id="password"
                     name="password"
-                /> <br />
+                    onKeyPress={handleKeyPress}
+                />
+                <br />
                 <label htmlFor="confirm">Confirm Password:</label>
-                <input type="password" id="confirm" name="confirm" />
+                <input
+                    type="password"
+                    id="confirm"
+                    name="confirm"
+                    onKeyPress={handleKeyPress}
+                />
                 <p id={'error'}></p>
                 <input type="submit" onClick={submit_register} value="Submit" />
             </div>

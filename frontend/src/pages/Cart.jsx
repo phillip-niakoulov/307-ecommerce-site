@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../other/UserContext.jsx';
+import '../styles/pages/Cart.css';
 
 const Cart = () => {
     const navigate = useNavigate();
-
     const { loggedIn } = useContext(UserContext);
     const [cart, setCart] = useState([]);
     const [sum, setSum] = useState(0);
@@ -24,20 +24,22 @@ const Cart = () => {
 
     useEffect(() => {
         let psum = 0;
-        cart.map((item) => {
+        cart.forEach((item) => {
             psum += item['quantity'] * item['price'];
         });
         setSum(psum);
-    }, [cart, setSum]);
-    const update = (product, delta) => {
+    }, [cart]);
+
+    const updateQuantity = (product, newQuantity) => {
         const i = cart.findIndex((prod) => prod['itemId'] === product);
-        if (i === -1) return;
-        cart[i]['quantity'] += delta;
-        if (cart[i]['quantity'] < 1) {
+        if (i === -1 || newQuantity <= 0) {
+            // Remove the item if quantity is less than 1
             cart.splice(i, 1);
+        } else {
+            cart[i]['quantity'] = newQuantity;
         }
 
-        setCart(cart.map((item) => item));
+        setCart([...cart]);
         localStorage.setItem('cart', btoa(JSON.stringify(cart)));
     };
 
@@ -66,32 +68,51 @@ const Cart = () => {
     }
 
     return (
-        <div id={'cart'}>
+        <div className="cart-container">
             {cart.length === 0 ? (
-                <p>No items (for now)</p>
+                <div className="empty-cart-message">No items in the cart</div>
             ) : (
-                cart.map((item) =>
-                    item == null ? (
-                        ''
-                    ) : (
-                        <div key={item['itemId']}>
-                            {item['name']} - {item['quantity']} ($
-                            {(item['price'] * item['quantity']).toFixed(2)})
-                            <button onClick={() => update(item['itemId'], 1)}>
-                                +
-                            </button>
-                            <button onClick={() => update(item['itemId'], -1)}>
-                                -
-                            </button>
+                <div className="cart-items">
+                    {cart.map((item) => (
+                        <div key={item['itemId']} className="cart-item">
+                            <img
+                                src={item['image']}
+                                alt={item['name']}
+                                className="item-image"
+                            />
+                            <div className="item-details">
+                                <span className="item-name">
+                                    {item['name']}
+                                </span>
+                                <br />
+                                <span className="item-price">
+                                    $
+                                    {(item['price'] * item['quantity']).toFixed(
+                                        2
+                                    )}
+                                </span>
+                            </div>
+                            <div className="quantity-container">
+                                <input
+                                    type="number"
+                                    min="1"
+                                    value={item['quantity']}
+                                    onChange={(e) =>
+                                        updateQuantity(
+                                            item['itemId'],
+                                            parseInt(e.target.value)
+                                        )
+                                    }
+                                    className="quantity-input"
+                                />
+                            </div>
                         </div>
-                    )
-                )
+                    ))}
+                </div>
             )}
-            {cart.length === 0 ? (
-                ''
-            ) : (
-                <div>
-                    <button onClick={() => checkout()}>
+            {cart.length > 0 && (
+                <div className="checkout-container">
+                    <button className="checkout-button" onClick={checkout}>
                         Checkout (${sum.toFixed(2)})
                     </button>
                 </div>
@@ -99,4 +120,5 @@ const Cart = () => {
         </div>
     );
 };
+
 export default Cart;

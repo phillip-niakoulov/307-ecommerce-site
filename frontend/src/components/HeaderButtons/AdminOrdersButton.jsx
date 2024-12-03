@@ -1,15 +1,16 @@
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../other/UserContext.jsx';
 
-const OrdersButton = () => {
+const AdminOrdersButton = () => {
     const { loggedIn, permissions } = useContext(UserContext);
     const [orderCount, setOrderCount] = useState(NaN);
 
     useEffect(() => {
-        if (!loggedIn || !permissions || !permissions['view-orders']) {
-            return;
+        if (!loggedIn || !permissions?.['view-orders']) {
+            return null;
         }
+
         async function fetchOrders() {
             return await fetch(
                 `${import.meta.env.VITE_API_BACKEND_URL}/api/orders/`,
@@ -17,9 +18,7 @@ const OrdersButton = () => {
                     method: 'GET',
                     headers: {
                         Accept: 'application/json',
-                        Authorization: `Bearer ${localStorage.getItem(
-                            'token'
-                        )}`,
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
                 }
             )
@@ -47,8 +46,8 @@ const OrdersButton = () => {
     }, [loggedIn, permissions, orderCount, setOrderCount]);
 
     if (loggedIn && permissions !== null && permissions['view-orders']) {
-        return <NavLink to="/orders">Orders ({orderCount})</NavLink>;
+        return <Link to="/orders">Orders ({orderCount})</Link>;
     }
     return '';
 };
-export default OrdersButton;
+export default AdminOrdersButton;

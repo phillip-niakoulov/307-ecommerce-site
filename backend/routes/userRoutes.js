@@ -32,7 +32,7 @@ router.get(
     '/:id',
     authenticateJWT,
     async (req, res, next) => {
-        let func = () => {};
+        let func;
         if (req.params.id !== req.id) {
             func = authenticatePermissions('get-users');
         } else {
@@ -216,7 +216,17 @@ router.put(
 router.delete(
     '/:id',
     authenticateJWT,
-    authenticatePermissions('delete-users'),
+    async (req, res, next) => {
+        let func;
+        if (req.params.id !== req.id) {
+            func = authenticatePermissions('delete-users');
+        } else {
+            func = async (req, res, next) => {
+                next();
+            };
+        }
+        func(req, res, next);
+    },
     async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             return res.status(400).json({ message: 'Invalid ID format' });
@@ -236,10 +246,11 @@ router.delete(
 router.post('/checkout', authenticateJWT, async (req, res) => {
     try {
         const { cart } = req.body;
-        console.log(req.body);
-
+        //TODO: Verify cart prices
+        const user = await User.findById(req.id);
         const order = new Order({
             owner: req.id,
+            username: user.username,
             cart,
         });
 

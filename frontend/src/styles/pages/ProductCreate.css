@@ -1,0 +1,92 @@
+#product_fields {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    padding: 20px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+
+    margin-top: 35px;
+    margin-bottom: 35px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#product_fields h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #00ff00;
+}
+
+#product_fields label {
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+}
+
+#product_fields input[type='text'],
+#product_fields input[type='file'],
+#product_fields input[type='submit'] {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    border: 1px solid #555;
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    outline: none;
+    font-size: 1rem;
+    transition: border-color 0.3s ease-in-out;
+}
+
+#product_fields input[type='text']:focus,
+#product_fields input[type='file']:focus {
+    border-color: #00ff00;
+}
+
+#product_fields textarea {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #555;
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    outline: none;
+    font-size: 1rem;
+    resize: vertical;
+    overflow-y: auto;
+    transition: border-color 0.3s ease-in-out;
+}
+
+#product_fields textarea:focus {
+    border-color: #00ff00;
+}
+
+#err {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    text-align: center;
+}
+
+#product_fields input[type='submit'] {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #00ff00;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+#product_fields input[type='submit']:hover {
+    background-color: #00ff00;
+    color: #000;
+    box-shadow: 0 0 10px #00ff00,
+    0 0 20px #00ff00;
+}

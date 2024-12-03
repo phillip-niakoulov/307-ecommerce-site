@@ -1,42 +1,52 @@
 .card {
-    border: 1px solid #ddd; /* Light border */
-    border-radius: 8px; /* Rounded corners */
-    overflow: hidden; /* Ensures the image doesn't overflow */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    width: 300px; /* Set a fixed width for the card */
-    margin: 16px; /* Space around the card */
-    background-color: #fff; /* White background for the card */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: 16px;
+    background-color: #fff;
 }
 
 .card-image {
-    width: 100%; /* Full width */
-    height: 200px; /* Set a specific height for the image */
-    object-fit: cover; /* Crop the image to fit */
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+}
+
+@media (max-width: 1450px) {
+    .card {
+        width: 250px;
+    }
+
+    .card-image {
+        width: 250px;
+        height: 250px;
+    }
 }
 
 .card-content {
-    padding: 8px 16px; /* Space inside the card */
-    display: flex; /* Use flexbox for alignment */
-    justify-content: space-between; /* Space between name and price */
-    align-items: center; /* Center items vertically */
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .card-name {
-    margin: 0; /* Remove default margin */
-    font-size: 1.2em; /* Slightly larger font size */
-    color: #333; /* Darker color for name */
+    margin: 0;
+    font-size: 1.2em;
+    color: #333;
 }
 
 .card-price {
-    margin: 0; /* Remove default margin */
-    font-size: 1.2em; /* Same font size as name */
-    color: #333; /* Darker color for price */
+    margin: 0;
+    font-size: 1.2em;
+    color: #333;
 }
 
-/* New styles for the text below the card */
 .card-text {
-    margin-top: 8px; /* Space between card and text */
-    font-size: 1em; /* Font size for the text */
-    color: #333; /* Darker color for text */
-    text-align: center; /* Center the text */
+    margin-top: 8px;
+    font-size: 1em;
+    color: #333;
+    text-align: center;
 }

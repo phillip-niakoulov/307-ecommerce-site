@@ -12,7 +12,6 @@ export const InitContext = () => {
                 const id = jwtDecode(localStorage.getItem('token'))['userId'];
                 setUserId(id);
                 const getData = async () => {
-                    console.log('a');
                     await fetch(
                         `${import.meta.env.VITE_API_BACKEND_URL}/api/users/${id}`,
                         {
@@ -27,7 +26,8 @@ export const InitContext = () => {
                         .then((data) => {
                             setUserData(data['user']);
                             setPermissions(data['user']['permissions']);
-                        }).catch(error => {
+                        })
+                        .catch((error) => {
                             console.error(error);
                             localStorage.removeItem('token');
                             setLoggedIn(false);
