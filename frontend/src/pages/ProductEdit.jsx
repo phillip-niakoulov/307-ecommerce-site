@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../other/UserContext.jsx';
+import '../styles/pages/ProductCreate.css'; // Import the same CSS file
 
 const ProductEdit = () => {
     const navigate = useNavigate();
@@ -9,6 +10,7 @@ const ProductEdit = () => {
         name: '',
         price: '',
         description: '',
+        category: '',
     });
 
     const { productId } = useParams();
@@ -21,7 +23,7 @@ const ProductEdit = () => {
         }
     }, [navigate, productId, permissions]);
 
-    // Fetch product details (simulate API call)
+    // Fetch product details
     useEffect(() => {
         const fetchProductData = async () => {
             await fetch(
@@ -35,7 +37,7 @@ const ProductEdit = () => {
                 });
         };
         fetchProductData();
-    }, [setProductData, productId]);
+    }, [productId]);
 
     // Handle form field changes
     const handleChange = (e) => {
@@ -43,8 +45,8 @@ const ProductEdit = () => {
         setProductData((prev) => ({ ...prev, [name]: value }));
     };
 
-    function create() {
-        const request = new FormData(); // Use FormData to handle file uploads
+    function saveChanges() {
+        const request = new FormData(); // Use FormData for file uploads
 
         request.append('name', document.getElementById('name').value);
         request.append('originalPrice', document.getElementById('price').value);
@@ -71,7 +73,7 @@ const ProductEdit = () => {
                 body: request,
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    // Don't set 'Content-Type' header when using FormData
+                    // Don't set 'Content-Type' when using FormData
                 },
             }
         ).then(async (res) => {
@@ -85,74 +87,67 @@ const ProductEdit = () => {
         });
     }
 
-    // Handle form submission
-
     return (
-        <div>
-            <h1>Edit Product</h1>
-            <div>
-                <div>
-                    <label>
-                        Name:
-                        <input
-                            type="text"
-                            name="name"
-                            id={'name'}
-                            value={productData.name}
-                            onChange={handleChange}
-                        />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        Price:
-                        <input
-                            name="originalPrice"
-                            id={'price'}
-                            value={productData.originalPrice}
-                            onChange={handleChange}
-                        />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        Description:
-                        <textarea
-                            name="description"
-                            id={'description'}
-                            value={productData.description}
-                            onChange={handleChange}
-                        />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        Category:
-                        <input
-                            name="category"
-                            id={'category'}
-                            value={productData.category}
-                            onChange={handleChange}
-                        />
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        Files:
-                        <input
-                            type="file"
-                            id="images"
-                            name="images"
-                            accept={'image/gif,image/png,image/jpeg'}
-                            multiple
-                        />
-                    </label>
-                </div>
-                <button type="submit" onClick={create}>
-                    Save Changes
-                </button>
+        <div id="product_fields">
+            {' '}
+            {/* Apply the same class as ProductCreate */}
+            <h2>Edit Product</h2>
+            <form onSubmit={(e) => e.preventDefault()}>
+                <label htmlFor="name">Name:</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={productData.name}
+                    onChange={handleChange}
+                    required
+                />
+
+                <label htmlFor="price">Price:</label>
+                <input
+                    type="text"
+                    id="price"
+                    name="price"
+                    value={productData.originalPrice}
+                    onChange={handleChange}
+                    required
+                />
+
+                <label htmlFor="description">Description:</label>
+                <textarea
+                    id="description"
+                    name="description"
+                    value={productData.description}
+                    onChange={handleChange}
+                    required
+                ></textarea>
+
+                <label htmlFor="category">Category:</label>
+                <input
+                    type="text"
+                    id="category"
+                    name="category"
+                    value={productData.category}
+                    onChange={handleChange}
+                    required
+                />
+
+                <label htmlFor="images">Images:</label>
+                <input
+                    type="file"
+                    id="images"
+                    name="images"
+                    accept="image/gif,image/png,image/jpeg"
+                    multiple
+                />
+
+                <input
+                    type="submit"
+                    onClick={saveChanges}
+                    value="Save Changes"
+                />
                 <div id="err"></div>
-            </div>
+            </form>
         </div>
     );
 };
