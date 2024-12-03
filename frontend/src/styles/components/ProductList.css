@@ -1,52 +1,80 @@
 .search-container {
     display: flex;
-    justify-content: center; /* Center the items horizontally */
-    align-items: center; /* Center the items vertically */
-    margin: 20px 0; /* Add some margin above and below the search bar */
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    gap: 0;
+}
+
+.search-input,
+.sort-select {
+    height: 50px;
+    box-sizing: border-box;
 }
 
 .search-input {
-    padding: 10px;
-    width: 200px; /* Set a fixed width for the input */
-    border: 1px solid #ccc; /* Add a border */
-    border-radius: 4px; /* Rounded corners */
-    margin-right: 10px; /* Space between input and select */
-    outline: none; /* Remove outline on focus */
-    transition: border-color 0.3s; /* Smooth transition for border color */
+    padding: 0 20px;
+    width: 50%;
+    border: 1px none;
+    border-right: none;
+    border-radius: 25px 0 0 25px; /* Round only the left side */
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: all 0.3s ease;
 }
 
-.search-input:focus {
-    border-color: #007bff; /* Change border color on focus */
+.search-input::placeholder {
+    color: #aaa;
+    font-style: italic;
 }
 
 .sort-select {
-    padding: 10px;
-    border: 1px solid #ccc; /* Add a border */
-    border-radius: 4px; /* Rounded corners */
-    outline: none; /* Remove outline on focus */
-    transition: border-color 0.3s; /* Smooth transition for border color */
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 0 15px;
+    width: 200px;
+    border: 1px none;
+    border-left: none;
+    border-radius: 0 25px 25px 0; /* Round only the right side */
+    background-color: #f9f9f9;
+    color: #333;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    outline: none;
+    cursor: pointer;
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpath d="M6 9l6 6 6-6"%3E%3C/path%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
 }
 
-.sort-select:focus {
-    border-color: #007bff; /* Change border color on focus */
+.sort-select option {
+    background-color: #ffffff;
+    color: #333;
 }
 
-.product-list {
-    display: flex;
-    flex-wrap: wrap; /* Allows items to wrap onto the next line */
-    justify-content: space-between; /* Adjusts spacing between items */
-    gap: 16px; /* Optional: adds space between the cards */
-}
+@media (max-width: 480px) {
+    .search-container {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
 
-.product-card-container {
-    flex: 1 1 calc(25% - 16px); /* Adjusts the width of each card */
-    max-width: calc(25% - 16px); /* Ensures cards do not exceed this width */
-    box-sizing: border-box; /* Ensures padding and border are included in the width */
-}
+    .search-input,
+    .sort-select {
+        border-radius: 25px;
+        border: 1px none;
+        height: 50px;
+        width: 300px;
+    }
 
-@media (max-width: 768px) {
-    .product-card-container {
-        flex: 1 1 calc(50% - 16px); /* 2 cards per row on smaller screens */
-        max-width: calc(50% - 16px);
+    .search-input {
+        border-right: 1px none;
+    }
+
+    .sort-select {
+        border-left: 1px none;
     }
 }
