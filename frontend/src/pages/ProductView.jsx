@@ -61,6 +61,7 @@ const ProductView = () => {
                 quantity: 1,
                 name: product.name,
                 price: product.originalPrice,
+                image: product.imageUrls[0],
             });
         }
 
