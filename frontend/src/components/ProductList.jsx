@@ -5,7 +5,7 @@ import '../styles/components/ProductList.css';
 const ProductList = () => {
     const [products, setProducts] = useState([]);
     const [query, setQuery] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [sortBy, setSortBy] = useState('name-asc');
 
     const handleInputChange = (event) => {
@@ -71,15 +71,18 @@ const ProductList = () => {
             </div>
 
             {loading ? (
-                <span>Loading...</span>
+                <p className="info">Loading...</p>
             ) : (
-                <span style={{ visibility: 'hidden' }}>Loading...</span> // Keep space for loading text
+                <p className="info" style={{ visibility: 'hidden' }}>
+                    Loading...
+                </p> // Keep space for loading text
             )}
-            <div className="product-list">
-                {products.length === 0 ? (
-                    <p>No items (for now)</p>
-                ) : (
-                    products.map((item) => (
+
+            {products.length === 0 && loading === false ? (
+                <p className="info">No items (for now)</p>
+            ) : (
+                <div className="product-list">
+                    {products.map((item) => (
                         <div key={item._id} className="product-card-container">
                             <ProductCard
                                 id={item._id}
@@ -88,9 +91,9 @@ const ProductList = () => {
                                 price={item.originalPrice}
                             />
                         </div>
-                    ))
-                )}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

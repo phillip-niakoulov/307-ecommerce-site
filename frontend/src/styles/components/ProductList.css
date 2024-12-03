@@ -1,3 +1,9 @@
+.info {
+    font-size: 20px;
+    text-align: center;
+    color: #777;
+}
+
 .search-container {
     display: flex;
     justify-content: center;

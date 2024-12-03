@@ -62,12 +62,14 @@ const AdminDashboard = () => {
                         )}
                         <Route
                             path="*"
-                            element={<p>Select an option above.</p>}
+                            element={
+                                <p className="info">Select an option above.</p>
+                            }
                         />
                     </Routes>
                 </>
             ) : (
-                <p>Nothing to see here...</p>
+                <p className="info">Nothing to see here...</p>
             )}
         </div>
     );
