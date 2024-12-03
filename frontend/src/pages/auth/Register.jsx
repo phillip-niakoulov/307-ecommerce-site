@@ -46,6 +46,12 @@ function Register() {
             });
     }
 
+    function handleKeyPress(e) {
+        if (e.key === 'Enter') {
+            submit_register();
+        }
+    }
+
     return (
         <div>
             <div id={'register_fields'}>
@@ -54,15 +60,24 @@ function Register() {
                     type="text"
                     id="username"
                     name="username"
-                /> <br />
+                    onKeyPress={handleKeyPress}
+                />
+                <br />
                 <label htmlFor="password">Password:</label>
                 <input
                     type="password"
                     id="password"
                     name="password"
-                /> <br />
+                    onKeyPress={handleKeyPress}
+                />
+                <br />
                 <label htmlFor="confirm">Confirm Password:</label>
-                <input type="password" id="confirm" name="confirm" />
+                <input
+                    type="password"
+                    id="confirm"
+                    name="confirm"
+                    onKeyPress={handleKeyPress}
+                />
                 <p id={'error'}></p>
                 <input type="submit" onClick={submit_register} value="Submit" />
             </div>

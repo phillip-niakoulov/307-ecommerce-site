@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { UserContext } from '../other/UserContext.jsx';
-import '../styles/pages/ProductCreate.css'; // Import the same CSS file
+import { UserContext } from '../../other/UserContext.jsx';
+import '../../styles/pages/ProductCreate.css'; // Import the same CSS file
 
 const ProductEdit = () => {
     const navigate = useNavigate();
