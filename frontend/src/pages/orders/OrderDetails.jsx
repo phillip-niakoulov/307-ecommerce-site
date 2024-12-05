@@ -51,7 +51,6 @@ const OrderDetails = ({ orderId }) => {
 
     const createStatusButton = () => {
         if (!permissions['update-orders']) return null;
-        console.log('a');
         return (
             <div>
                 <label htmlFor={`${details._id}status`}> Status:</label>

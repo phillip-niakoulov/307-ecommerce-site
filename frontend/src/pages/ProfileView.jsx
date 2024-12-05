@@ -55,7 +55,7 @@ const ProfileView = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                setProfileData(data);
+                setProfileData(data?.['user']);
             } catch (err) {
                 setError(err.message);
             } finally {
