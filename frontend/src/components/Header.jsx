@@ -1,7 +1,6 @@
 import { Link, NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../other/UserContext.jsx';
-import OrdersButton from './HeaderButtons/OrdersButton.jsx';
 import AdminButton from './HeaderButtons/AdminButton.jsx';
 import ProfileButton from './HeaderButtons/ProfileButton.jsx';
 import '../styles/components/Header.css';
@@ -26,7 +25,6 @@ const Header = () => {
                     {loggedIn ? <NavLink to="/cart">Cart</NavLink> : ''}
                     {<AdminButton />}
                     {<MyOrdersButton />}
-                    {<OrdersButton />}
                     {<ProfileButton />}
                 </nav>
             </div>

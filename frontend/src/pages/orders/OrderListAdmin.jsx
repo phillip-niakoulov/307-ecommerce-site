@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import '../../styles/pages/OrderListAdmin.css';
 
 const OrderListAdmin = () => {
     const [orders, setOrders] = useState([]);
@@ -11,9 +12,11 @@ const OrderListAdmin = () => {
                 const data = await fetch(
                     `${import.meta.env.VITE_API_BACKEND_URL}/api/orders`,
                     {
-                        Method: 'GET',
+                        method: 'GET',
                         headers: {
-                            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                            Authorization: `Bearer ${localStorage.getItem(
+                                'token'
+                            )}`,
                         },
                     }
                 );
@@ -31,69 +34,78 @@ const OrderListAdmin = () => {
             }
         };
         fetchOrders();
-    }, [setLoading, setOrders]);
+    }, []);
 
     if (loading) {
         return <div>Loading...</div>;
     }
 
     return (
-        <div>
-            <table className="table table-striped">
+        <div className="orderlist-container">
+            <table className="orderlist-table">
                 <thead>
-                <tr>
-                    <td>ID</td>
-                    <td>Owner</td>
-                    <td>Price</td>
-                    <td>Status</td>
-                    <td>CreatedAt</td>
-                </tr>
+                    <tr>
+                        <th className="orderlist-header">ID</th>
+                        <th className="orderlist-header">Owner</th>
+                        <th className="orderlist-header">Price</th>
+                        <th className="orderlist-header">Status</th>
+                        <th className="orderlist-header">Created At</th>
+                    </tr>
                 </thead>
                 <tbody>
-                {orders
-                    .toSorted((a, b) => {
-                        const scompare = a.order_status?.status
-                            .toLocaleString()
-                            .localeCompare(
-                                b.order_status?.status.toLocaleString(),
+                    {orders
+                        .sort((a, b) => {
+                            const scompare =
+                                a.order_status?.status.localeCompare(
+                                    b.order_status?.status
+                                );
+                            if (scompare !== 0) {
+                                return scompare;
+                            }
+                            return (
+                                new Date(a.order_status?.createdAt) -
+                                new Date(b.order_status?.createdAt)
                             );
-                        if (scompare !== 0) {
-                            return scompare;
-                        }
-                        return (
-                            a.order_status?.createdAt -
-                            b.order_status?.createdAt
-                        );
-                    })
-                    .map((order) => (
-                        <tr key={order._id}>
-                            <td>
-                                <Link to={`/order/${order._id}`}>
-                                    {order._id}
-                                </Link>
-                            </td>
-                            <td>
-                                <Link to={`/user/${order.owner}`}>
-                                    {order?.username}
-                                </Link>
-                            </td>
-                            <td>
-                                $
-                                {order.cart
-                                    .map((item) => {
-                                        return item.price * item.quantity;
-                                    })
-                                    .reduce((a, b) => a + b, 0)
-                                    .toFixed(2)}
-                            </td>
-                            <td>{order.order_status?.status}</td>
-                            <td>
-                                {new Date(
-                                    order.order_status?.createdAt,
-                                ).toDateString()}
-                            </td>
-                        </tr>
-                    ))}
+                        })
+                        .map((order) => (
+                            <tr key={order._id}>
+                                <td className="orderlist-cell">
+                                    <Link
+                                        to={`/order/${order._id}`}
+                                        className="orderlist-link"
+                                    >
+                                        {order._id}
+                                    </Link>
+                                </td>
+                                <td className="orderlist-cell">
+                                    <Link
+                                        to={`/user/${order.owner}`}
+                                        className="orderlist-link"
+                                    >
+                                        {order?.username}
+                                    </Link>
+                                </td>
+                                <td className="orderlist-cell">
+                                    $
+                                    {order.cart
+                                        .reduce(
+                                            (total, item) =>
+                                                total +
+                                                item.price * item.quantity,
+                                            0
+                                        )
+                                        .toFixed(2)}
+                                </td>
+                                <td className="orderlist-cell">
+                                    {order.order_status?.status}
+                                </td>
+                                <td className="orderlist-cell">
+                                    {new Date(
+                                        order.order_status?.createdAt
+                                    ).toLocaleDateString()}
+                                </td>
+                            </tr>
+                        ))}
                 </tbody>
             </table>
         </div>

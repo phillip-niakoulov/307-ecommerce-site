@@ -1,9 +1,11 @@
 import { useContext, useEffect } from 'react';
 import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
+import OrdersButton from '../../components/HeaderButtons/OrdersButton.jsx';
 import UserList from '../../components/UserList.jsx';
 import ProductCreate from '../products/ProductCreate.jsx';
 import RegisterAdmin from './RegisterAdmin.jsx';
 import { UserContext } from '../../other/UserContext.jsx';
+import OrderListAdmin from '../../pages/orders/OrderListAdmin.jsx';
 import '../../styles/pages/AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -42,6 +44,7 @@ const AdminDashboard = () => {
                                 Admin Registration
                             </NavLink>
                         )}
+                        {<OrdersButton />}
                     </nav>
 
                     <Routes>
@@ -59,6 +62,9 @@ const AdminDashboard = () => {
                                 path="register-admin"
                                 element={<RegisterAdmin />}
                             />
+                        )}
+                        {permissions['view-orders'] && (
+                            <Route path="orders" element={<OrderListAdmin />} />
                         )}
                         <Route
                             path="*"
