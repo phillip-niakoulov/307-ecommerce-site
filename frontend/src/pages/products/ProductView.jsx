@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { UserContext } from '../other/UserContext.jsx';
-import ImageGallery from '../components/ImageGallery.jsx';
-import Toast from '../components/Toast.jsx';
-import '../styles/pages/ProductView.css';
+import { UserContext } from '../../other/UserContext.jsx';
+import ImageGallery from '../../components/ImageGallery.jsx';
+import Toast from '../../components/Toast.jsx';
+import '../../styles/pages/ProductView.css';
 
 const ProductView = () => {
     const navigate = useNavigate();

@@ -20,6 +20,32 @@ router.get(
 );
 
 router.get(
+    '/user/:id',
+    authenticateJWT,
+    async (req, res, next) => {
+        let func;
+        if (req.params.id !== req.id) {
+            func = authenticatePermissions('view-orders');
+        } else {
+            func = async (req, res, next) => {
+                next();
+            };
+        }
+        func(req, res, next);
+    },
+    async (req, res) => {
+        try {
+            const order = await Order.find({ owner: req.params.id }).sort({
+                name: 1,
+            });
+            return res.status(200).json(order);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    }
+);
+
+router.get(
     '/:id',
     authenticateJWT,
     authenticatePermissions('view-orders'),

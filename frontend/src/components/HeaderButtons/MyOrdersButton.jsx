@@ -7,6 +7,6 @@ const MyOrdersButton = () => {
     if (!context.loggedIn) {
         return null;
     }
-    return <Link to="/myorders">My Orders</Link>;
+    return <Link to={`/orders/${context.userId}`}>My Orders</Link>;
 };
 export default MyOrdersButton;

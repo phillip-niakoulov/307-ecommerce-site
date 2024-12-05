@@ -1,77 +1,82 @@
+import { useContext, useEffect } from 'react';
+import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
+import OrdersButton from '../../components/HeaderButtons/OrdersButton.jsx';
 import UserList from '../../components/UserList.jsx';
-import ProductCreate from './ProductCreate.jsx';
-import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import ProductCreate from '../products/ProductCreate.jsx';
 import RegisterAdmin from './RegisterAdmin.jsx';
 import { UserContext } from '../../other/UserContext.jsx';
+import OrderListAdmin from '../../pages/orders/OrderListAdmin.jsx';
+import '../../styles/pages/AdminDashboard.css';
 
 const AdminDashboard = () => {
-    // Kicks you if you're not logged in and only shows you the menus you have access to
     const navigate = useNavigate();
     const { loggedIn, permissions } = useContext(UserContext);
-    const [viewUsers, setViewUsers] = useState(false);
-    const [createProduct, setCreateProduct] = useState(false);
-    const [registerAdmin, setRegisterAdmin] = useState(false);
-    const [option, setOption] = useState(null);
 
     useEffect(() => {
         if (!loggedIn || !permissions) {
             navigate('/login');
         }
-        setViewUsers(permissions['get-users']);
-        setCreateProduct(permissions['create-product']);
-        setRegisterAdmin(permissions['register-admin']);
-    }, [
-        loggedIn,
-        permissions,
-        navigate,
-        setViewUsers,
-        setRegisterAdmin,
-        setCreateProduct,
-        option,
-        viewUsers,
-        createProduct,
-        registerAdmin,
-    ]);
-
-    function getView(op) {
-        if (op === 'permissions') {
-            return <UserList />;
-        }
-        if (op === 'product') {
-            return <ProductCreate />;
-        }
-        if (op === 'admin') {
-            return <RegisterAdmin />;
-        }
-        return null;
-    }
+    }, [loggedIn, permissions, navigate]);
 
     return (
-        <div>
-            <h1>Admin Dashboard</h1>
-            {viewUsers ? (
-                <button onClick={() => setOption('permissions')}>
-                    Manage Permissions
-                </button>
+        <div className="admin-dashboard">
+            {permissions &&
+            (permissions['get-users'] ||
+                permissions['create-product'] ||
+                permissions['register-admin']) ? (
+                <>
+                    <nav className="subtabs">
+                        {permissions['get-users'] && (
+                            <NavLink to="users" activeClassName="active">
+                                User Management
+                            </NavLink>
+                        )}
+                        {permissions['create-product'] && (
+                            <NavLink to="products" activeClassName="active">
+                                Product Creation
+                            </NavLink>
+                        )}
+                        {permissions['register-admin'] && (
+                            <NavLink
+                                to="register-admin"
+                                activeClassName="active"
+                            >
+                                Admin Registration
+                            </NavLink>
+                        )}
+                        {<OrdersButton />}
+                    </nav>
+
+                    <Routes>
+                        {permissions['get-users'] && (
+                            <Route path="users" element={<UserList />} />
+                        )}
+                        {permissions['create-product'] && (
+                            <Route
+                                path="products"
+                                element={<ProductCreate />}
+                            />
+                        )}
+                        {permissions['register-admin'] && (
+                            <Route
+                                path="register-admin"
+                                element={<RegisterAdmin />}
+                            />
+                        )}
+                        {permissions['view-orders'] && (
+                            <Route path="orders" element={<OrderListAdmin />} />
+                        )}
+                        <Route
+                            path="*"
+                            element={
+                                <p className="info">Select an option above.</p>
+                            }
+                        />
+                    </Routes>
+                </>
             ) : (
-                ''
+                <p className="info">Nothing to see here...</p>
             )}
-            {viewUsers ? (
-                <button onClick={() => setOption('product')}>
-                    Create Product
-                </button>
-            ) : (
-                ''
-            )}
-            {viewUsers ? (
-                <button onClick={() => setOption('admin')}>
-                    Register Admin
-                </button>
-            ) : (
-                ''
-            )}
-            {getView(option)}
         </div>
     );
 };

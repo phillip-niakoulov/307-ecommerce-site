@@ -1,18 +1,33 @@
 import { useContext, useEffect, useState } from 'react';
-
 import { useNavigate, useParams } from 'react-router-dom';
 import NotFound from './NotFound.jsx';
 import { UserContext } from '../other/UserContext.jsx';
 import LogoutButton from '../components/HeaderButtons/LogoutButton.jsx';
+import '../styles/pages/ProfileView.css';
 
 const ProfileView = () => {
     const { user } = useParams();
+    const { setLoggedIn } = useContext(UserContext);
+    const viewer = useContext(UserContext).userId;
     const [profileData, setProfileData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const { userId, loggedIn } = useContext(UserContext);
+    const deleteUser = async () => {
+        return await fetch(
+            `${import.meta.env.VITE_API_BACKEND_URL}/api/users/${viewer}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            }
+        );
+    };
+
+    const { userId, loggedIn, permissions } = useContext(UserContext);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -22,13 +37,14 @@ const ProfileView = () => {
                     {
                         method: 'GET',
                         headers: {
-                            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                            Authorization: `Bearer ${localStorage.getItem(
+                                'token'
+                            )}`,
                         },
                     }
                 );
                 if (response.status === 401) {
                     localStorage.removeItem('token');
-
                     return navigate('/login');
                 }
                 if (response.status === 403 || response.status === 404) {
@@ -62,10 +78,40 @@ const ProfileView = () => {
         return <NotFound />;
     }
 
+    const permissionsList = permissions
+        ? Object.entries(permissions).map(
+              ([key, value]) => value && <li key={key}>{key}</li>
+          )
+        : [];
+
     return (
-        <div>
-            {loggedIn && userId === user ? <LogoutButton /> : ''}
-            <p>{JSON.stringify(profileData)}</p>
+        <div className="profile-view">
+            <h1>Profile</h1>
+            {loggedIn && userId === user ? (
+                <LogoutButton className="profile-button" />
+            ) : (
+                ''
+            )}
+            {loggedIn && user === userId && (
+                <button
+                    className="profile-button"
+                    onClick={async () => {
+                        if ((await deleteUser()).ok) {
+                            localStorage.clear();
+                            setLoggedIn(false);
+                            navigate(`/`);
+                        }
+                    }}
+                >
+                    Delete Account
+                </button>
+            )}
+            {permissionsList.length > 0 && (
+                <div className="permissions">
+                    <h3>Permissions:</h3>
+                    <ul>{permissionsList}</ul>
+                </div>
+            )}
         </div>
     );
 };
