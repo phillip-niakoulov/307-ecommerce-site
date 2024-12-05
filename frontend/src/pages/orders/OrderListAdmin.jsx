@@ -1,10 +1,16 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/pages/OrderListAdmin.css';
+import OrderDetails from './OrderDetails.jsx';
 
 const OrderListAdmin = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [expandedOrder, setExpandedOrder] = useState(null);
+
+    const toggleDropdown = (orderId) => {
+        setExpandedOrder(expandedOrder === orderId ? null : orderId);
+    };
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -24,11 +30,10 @@ const OrderListAdmin = () => {
                     setOrders(null);
                     return;
                 }
-                data.json().then((json) => {
-                    setOrders(json);
-                });
+                const json = await data.json();
+                setOrders(json);
             } catch (error) {
-                console.log(error);
+                console.error(error);
             } finally {
                 setLoading(false);
             }
@@ -50,25 +55,13 @@ const OrderListAdmin = () => {
                         <th className="orderlist-header">Price</th>
                         <th className="orderlist-header">Status</th>
                         <th className="orderlist-header">Created At</th>
+                        <th className="orderlist-header">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {orders
-                        .sort((a, b) => {
-                            const scompare =
-                                a.order_status?.status.localeCompare(
-                                    b.order_status?.status
-                                );
-                            if (scompare !== 0) {
-                                return scompare;
-                            }
-                            return (
-                                new Date(a.order_status?.createdAt) -
-                                new Date(b.order_status?.createdAt)
-                            );
-                        })
-                        .map((order) => (
-                            <tr key={order._id}>
+                    {orders.map((order) => (
+                        <React.Fragment key={order._id}>
+                            <tr>
                                 <td className="orderlist-cell">
                                     <Link
                                         to={`/order/${order._id}`}
@@ -104,8 +97,31 @@ const OrderListAdmin = () => {
                                         order.order_status?.createdAt
                                     ).toLocaleDateString()}
                                 </td>
+                                <td className="orderlist-cell">
+                                    <button
+                                        onClick={() =>
+                                            toggleDropdown(order._id)
+                                        }
+                                        className="orderlist-dropdown-button"
+                                    >
+                                        {expandedOrder === order._id
+                                            ? '^'
+                                            : 'v'}
+                                    </button>
+                                </td>
                             </tr>
-                        ))}
+                            {expandedOrder === order._id && (
+                                <tr>
+                                    <td
+                                        colSpan="6"
+                                        className="orderlist-dropdown-cell"
+                                    >
+                                        <OrderDetails orderId={order._id} />
+                                    </td>
+                                </tr>
+                            )}
+                        </React.Fragment>
+                    ))}
                 </tbody>
             </table>
         </div>

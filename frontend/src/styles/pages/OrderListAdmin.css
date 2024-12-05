@@ -22,6 +22,10 @@
     border: 2px solid white;
 }
 
+.orderlist-dropdown-cell {
+    border: 2px solid white;
+}
+
 .orderlist-link {
     color: #00ff00;
     text-decoration: none;
