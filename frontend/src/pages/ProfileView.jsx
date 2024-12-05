@@ -86,12 +86,14 @@ const ProfileView = () => {
 
     return (
         <div className="profile-view">
-            <h1>Profile</h1>
+            <h1>{profileData['username']}'s Profile</h1>
+            <h3>{profileData['email']}</h3>
             {loggedIn && userId === user ? (
                 <LogoutButton className="profile-button" />
             ) : (
                 ''
             )}
+            <button className={'profile-button'} onClick={() => navigate(`/orders/${user}`)}>View Orders</button>
             {loggedIn && user === userId && (
                 <button
                     className="profile-button"

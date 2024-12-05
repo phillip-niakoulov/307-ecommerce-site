@@ -5,7 +5,7 @@ import UserList from '../../components/UserList.jsx';
 import ProductCreate from '../products/ProductCreate.jsx';
 import RegisterAdmin from './RegisterAdmin.jsx';
 import { UserContext } from '../../other/UserContext.jsx';
-import OrderListAdmin from '../../pages/orders/OrderListAdmin.jsx';
+import OrderListAdmin from '../orders/OrderListAdmin.jsx';
 import '../../styles/pages/AdminDashboard.css';
 
 const AdminDashboard = () => {

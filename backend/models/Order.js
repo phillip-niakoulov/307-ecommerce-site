@@ -45,10 +45,6 @@ const orderSchema = new mongoose.Schema({
             type: Date,
             default: Date.now,
         },
-        fulfilledAt: {
-            type: Date,
-            default: 0,
-        },
     },
 });
 

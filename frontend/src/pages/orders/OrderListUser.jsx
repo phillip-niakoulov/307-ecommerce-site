@@ -1,30 +1,29 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../styles/pages/OrderListAdmin.css';
 import OrderDetails from './OrderDetails.jsx';
-import { UserContext } from '../../other/UserContext.jsx';
 import OrderStatus from '../../other/OrderStatus.jsx';
+import { useParams } from 'react-router-dom';
 
 const OrderListUser = () => {
-    const context = useContext(UserContext);
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [expandedOrder, setExpandedOrder] = useState(null);
+    const { user } = useParams();
 
     const toggleDropdown = (orderId) => {
         setExpandedOrder(expandedOrder === orderId ? null : orderId);
     };
 
     useEffect(() => {
-        console.log(context.userId);
-        if (!context.userId) return;
+        if (!user) return;
 
         const fetchOrders = async () => {
             try {
                 const data = await fetch(
                     `${import.meta.env.VITE_API_BACKEND_URL}/api/orders/user/${
-                        context.userId
+                        user
                     }`,
                     {
                         method: 'GET',
@@ -48,7 +47,7 @@ const OrderListUser = () => {
             }
         };
         fetchOrders();
-    }, [context.userId]);
+    }, [user]);
 
     if (loading) {
         return <div className="info">Loading...</div>;
@@ -57,6 +56,8 @@ const OrderListUser = () => {
     return orders.length === 0 && !loading ? (
         <div className="info">No items (for now)</div>
     ) : (
+        <div>
+            <h1>{orders[0]?.username}'s Orders</h1>
         <div className="orderlist-container">
             <table className="orderlist-table">
                 <thead>
@@ -98,7 +99,8 @@ const OrderListUser = () => {
                                         .toFixed(2)}
                                 </td>
                                 <td className="orderlist-cell">
-                                    {Object.values(OrderStatus).filter(s => s.value === order.order_status?.status)[0]?.text}
+                                    {Object.values(OrderStatus).filter(s => s.value === order.order_status?.status)[0]?.text} (
+                                    {new Date(order.order_status?.updatedAt).toLocaleDateString()})
                                 </td>
                             </tr>
                             {expandedOrder === order._id && (
@@ -115,6 +117,7 @@ const OrderListUser = () => {
                     ))}
                 </tbody>
             </table>
+        </div>
         </div>
     );
 };

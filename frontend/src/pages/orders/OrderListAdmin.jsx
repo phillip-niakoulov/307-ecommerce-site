@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import '../../styles/pages/OrderListAdmin.css';
 import OrderDetails from './OrderDetails.jsx';
 import OrderStatus from '../../other/OrderStatus.jsx';
+import { Link } from 'react-router-dom';
 
 const OrderListAdmin = () => {
     const [orders, setOrders] = useState([]);
@@ -77,7 +78,7 @@ const OrderListAdmin = () => {
                                     {order._id}
                                 </td>
                                 <td className="orderlist-cell">
-                                    <p>{order?.username}</p>
+                                    <Link to={`/orders/${order?.owner}`}>{order?.username}</Link>
                                 </td>
                                 <td className="orderlist-cell">
                                     $
@@ -93,6 +94,7 @@ const OrderListAdmin = () => {
                                 <td className="orderlist-cell">
 
                                     {Object.values(OrderStatus).filter(s => s.value === order.order_status?.status)[0]?.text}
+                                    {' '}({new Date(order.order_status?.updatedAt).toLocaleDateString()})
                                 </td>
                                 <td className="orderlist-cell">
                                     {new Date(
@@ -107,36 +109,7 @@ const OrderListAdmin = () => {
                                         className="orderlist-dropdown-cell"
                                     >
                                         <OrderDetails orderId={order._id} />
-                                        Status:
-                                        <select id={`${order._id}status`} onChange={() => {
-                                            document.getElementById(`${order._id}save`).hidden = false;
-                                        }} defaultValue={order.order_status?.status}>
-                                            {Object.values(OrderStatus).map((text) => (
-                                                <option key={`${order._id}${text['value']}`}
-                                                        value={text['value']}>{text['text']}</option>
-                                            ))}
 
-                                        </select>
-                                        <button hidden={true} onClick={async () => {
-                                            const newStatus = document.getElementById(`${order._id}status`).value;
-                                            const data = await fetch(
-                                                `${import.meta.env.VITE_API_BACKEND_URL}/api/orders/${order._id}`,
-                                                {
-                                                    method: 'PUT',
-                                                    body: JSON.stringify({ status: newStatus }),
-                                                    headers: {
-                                                        'Content-Type': 'application/json',
-                                                        Authorization: `Bearer ${localStorage.getItem(
-                                                            'token',
-                                                        )}`,
-                                                    },
-                                                },
-                                            );
-                                            if (data.status === 201) {
-                                                document.getElementById(`${order._id}save`).hidden = true;
-                                            }
-                                        }} id={`${order._id}save`}>Save
-                                        </button>
                                     </td>
                                 </tr>
                             )}
