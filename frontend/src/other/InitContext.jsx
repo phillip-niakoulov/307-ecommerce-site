@@ -24,8 +24,8 @@ export const InitContext = () => {
                     )
                         .then((res) => res.json())
                         .then((data) => {
-                            setUserData(data);
-                            setPermissions(data?.['permissions']);
+                            setUserData(data?.['user']);
+                            setPermissions(data?.['user']?.['permissions']);
                         })
                         .catch((error) => {
                             console.error(error);
