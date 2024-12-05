@@ -2,21 +2,20 @@ import { StrictMode, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './src/pages/Home.jsx';
-import Login from './src/pages/Login.jsx';
-import Register from './src/pages/Register.jsx';
-import ProductView from './src/pages/ProductView.jsx';
+import Login from './src/pages/auth/Login.jsx';
+import Register from './src/pages/auth/Register.jsx';
+import ProductView from './src/pages/products/ProductView.jsx';
 import Header from './src/components/Header.jsx';
 import NotFound from './src/pages/NotFound.jsx';
-import AdminDashboard from './src/pages/AdminDashboard.jsx';
-import ProductEdit from './src/pages/ProductEdit.jsx';
+import AdminDashboard from './src/pages/admin/AdminDashboard.jsx';
+import ProductEdit from './src/pages/products/ProductEdit.jsx';
 import ProfileView from './src/pages/ProfileView.jsx';
 import Cart from './src/pages/Cart.jsx';
 import { UserContext } from './src/other/UserContext.jsx';
 import './src/styles/index.css';
 import InitContext from './src/other/InitContext.jsx';
-import OrderView from './src/pages/OrderView.jsx';
-import OrdersList from './src/pages/OrdersList.jsx';
-import MyOrders from './src/pages/MyOrders.jsx';
+import OrderResults from './src/pages/orders/OrderResults.jsx';
+import OrderListUser from './src/pages/orders/OrderListUser.jsx';
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -66,9 +65,8 @@ const App = () => {
                     <Route path={'cart'} element={<Cart />} />
                     <Route path="admin/*" element={<AdminDashboard />} />
                     <Route path="user/:user" element={<ProfileView />} />
-                    <Route path={'orders'} element={<OrdersList />} />
-                    <Route path={'order/:order'} element={<OrderView />} />
-                    <Route path={'myorders'} element={<MyOrders />} />
+                    <Route path={'order/:order'} element={<OrderResults />} />
+                    <Route path={'orders/:user'} element={<OrderListUser />} />
 
                     <Route path="*" element={<NotFound />} />
                 </Routes>

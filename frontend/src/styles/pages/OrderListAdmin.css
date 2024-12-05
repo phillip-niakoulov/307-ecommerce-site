@@ -1,0 +1,45 @@
+.orderlist-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.orderlist-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+.orderlist-header {
+    color: white;
+    padding: 12px;
+    border-bottom: 2px solid white;
+}
+
+.orderlist-row {
+    cursor: pointer;
+}
+
+.orderlist-row:hover {
+    background-color: white;
+    color: black;
+}
+
+.orderlist-cell {
+    padding: 12px;
+    border: 2px solid white;
+}
+
+.orderlist-dropdown-cell {
+    border: 2px solid white;
+}
+
+.orderlist-link {
+    color: #00ff00;
+    text-decoration: none;
+}
+
+.orderlist-link:hover {
+    text-decoration: underline;
+}

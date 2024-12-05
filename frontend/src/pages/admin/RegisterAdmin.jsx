@@ -1,3 +1,5 @@
+import '../../styles/pages/RegisterAdmin.css';
+
 function Register() {
     // Kicks you if you're not logged in and only shows you the menus you have access to
 
@@ -21,7 +23,7 @@ function Register() {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
-            },
+            }
         )
             .then((res) => {
                 res.json().then((j) => {
@@ -35,27 +37,39 @@ function Register() {
             });
     }
 
+    function handleKeyPress(e) {
+        if (e.key === 'Enter') {
+            submit_register();
+        }
+    }
+
     return (
-        <div>
-            <h1>Register Admin</h1>
-            <div id={'register_fields'}>
-                <label htmlFor="username">Username:</label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                /> <br />
-                <label htmlFor="password">Password:</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                /> <br />
-                <label htmlFor="confirm">Confirm Password:</label>
-                <input type="password" id="confirm" name="confirm" />
-                <p id={'error'}></p>
-                <input type="submit" onClick={submit_register} value="Submit" />
-            </div>
+        <div id={'register_admin_fields'}>
+            <label htmlFor="username">Username:</label>
+            <input
+                type="text"
+                id="username"
+                name="username"
+                onKeyPress={handleKeyPress}
+            />
+            <br />
+            <label htmlFor="password">Password:</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                onKeyPress={handleKeyPress}
+            />
+            <br />
+            <label htmlFor="confirm">Confirm Password:</label>
+            <input
+                type="password"
+                id="confirm"
+                name="confirm"
+                onKeyPress={handleKeyPress}
+            />
+            <p id={'error'}></p>
+            <input type="submit" onClick={submit_register} value="Submit" />
         </div>
     );
 }

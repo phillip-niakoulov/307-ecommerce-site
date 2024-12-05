@@ -12,7 +12,6 @@ export const InitContext = () => {
                 const id = jwtDecode(localStorage.getItem('token'))['userId'];
                 setUserId(id);
                 const getData = async () => {
-                    console.log('a');
                     await fetch(
                         `${import.meta.env.VITE_API_BACKEND_URL}/api/users/${id}`,
                         {

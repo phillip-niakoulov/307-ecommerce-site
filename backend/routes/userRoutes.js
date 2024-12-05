@@ -170,7 +170,17 @@ router.put(
 router.delete(
     '/:id',
     authenticateJWT,
-    authenticatePermissions('delete-users'),
+    async (req, res, next) => {
+        let func;
+        if (req.params.id !== req.id) {
+            func = authenticatePermissions('delete-users');
+        } else {
+            func = async (req, res, next) => {
+                next();
+            };
+        }
+        func(req, res, next);
+    },
     async (req, res) => {
         if (!isValidObjectId(req.params.id)) {
             return res.status(400).json({ message: 'Invalid ID format' });
@@ -184,6 +194,7 @@ router.delete(
 );
 
 router.post('/checkout', authenticateJWT, async (req, res) => {
+
     const { cart } = req.body;
 
     const order = new Order({

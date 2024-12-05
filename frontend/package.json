@@ -12,7 +12,9 @@
         "cy:open": "cypress open"
     },
     "dependencies": {
-        "esbuild": "^0.21.5",
+        "@fortawesome/fontawesome-svg-core": "^6.7.1",
+        "@fortawesome/free-solid-svg-icons": "^6.7.1",
+        "@fortawesome/react-fontawesome": "^0.2.2",
         "jwt-decode": "^4.0.0",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",

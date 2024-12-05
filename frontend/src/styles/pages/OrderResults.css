@@ -1,0 +1,14 @@
+.order-results-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.order-results-title {
+    font-size: 2em;
+    color: #00ff00;
+}
+
+.order-results-number {
+    font-size: 1.2em;
+    color: #555;
+}
