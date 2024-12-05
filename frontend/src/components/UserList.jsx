@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../other/UserContext.jsx';
 import { Link } from 'react-router-dom';
@@ -203,10 +205,14 @@ const UserList = () => {
                 <td className="userlist-cell">
                     <button
                         onClick={() => deleteUser(user._id)}
-                        className="userlist-delete-button"
+                        className={`userlist-delete-button ${
+                            !hasDeletePermissions || userId === user._id
+                                ? 'disabled'
+                                : ''
+                        }`}
                         disabled={!hasDeletePermissions || userId === user._id}
                     >
-                        X
+                        <FontAwesomeIcon icon={faTimes} />
                     </button>
                 </td>
             </tr>

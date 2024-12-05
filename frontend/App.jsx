@@ -14,9 +14,8 @@ import Cart from './src/pages/Cart.jsx';
 import { UserContext } from './src/other/UserContext.jsx';
 import './src/styles/index.css';
 import InitContext from './src/other/InitContext.jsx';
-import OrderView from './src/pages/orders/OrderView.jsx';
-import UserOrders from './src/pages/orders/UserOrders.jsx';
-import OrderListAdmin from './src/pages/orders/OrderListAdmin.jsx';
+import OrderResults from './src/pages/orders/OrderResults.jsx';
+import OrderListUser from './src/pages/orders/OrderListUser.jsx';
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -66,9 +65,8 @@ const App = () => {
                     <Route path={'cart'} element={<Cart />} />
                     <Route path="admin/*" element={<AdminDashboard />} />
                     <Route path="user/:user" element={<ProfileView />} />
-                    <Route path={'orders'} element={<OrderListAdmin />} />
-                    <Route path={'order/:order'} element={<OrderView />} />
-                    <Route path={'orders/:user'} element={<UserOrders />} />
+                    <Route path={'order/:order'} element={<OrderResults />} />
+                    <Route path={'orders/:user'} element={<OrderListUser />} />
 
                     <Route path="*" element={<NotFound />} />
                 </Routes>
