@@ -32,8 +32,8 @@ const OrdersButton = () => {
                 .then((json) => {
                     json = json.filter((item) => {
                         return (
-                            item['order_status']['status'].toString() ===
-                            'active'
+                            item['order_status']['status'].toString() !==
+                            'delivered'
                         );
                     });
                     setOrderCount(json.length);

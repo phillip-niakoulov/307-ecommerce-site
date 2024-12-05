@@ -1,9 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import '../../styles/pages/OrderListAdmin.css';
 import OrderDetails from './OrderDetails.jsx';
 import { UserContext } from '../../other/UserContext.jsx';
+import OrderStatus from '../../other/OrderStatus.jsx';
 
 const OrderListUser = () => {
     const context = useContext(UserContext);
@@ -47,7 +48,7 @@ const OrderListUser = () => {
             }
         };
         fetchOrders();
-    }, []);
+    }, [context.userId]);
 
     if (loading) {
         return <div className="info">Loading...</div>;
@@ -97,7 +98,7 @@ const OrderListUser = () => {
                                         .toFixed(2)}
                                 </td>
                                 <td className="orderlist-cell">
-                                    {order.order_status?.status}
+                                    {Object.values(OrderStatus).filter(s => s.value === order.order_status?.status)[0]?.text}
                                 </td>
                             </tr>
                             {expandedOrder === order._id && (

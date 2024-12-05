@@ -3,12 +3,12 @@ import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from 'react';
 import '../../styles/pages/OrderListAdmin.css';
 import OrderDetails from './OrderDetails.jsx';
+import OrderStatus from '../../other/OrderStatus.jsx';
 
 const OrderListAdmin = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [expandedOrder, setExpandedOrder] = useState(null);
-
     const toggleDropdown = (orderId) => {
         setExpandedOrder(expandedOrder === orderId ? null : orderId);
     };
@@ -91,11 +91,12 @@ const OrderListAdmin = () => {
                                         .toFixed(2)}
                                 </td>
                                 <td className="orderlist-cell">
-                                    {order.order_status?.status}
+
+                                    {Object.values(OrderStatus).filter(s => s.value === order.order_status?.status)[0]?.text}
                                 </td>
                                 <td className="orderlist-cell">
                                     {new Date(
-                                        order.order_status?.createdAt
+                                        order.order_status?.createdAt,
                                     ).toLocaleDateString()}
                                 </td>
                             </tr>
@@ -106,6 +107,36 @@ const OrderListAdmin = () => {
                                         className="orderlist-dropdown-cell"
                                     >
                                         <OrderDetails orderId={order._id} />
+                                        Status:
+                                        <select id={`${order._id}status`} onChange={() => {
+                                            document.getElementById(`${order._id}save`).hidden = false;
+                                        }} defaultValue={order.order_status?.status}>
+                                            {Object.values(OrderStatus).map((text) => (
+                                                <option key={`${order._id}${text['value']}`}
+                                                        value={text['value']}>{text['text']}</option>
+                                            ))}
+
+                                        </select>
+                                        <button hidden={true} onClick={async () => {
+                                            const newStatus = document.getElementById(`${order._id}status`).value;
+                                            const data = await fetch(
+                                                `${import.meta.env.VITE_API_BACKEND_URL}/api/orders/${order._id}`,
+                                                {
+                                                    method: 'PUT',
+                                                    body: JSON.stringify({ status: newStatus }),
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                        Authorization: `Bearer ${localStorage.getItem(
+                                                            'token',
+                                                        )}`,
+                                                    },
+                                                },
+                                            );
+                                            if (data.status === 201) {
+                                                document.getElementById(`${order._id}save`).hidden = true;
+                                            }
+                                        }} id={`${order._id}save`}>Save
+                                        </button>
                                     </td>
                                 </tr>
                             )}

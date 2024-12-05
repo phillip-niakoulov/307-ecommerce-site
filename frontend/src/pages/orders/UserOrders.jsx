@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import OrderStatus from '../../other/OrderStatus.jsx';
 
 const UserOrders = () => {
     const [orders, setOrders] = useState([]);
@@ -84,7 +85,7 @@ const UserOrders = () => {
                                     .reduce((a, b) => a + b, 0)
                                     .toFixed(2)}
                             </td>
-                            <td>{order.order_status?.status}</td>
+                            <td>{Object.values(OrderStatus).filter(s => s.value === order.order_status?.status)[0]?.text}</td>
                             <td>
                                 {new Date(
                                     order.order_status?.createdAt,

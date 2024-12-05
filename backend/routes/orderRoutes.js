@@ -64,4 +64,16 @@ router.get(
     }
 );
 
+router.put('/:id', authenticateJWT, authenticatePermissions('update-orders'), async (req, res) => {
+    if (!req?.body?.['status']) {
+        return res.status(401).json({ message: 'No status specified' });
+    }
+    const order = await Order.findByIdAndUpdate(req.params.id, { order_status: { status: req.body.status } });
+    if (!order) {
+        return res.status(404).json({ message: 'Not found' });
+    }
+    await order.save();
+    return res.status(201).json(order.toJSON());
+});
+
 module.exports = router;

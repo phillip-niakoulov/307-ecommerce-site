@@ -33,7 +33,7 @@ const orderSchema = new mongoose.Schema({
     order_status: {
         status: {
             type: String,
-            default: 'active',
+            default: 'awaiting_payment',
             required: true,
         },
         createdAt: {
