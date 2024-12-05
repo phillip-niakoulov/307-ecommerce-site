@@ -1,0 +1,66 @@
+#register_admin_fields {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    padding: 20px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+
+    margin-top: 35px;
+    margin-bottom: 35px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#register_admin_fields label {
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+}
+
+#register_admin_fields input[type='text'],
+#register_admin_fields input[type='password'] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #555;
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    outline: none;
+    font-size: 1rem;
+    transition: border-color 0.3s ease-in-out;
+}
+
+#register_admin_fields input[type='text']:focus,
+#register_admin_fields input[type='password']:focus {
+    border-color: #00ff00;
+}
+
+#error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+#register_admin_fields input[type='submit'] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #00ff00;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+#register_admin_fields input[type='submit']:hover {
+    background-color: #00ff00;
+    color: #000;
+    box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+}

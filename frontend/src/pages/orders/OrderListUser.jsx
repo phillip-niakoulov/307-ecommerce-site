@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/pages/OrderListAdmin.css';
 import OrderDetails from './OrderDetails.jsx';
+import { UserContext } from '../../other/UserContext.jsx';
 
-const OrderListAdmin = () => {
+const OrderListUser = () => {
+    const context = useContext(UserContext);
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [expandedOrder, setExpandedOrder] = useState(null);
@@ -13,10 +15,15 @@ const OrderListAdmin = () => {
     };
 
     useEffect(() => {
+        console.log(context.userId);
+        if (!context.userId) return;
+
         const fetchOrders = async () => {
             try {
                 const data = await fetch(
-                    `${import.meta.env.VITE_API_BACKEND_URL}/api/orders`,
+                    `${import.meta.env.VITE_API_BACKEND_URL}/api/orders/user/${
+                        context.userId
+                    }`,
                     {
                         method: 'GET',
                         headers: {
@@ -42,19 +49,19 @@ const OrderListAdmin = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="info">Loading...</div>;
     }
 
-    return (
+    return orders.length === 0 && !loading ? (
+        <div className="info">No items (for now)</div>
+    ) : (
         <div className="orderlist-container">
             <table className="orderlist-table">
                 <thead>
                     <tr>
-                        <th className="orderlist-header">ID</th>
-                        <th className="orderlist-header">Owner</th>
+                        <th className="orderlist-header">Date</th>
                         <th className="orderlist-header">Price</th>
                         <th className="orderlist-header">Status</th>
-                        <th className="orderlist-header">Created At</th>
                         <th className="orderlist-header">Actions</th>
                     </tr>
                 </thead>
@@ -63,10 +70,9 @@ const OrderListAdmin = () => {
                         <React.Fragment key={order._id}>
                             <tr>
                                 <td className="orderlist-cell">
-                                    <p>{order._id}</p>
-                                </td>
-                                <td className="orderlist-cell">
-                                    <p>{order?.username}</p>
+                                    {new Date(
+                                        order.order_status?.createdAt
+                                    ).toLocaleDateString()}
                                 </td>
                                 <td className="orderlist-cell">
                                     $
@@ -81,11 +87,6 @@ const OrderListAdmin = () => {
                                 </td>
                                 <td className="orderlist-cell">
                                     {order.order_status?.status}
-                                </td>
-                                <td className="orderlist-cell">
-                                    {new Date(
-                                        order.order_status?.createdAt
-                                    ).toLocaleDateString()}
                                 </td>
                                 <td className="orderlist-cell">
                                     <button
@@ -103,7 +104,7 @@ const OrderListAdmin = () => {
                             {expandedOrder === order._id && (
                                 <tr>
                                     <td
-                                        colSpan="6"
+                                        colSpan="4"
                                         className="orderlist-dropdown-cell"
                                     >
                                         <OrderDetails orderId={order._id} />
@@ -118,4 +119,4 @@ const OrderListAdmin = () => {
     );
 };
 
-export default OrderListAdmin;
+export default OrderListUser;

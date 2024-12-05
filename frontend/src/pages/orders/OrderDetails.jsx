@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import '../../styles/components/OrderDetails.css';
 
 const fetchOrderDetails = async (orderId) => {
     try {
@@ -37,7 +38,7 @@ const OrderDetails = ({ orderId }) => {
     }, [orderId]);
 
     if (loading) {
-        return <div>Loading details...</div>;
+        return <div className="info">Loading details...</div>;
     }
 
     if (!details) {

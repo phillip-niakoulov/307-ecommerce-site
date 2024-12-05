@@ -14,9 +14,11 @@ const OrderView = () => {
                 {
                     method: 'GET',
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'token'
+                        )}`,
                     },
-                },
+                }
             )
                 .then((res) => {
                     setError(!res.ok);
@@ -48,50 +50,50 @@ const OrderView = () => {
             <h1>Order Details</h1>
             <table>
                 <thead>
-                <tr>
-                    <td>Item</td>
-                    <td>Quantity</td>
-                    <td>Total Price</td>
-                </tr>
+                    <tr>
+                        <td>Item</td>
+                        <td>Quantity</td>
+                        <td>Total Price</td>
+                    </tr>
                 </thead>
                 <tbody>
-                {orderData?.cart?.map((item) => {
-                    return (
-                        <tr key={item.itemId}>
-                            <td>
-                                {
-                                    <Link to={`/product/${item.itemId}`}>
-                                        {' '}
-                                        {item.name}
-                                    </Link>
-                                }
-                            </td>
-                            <td>{item.quantity}</td>
-                            <td>
-                                ${(item.price * item.quantity).toFixed(2)}
-                            </td>
-                        </tr>
-                    );
-                })}
-                <tr>
-                    <td>Total</td>
-                    <td>
-                        {orderData?.cart
-                            ?.map((item) => {
-                                return item?.quantity;
-                            })
-                            .reduce((a, b) => a + b, 0)}
-                    </td>
-                    <td>
-                        $
-                        {orderData?.cart
-                            ?.map((item) => {
-                                return item?.quantity * item?.price;
-                            })
-                            .reduce((a, b) => a + b, 0)
-                            .toFixed(2)}
-                    </td>
-                </tr>
+                    {orderData?.cart?.map((item) => {
+                        return (
+                            <tr key={item.itemId}>
+                                <td>
+                                    {
+                                        <Link to={`/product/${item.itemId}`}>
+                                            {' '}
+                                            {item.name}
+                                        </Link>
+                                    }
+                                </td>
+                                <td>{item.quantity}</td>
+                                <td>
+                                    ${(item.price * item.quantity).toFixed(2)}
+                                </td>
+                            </tr>
+                        );
+                    })}
+                    <tr>
+                        <td>Total</td>
+                        <td>
+                            {orderData?.cart
+                                ?.map((item) => {
+                                    return item?.quantity;
+                                })
+                                .reduce((a, b) => a + b, 0)}
+                        </td>
+                        <td>
+                            $
+                            {orderData?.cart
+                                ?.map((item) => {
+                                    return item?.quantity * item?.price;
+                                })
+                                .reduce((a, b) => a + b, 0)
+                                .toFixed(2)}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             Purchaser:{' '}
@@ -103,13 +105,13 @@ const OrderView = () => {
             Status: {orderData?.order_status?.status} <br />
             Placed On:{' '}
             {new Date(
-                orderData?.order_status?.createdAt,
+                orderData?.order_status?.createdAt
             ).toLocaleDateString()}{' '}
             At: {new Date(orderData?.order_status?.createdAt).toTimeString()}
             <br />
             Updated On:{' '}
             {new Date(
-                orderData?.order_status?.updatedAt,
+                orderData?.order_status?.updatedAt
             ).toLocaleDateString()}{' '}
             At: {new Date(orderData?.order_status?.updatedAt).toTimeString()}
         </div>
