@@ -10,4 +10,7 @@ export default defineConfig({
     server: {
         https: false, // Disable HTTPS for local dev server
     },
+    build: {
+        sourcemap: true,
+    },
 });

@@ -27,19 +27,31 @@ const AdminDashboard = () => {
                 <>
                     <nav className="subtabs">
                         {permissions['get-users'] && (
-                            <NavLink to="users" activeClassName="active">
+                            <NavLink
+                                to="users"
+                                className={({ isActive }) =>
+                                    isActive ? 'active' : ''
+                                }
+                            >
                                 User Management
                             </NavLink>
                         )}
                         {permissions['create-product'] && (
-                            <NavLink to="products" activeClassName="active">
+                            <NavLink
+                                to="products"
+                                className={({ isActive }) =>
+                                    isActive ? 'active' : ''
+                                }
+                            >
                                 Product Creation
                             </NavLink>
                         )}
                         {permissions['register-admin'] && (
                             <NavLink
                                 to="register-admin"
-                                activeClassName="active"
+                                className={({ isActive }) =>
+                                    isActive ? 'active' : ''
+                                }
                             >
                                 Admin Registration
                             </NavLink>

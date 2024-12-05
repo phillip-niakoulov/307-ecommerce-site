@@ -55,7 +55,11 @@ const ProfileView = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                setProfileData(data?.['user']);
+                if (data['user']) {
+                    setProfileData(data?.['user']);
+                } else {
+                    setProfileData(data);
+                }
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -93,7 +97,12 @@ const ProfileView = () => {
             ) : (
                 ''
             )}
-            <button className={'profile-button'} onClick={() => navigate(`/orders/${user}`)}>View Orders</button>
+            <button
+                className={'profile-button'}
+                onClick={() => navigate(`/orders/${user}`)}
+            >
+                View Orders
+            </button>
             {loggedIn && user === userId && (
                 <button
                     className="profile-button"

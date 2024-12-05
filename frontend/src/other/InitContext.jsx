@@ -13,19 +13,29 @@ export const InitContext = () => {
                 setUserId(id);
                 const getData = async () => {
                     await fetch(
-                        `${import.meta.env.VITE_API_BACKEND_URL}/api/users/${id}`,
+                        `${
+                            import.meta.env.VITE_API_BACKEND_URL
+                        }/api/users/${id}`,
                         {
                             method: 'GET',
                             headers: {
                                 'Content-Type': 'application/json',
-                                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                                Authorization: `Bearer ${localStorage.getItem(
+                                    'token'
+                                )}`,
                             },
                         }
                     )
                         .then((res) => res.json())
                         .then((data) => {
-                            setUserData(data?.['user']);
-                            setPermissions(data?.['user']?.['permissions']);
+                            // IDK, the first one doesn't work for me and I don't want to figure out the real issue
+                            if (data['user']) {
+                                setUserData(data?.['user']);
+                                setPermissions(data?.['user']?.['permissions']);
+                            } else {
+                                setUserData(data);
+                                setPermissions(data?.['permissions']);
+                            }
                         })
                         .catch((error) => {
                             console.error(error);
