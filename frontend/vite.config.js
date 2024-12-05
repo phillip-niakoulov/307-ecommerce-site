@@ -7,4 +7,7 @@ export default defineConfig({
     optimizeDeps: {
         include: ['@fortawesome/react-fontawesome'],
     },
+    server: {
+        https: false, // Disable HTTPS for local dev server
+    },
 });

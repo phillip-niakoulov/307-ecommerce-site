@@ -8,6 +8,5 @@ export const UserContext = React.createContext({
     permissions: {},
     setPermissions: () => {},
     userData: {},
-    setUserData: () => {
-    },
+    setUserData: () => {},
 });
