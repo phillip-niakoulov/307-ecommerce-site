@@ -39,7 +39,7 @@
 
 .item-price {
     font-size: 16px;
-    color: #555;
+    color: #dddddd;
 }
 
 .quantity-container {
@@ -70,12 +70,20 @@
 }
 
 .checkout-button {
-    background-color: #00ff00;
-    color: black;
-    padding: 15px 30px;
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #00ff00;
     border-radius: 5px;
-    font-size: 18px;
-    border: none;
+    font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease-in-out;
+}
+
+.checkout-button:hover {
+    background-color: #00ff00;
+    color: #000;
+    box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
 }

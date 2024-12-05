@@ -1,5 +1,6 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
 import '../../styles/pages/OrderListAdmin.css';
 import OrderDetails from './OrderDetails.jsx';
 import { UserContext } from '../../other/UserContext.jsx';
@@ -62,14 +63,24 @@ const OrderListUser = () => {
                         <th className="orderlist-header">Date</th>
                         <th className="orderlist-header">Price</th>
                         <th className="orderlist-header">Status</th>
-                        <th className="orderlist-header">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {orders.map((order) => (
                         <React.Fragment key={order._id}>
-                            <tr>
+                            <tr
+                                onClick={() => toggleDropdown(order._id)}
+                                className="orderlist-row"
+                            >
                                 <td className="orderlist-cell">
+                                    <FontAwesomeIcon
+                                        icon={
+                                            expandedOrder === order._id
+                                                ? faChevronUp
+                                                : faChevronDown
+                                        }
+                                        style={{ marginRight: '8px' }}
+                                    />
                                     {new Date(
                                         order.order_status?.createdAt
                                     ).toLocaleDateString()}
@@ -87,18 +98,6 @@ const OrderListUser = () => {
                                 </td>
                                 <td className="orderlist-cell">
                                     {order.order_status?.status}
-                                </td>
-                                <td className="orderlist-cell">
-                                    <button
-                                        onClick={() =>
-                                            toggleDropdown(order._id)
-                                        }
-                                        className="orderlist-dropdown-button"
-                                    >
-                                        {expandedOrder === order._id
-                                            ? '^'
-                                            : 'v'}
-                                    </button>
                                 </td>
                             </tr>
                             {expandedOrder === order._id && (

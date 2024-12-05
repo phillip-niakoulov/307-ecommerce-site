@@ -25,6 +25,7 @@ const OrderDetails = ({ orderId }) => {
     OrderDetails.propTypes = {
         orderId: PropTypes.string,
     };
+
     const [details, setDetails] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -46,25 +47,37 @@ const OrderDetails = ({ orderId }) => {
     }
 
     return (
-        <div>
-            <h4>Order Details</h4>
-            <ul>
+        <div className="order-details-container">
+            <h4 className="order-details-heading">Order Details</h4>
+            <ul className="order-items-list">
                 {details.cart.map((item) => (
-                    <li key={item.itemId}>
-                        <Link to={`/product/${item.itemId}`}>{item.name}</Link>{' '}
+                    <li key={item.itemId} className="order-item">
+                        <Link
+                            to={`/product/${item.itemId}`}
+                            className="item-link"
+                        >
+                            {item.name}
+                        </Link>{' '}
                         - {item.quantity} x ${item.price.toFixed(2)} = $
                         {(item.quantity * item.price).toFixed(2)}
                     </li>
                 ))}
             </ul>
-            <p>
-                Total Items:{' '}
-                {details.cart.reduce((sum, item) => sum + item.quantity, 0)} |
-                Total Price: $
-                {details.cart
-                    .reduce((sum, item) => sum + item.quantity * item.price, 0)
-                    .toFixed(2)}
-            </p>
+            <div className="order-summary">
+                <p>
+                    <strong>Total Items:</strong>{' '}
+                    {details.cart.reduce((sum, item) => sum + item.quantity, 0)}
+                </p>
+                <p>
+                    <strong>Total Price:</strong> $
+                    {details.cart
+                        .reduce(
+                            (sum, item) => sum + item.quantity * item.price,
+                            0
+                        )
+                        .toFixed(2)}
+                </p>
+            </div>
         </div>
     );
 };

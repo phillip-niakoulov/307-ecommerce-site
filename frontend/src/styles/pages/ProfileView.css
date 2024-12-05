@@ -1,0 +1,53 @@
+.profile-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    padding: 20px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+
+    margin-top: 35px;
+    margin-bottom: 35px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profile-button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #00ff00;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.profile-button:hover {
+    background-color: #00ff00;
+    color: #000;
+    box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+}
+
+.permissions {
+    text-align: center; /* Aligns the text horizontally */
+    margin-top: 20px; /* Adds space between sections */
+}
+
+.permissions ul {
+    list-style-type: none;
+    padding-left: 0;
+    text-align: center; /* Aligns the list items in the center */
+    display: inline-block; /* Makes the list behave like a block to center it */
+}
+
+.permissions li {
+    padding: 2px 0;
+    color: #bbb;
+}

@@ -8,6 +8,7 @@ const LogoutButton = () => {
     return (
         <button
             id={'logoutButton'}
+            className="profile-button"
             style={{
                 cursor: 'pointer',
             }}
