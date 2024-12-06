@@ -1,5 +1,7 @@
 const express = require('express');
 const Product = require('../models/Product');
+const Order = require('../models/Order');
+
 const Fuse = require('fuse.js');
 const path = require('path');
 const multer = require('multer');
@@ -156,6 +158,7 @@ router.get('/search', async (req, res) => {
     }
 });
 
+
 // Get a product by ID
 router.get('/:id', async (req, res) => {
     try {
@@ -253,5 +256,50 @@ router.delete(
         }
     }
 );
+
+// get the highest-selling product
+router.get('/highest-selling/item', async (req, res) => {
+    try {
+        const sales = await Order.aggregate([
+            { $unwind: '$cart' },
+            {
+                $group: {
+                    _id: '$cart.itemId', 
+                    totalSold: { $sum: '$cart.quantity' },
+                },
+            },
+            { $sort: { totalSold: -1 } }, 
+            { $limit: 1 }, 
+        ]);
+
+        if (sales.length === 0) {
+            return res.status(404).json({ message: 'No sales data available' });
+        }
+
+        const topProductId = sales[0]._id;
+        const totalSold = sales[0].totalSold;
+
+        const topProduct = await Product.findById(topProductId);
+        if (!topProduct) {
+            return res
+                .status(404)
+                .json({ message: 'Top-selling product not found' });
+        }
+
+        res.status(200).json({
+            id: topProduct._id,
+            name: topProduct.name,
+            totalSold,
+            imageUrls: topProduct.imageUrls,
+            description: topProduct.description,
+            category: topProduct.category,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
 
 module.exports = router;

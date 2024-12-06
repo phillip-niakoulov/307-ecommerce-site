@@ -20,7 +20,8 @@
         "methods": "^1.1.2",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
-        "react-router-dom": "^6.27.0"
+        "react-router-dom": "^6.27.0",
+        "requirements": "^2.0.2"
     },
     "devDependencies": {
         "@babel/core": "^7.26.0",
