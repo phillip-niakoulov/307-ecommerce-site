@@ -9,7 +9,7 @@
         "lint": "eslint . --fix && npx prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config .prettierrc",
         "preview": "vite preview",
         "test:comp": "cross-env NODE_OPTIONS=--experimental-require-module jest",
-        "cy:open": "cypress open"
+        "cypress": "cypress open"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.7.1",
