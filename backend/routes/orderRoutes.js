@@ -11,7 +11,7 @@ router.get(
     authenticatePermissions('view-orders'),
     async (req, res) => {
         try {
-            const order = await Order.find().sort({ name: 1 });
+            const order = await Order.find({}).sort({ name: 1 });
             return res.status(200).json(order);
         } catch (err) {
             res.status(500).json({ message: err.message });
