@@ -3,6 +3,7 @@ require('dotenv').config();
 
 // Middleware to verify JWT (DOESN'T CHECK IF ADMIN, JUST IF JWT IS VALID AND NOT EXPIRED)
 const authenticateJWT = (req, res, next) => {
+    if (!req) return res.status(400).json({ message: 'Bad Request' });
     const token = req.header('Authorization')?.split(' ')[1];
 
     if (!token) {
