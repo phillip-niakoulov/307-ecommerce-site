@@ -4,17 +4,10 @@ import { UserContext } from '../../other/UserContext.jsx';
 
 const ProfileButton = () => {
     const { userId, loggedIn, userData } = useContext(UserContext);
-    if (!loggedIn) {
-        return '';
+    if (!loggedIn || !userData) {
+        return null;
     }
-    let name = '';
-    if (!userData) return '';
-    if (userData['firstName']) {
-        name = userData['firstName'];
-    } else {
-        name = userData['username'];
-    }
-    return <NavLink to={`/user/${userId}`}>Hello, {name}</NavLink>;
+    return <NavLink to={`/user/${userId}`}>Hello, {userData['username']}</NavLink>;
 };
 
 export default ProfileButton;

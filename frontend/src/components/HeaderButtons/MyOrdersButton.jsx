@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { UserContext } from '../../other/UserContext.jsx';
 
 const MyOrdersButton = () => {
@@ -7,6 +7,6 @@ const MyOrdersButton = () => {
     if (!context.loggedIn) {
         return null;
     }
-    return <Link to={`/orders/${context.userId}`}>My Orders</Link>;
+    return <NavLink to={`/orders/${context.userId}`}>My Orders</NavLink>;
 };
 export default MyOrdersButton;

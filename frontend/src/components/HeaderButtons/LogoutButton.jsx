@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const LogoutButton = () => {
     const navigate = useNavigate();
-    const { setLoggedIn } = useContext(UserContext);
+    const { setLoggedIn, setPermissions } = useContext(UserContext);
     return (
         <button
             id={'logoutButton'}
@@ -17,6 +17,7 @@ const LogoutButton = () => {
                     localStorage.clear();
                     document.getElementById('logoutButton').hidden = true;
                     setLoggedIn(false);
+                    setPermissions({});
                     navigate('/');
                 })
             }

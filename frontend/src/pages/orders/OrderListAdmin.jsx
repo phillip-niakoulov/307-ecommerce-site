@@ -3,12 +3,13 @@ import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from 'react';
 import '../../styles/pages/OrderListAdmin.css';
 import OrderDetails from './OrderDetails.jsx';
+import OrderStatus from '../../other/OrderStatus.jsx';
+import { Link } from 'react-router-dom';
 
 const OrderListAdmin = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [expandedOrder, setExpandedOrder] = useState(null);
-
     const toggleDropdown = (orderId) => {
         setExpandedOrder(expandedOrder === orderId ? null : orderId);
     };
@@ -77,7 +78,12 @@ const OrderListAdmin = () => {
                                     {order._id}
                                 </td>
                                 <td className="orderlist-cell">
-                                    <p>{order?.username}</p>
+                                    <Link
+                                        className="orderlist-link"
+                                        to={`/orders/${order?.owner}`}
+                                    >
+                                        {order?.owner}
+                                    </Link>
                                 </td>
                                 <td className="orderlist-cell">
                                     $
@@ -91,7 +97,18 @@ const OrderListAdmin = () => {
                                         .toFixed(2)}
                                 </td>
                                 <td className="orderlist-cell">
-                                    {order.order_status?.status}
+                                    {
+                                        Object.values(OrderStatus).filter(
+                                            (s) =>
+                                                s.value ===
+                                                order.order_status?.status
+                                        )[0]?.text
+                                    }{' '}
+                                    (
+                                    {new Date(
+                                        order.order_status?.updatedAt
+                                    ).toLocaleDateString()}
+                                    )
                                 </td>
                                 <td className="orderlist-cell">
                                     {new Date(

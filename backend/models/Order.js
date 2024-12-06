@@ -5,10 +5,6 @@ const orderSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         required: true,
     },
-    username: {
-        type: String,
-        required: true,
-    },
     cart: [
         {
             itemId: {
@@ -33,7 +29,7 @@ const orderSchema = new mongoose.Schema({
     order_status: {
         status: {
             type: String,
-            default: 'active',
+            default: 'awaiting_payment',
             required: true,
         },
         createdAt: {
@@ -44,10 +40,6 @@ const orderSchema = new mongoose.Schema({
         updatedAt: {
             type: Date,
             default: Date.now,
-        },
-        fulfilledAt: {
-            type: Date,
-            default: 0,
         },
     },
 });

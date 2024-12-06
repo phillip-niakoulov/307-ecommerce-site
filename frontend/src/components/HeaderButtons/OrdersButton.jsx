@@ -32,8 +32,8 @@ const OrdersButton = () => {
                 .then((json) => {
                     json = json.filter((item) => {
                         return (
-                            item['order_status']['status'].toString() ===
-                            'active'
+                            item['order_status']['status'].toString() !==
+                            'delivered'
                         );
                     });
                     setOrderCount(json.length);
@@ -47,7 +47,7 @@ const OrdersButton = () => {
     }, [loggedIn, permissions, orderCount, setOrderCount]);
 
     if (loggedIn && permissions !== null && permissions['view-orders']) {
-        return <NavLink to="orders">User Orders ({orderCount})</NavLink>;
+        return <NavLink to="orders">User Orders</NavLink>;
     }
     return '';
 };

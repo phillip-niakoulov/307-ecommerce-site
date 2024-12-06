@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const Order = require('../models/Order');
@@ -52,7 +51,7 @@ router.get(
 
 // Register a new user
 router.post('/register', async (req, res) => {
-    const { username, password } = req.body;
+    const { username, email, password } = req.body;
 
     // Check for dupes
     if (await User.findOne({ username })) {
@@ -66,6 +65,7 @@ router.post('/register', async (req, res) => {
     const user = new User({
         username,
         password: hashedPassword,
+        email: email,
     });
 
     const savedUser = await user.save();
@@ -79,10 +79,20 @@ router.post('/register', async (req, res) => {
 // Remove authenticateJWT if you don't have an admin account
 router.post(
     '/register-admin',
-    authenticateJWT,
-    authenticatePermissions('register-admin'),
+    async (req, res, next) => {
+        if (await User.findOne({ 'permissions.register-admin': true })) {
+            return authenticateJWT()(req, res, next);
+        }
+        next();
+    },
+    async (req, res, next) => {
+        if (await User.findOne({ 'permissions.register-admin': true })) {
+            return authenticatePermissions('register-admin')(req, res, next);
+        }
+        next();
+    },
     async (req, res) => {
-        const { username, password } = req.body;
+        const { username, password, email } = req.body;
         // Check for dupes
         if (await User.findOne({ username: username })) {
             return res
@@ -95,6 +105,7 @@ router.post(
         const user = new User({
             username,
             password: hashedPassword,
+            email: email,
             permissions: {
                 'create-product': true,
                 'update-product': true,
@@ -108,12 +119,16 @@ router.post(
                 'update-orders': true,
             },
         });
-
-        const savedUser = await user.save();
-        res.status(201).json({
-            message: 'User registered successfully',
-            userId: savedUser._id,
-        });
+        try {
+            const savedUser = await user.save();
+            res.status(201).json({
+                message: 'User registered successfully',
+                userId: savedUser._id,
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ error: error.message });
+        }
     }
 );
 
@@ -156,12 +171,12 @@ router.put(
         const updatedUser = await User.findByIdAndUpdate(
             req.params.id,
             { permissions },
-            { new: true }
+            { new: true, select: '-password' }
         );
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
         }
-        const user = await updatedUser.select('-password'); // Exclude password from response
+        const user = await updatedUser;
         res.status(200).json(user);
     }
 );
@@ -194,7 +209,6 @@ router.delete(
 );
 
 router.post('/checkout', authenticateJWT, async (req, res) => {
-
     const { cart } = req.body;
 
     const order = new Order({

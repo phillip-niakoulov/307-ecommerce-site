@@ -3,8 +3,14 @@ import { jwtDecode } from 'jwt-decode';
 import { UserContext } from './UserContext.jsx';
 
 export const InitContext = () => {
-    const { setLoggedIn, loggedIn, setPermissions, setUserId, setUserData } =
-        useContext(UserContext);
+    const {
+        setLoggedIn,
+        loggedIn,
+        setPermissions,
+        permissions,
+        setUserId,
+        setUserData,
+    } = useContext(UserContext);
     useEffect(() => {
         try {
             setLoggedIn(localStorage.getItem('token') !== null);
@@ -13,19 +19,36 @@ export const InitContext = () => {
                 setUserId(id);
                 const getData = async () => {
                     await fetch(
-                        `${import.meta.env.VITE_API_BACKEND_URL}/api/users/${id}`,
+                        `${
+                            import.meta.env.VITE_API_BACKEND_URL
+                        }/api/users/${id}`,
                         {
                             method: 'GET',
                             headers: {
                                 'Content-Type': 'application/json',
-                                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                                Authorization: `Bearer ${localStorage.getItem(
+                                    'token'
+                                )}`,
                             },
                         }
                     )
                         .then((res) => res.json())
                         .then((data) => {
-                            setUserData(data['user']);
-                            setPermissions(data['user']['permissions']);
+                            // IDK, the first one doesn't work for me and I don't want to figure out the real issue
+                            if (data['user']) {
+                                setUserData(data?.['user']);
+                                setPermissions(data?.['user']?.['permissions']);
+                            } else {
+                                setUserData(data);
+                                setPermissions(data?.['permissions']);
+                            }
+                            // console.log(permissions.stringify(obj) === '{}');
+                            if (permissions === undefined) {
+                                localStorage.removeItem('token');
+                                setLoggedIn(false);
+                                setUserId('');
+                                setPermissions({});
+                            }
                         })
                         .catch((error) => {
                             console.error(error);

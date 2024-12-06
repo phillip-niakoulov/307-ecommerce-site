@@ -55,7 +55,11 @@ const ProfileView = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                setProfileData(data);
+                if (data['user']) {
+                    setProfileData(data?.['user']);
+                } else {
+                    setProfileData(data);
+                }
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -78,20 +82,27 @@ const ProfileView = () => {
         return <NotFound />;
     }
 
-    const permissionsList = permissions
-        ? Object.entries(permissions).map(
-              ([key, value]) => value && <li key={key}>{key}</li>
-          )
-        : [];
+    // const permissionsList = permissions
+    //     ? Object.entries(permissions).map(
+    //           ([key, value]) => value && <li key={key}>{key}</li>
+    //       )
+    //     : [];
 
     return (
         <div className="profile-view">
-            <h1>Profile</h1>
+            <h1>{profileData['username']}'s Profile</h1>
+            <h3>Email: {profileData['email']}</h3>
             {loggedIn && userId === user ? (
                 <LogoutButton className="profile-button" />
             ) : (
                 ''
             )}
+            <button
+                className={'profile-button'}
+                onClick={() => navigate(`/orders/${user}`)}
+            >
+                View Orders
+            </button>
             {loggedIn && user === userId && (
                 <button
                     className="profile-button"
@@ -106,12 +117,12 @@ const ProfileView = () => {
                     Delete Account
                 </button>
             )}
-            {permissionsList.length > 0 && (
+            {/* {permissionsList.some((value) => value === true) && (
                 <div className="permissions">
                     <h3>Permissions:</h3>
                     <ul>{permissionsList}</ul>
                 </div>
-            )}
+            )} */}
         </div>
     );
 };

@@ -7,6 +7,7 @@ function Register() {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const confirm = document.getElementById('confirm').value;
+        const email = document.getElementById('email').value;
 
         if (confirm !== password) {
             document.getElementById('error').innerHTML =
@@ -18,7 +19,7 @@ function Register() {
             `${import.meta.env.VITE_API_BACKEND_URL}/api/users/register-admin`,
             {
                 method: 'POST',
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({ username, password, email }),
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -45,6 +46,14 @@ function Register() {
 
     return (
         <div id={'register_admin_fields'}>
+            <label htmlFor="email">Email:</label>
+            <input
+                type="text"
+                id="email"
+                name="email"
+                onKeyPress={handleKeyPress}
+            />
+            <br />
             <label htmlFor="username">Username:</label>
             <input
                 type="text"

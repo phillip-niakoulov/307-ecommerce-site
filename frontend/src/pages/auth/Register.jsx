@@ -16,6 +16,7 @@ function Register() {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const confirm = document.getElementById('confirm').value;
+        const email = document.getElementById('email').value;
 
         if (confirm !== password) {
             document.getElementById('error').innerHTML =
@@ -27,7 +28,7 @@ function Register() {
             `${import.meta.env.VITE_API_BACKEND_URL}/api/users/register`,
             {
                 method: 'POST',
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({ username, password, email }),
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -60,6 +61,14 @@ function Register() {
                     type="text"
                     id="username"
                     name="username"
+                    onKeyPress={handleKeyPress}
+                />
+                <br />
+                <label htmlFor="email">Email:</label>
+                <input
+                    type="text"
+                    id="email"
+                    name="email"
                     onKeyPress={handleKeyPress}
                 />
                 <br />

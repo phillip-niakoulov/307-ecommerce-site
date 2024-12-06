@@ -48,7 +48,14 @@ router.get(
 router.get(
     '/:id',
     authenticateJWT,
-    authenticatePermissions('view-orders'),
+    async (req, res, next) => {
+        order = await Order.findById(req.params.id);
+
+        if (!order || req.id !== order.owner.toString()) {
+            return authenticatePermissions('view-orders')(req, res, next);
+        }
+        next();
+    },
     async (req, res) => {
         try {
             const order = await Order.findById(req.params.id);
@@ -61,6 +68,28 @@ router.get(
         } catch (err) {
             return res.status(500).json({ message: err.message });
         }
+    }
+);
+
+router.put(
+    '/:id',
+    authenticateJWT,
+    authenticatePermissions('update-orders'),
+    async (req, res) => {
+        if (!req?.body?.['status']) {
+            return res.status(401).json({ message: 'No status specified' });
+        }
+        const order = await Order.findByIdAndUpdate(req.params.id, {
+            order_status: {
+                status: req.body.status,
+                updatedAt: Date.now(),
+            },
+        });
+        if (!order) {
+            return res.status(404).json({ message: 'Not found' });
+        }
+        await order.save();
+        return res.status(201).json(order.toJSON());
     }
 );
 

@@ -5,7 +5,7 @@ import UserList from '../../components/UserList.jsx';
 import ProductCreate from '../products/ProductCreate.jsx';
 import RegisterAdmin from './RegisterAdmin.jsx';
 import { UserContext } from '../../other/UserContext.jsx';
-import OrderListAdmin from '../../pages/orders/OrderListAdmin.jsx';
+import OrderListAdmin from '../orders/OrderListAdmin.jsx';
 import '../../styles/pages/AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -27,19 +27,31 @@ const AdminDashboard = () => {
                 <>
                     <nav className="subtabs">
                         {permissions['get-users'] && (
-                            <NavLink to="users" activeClassName="active">
+                            <NavLink
+                                to="users"
+                                className={({ isActive }) =>
+                                    isActive ? 'active' : ''
+                                }
+                            >
                                 User Management
                             </NavLink>
                         )}
                         {permissions['create-product'] && (
-                            <NavLink to="products" activeClassName="active">
+                            <NavLink
+                                to="products"
+                                className={({ isActive }) =>
+                                    isActive ? 'active' : ''
+                                }
+                            >
                                 Product Creation
                             </NavLink>
                         )}
                         {permissions['register-admin'] && (
                             <NavLink
                                 to="register-admin"
-                                activeClassName="active"
+                                className={({ isActive }) =>
+                                    isActive ? 'active' : ''
+                                }
                             >
                                 Admin Registration
                             </NavLink>

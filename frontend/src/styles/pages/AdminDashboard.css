@@ -3,3 +3,8 @@
     text-align: center;
     color: #777;
 }
+
+.active {
+    color: #00ff00;
+    text-shadow: 0 0 5px #00ff00, 0 0 15px #00ff00;
+}
