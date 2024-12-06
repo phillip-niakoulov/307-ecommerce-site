@@ -11,9 +11,11 @@ const ProductView = () => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [mostPopularProduct, setMostPopularProduct] = useState(null);
     const { loggedIn, permissions } = useContext(UserContext);
     const [showToast, setShowToast] = useState(false);
 
+    // Fetch the product details
     useEffect(() => {
         const fetchProduct = async () => {
             try {
@@ -36,6 +38,26 @@ const ProductView = () => {
 
         fetchProduct();
     }, [productId]);
+
+    // Fetch the highest-selling product
+    useEffect(() => {
+        const fetchMostPopular = async () => {
+            try {
+                const response = await fetch(
+                    `${import.meta.env.VITE_API_BACKEND_URL}/api/products/highest-selling/item`
+                );
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setMostPopularProduct(data);
+            } catch (err) {
+                console.error('Error fetching the highest-selling product:', err);
+            }
+        };
+
+        fetchMostPopular();
+    }, []);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -73,6 +95,8 @@ const ProductView = () => {
         setTimeout(() => setShowToast(false), 3000);
     };
 
+    const isMostPopular = mostPopularProduct && mostPopularProduct.id === product._id;
+
     return (
         <div className="product-view">
             <div className="product-layout">
@@ -82,6 +106,7 @@ const ProductView = () => {
                 <div className="product-details">
                     <div>
                         <h2>{product.name}</h2>
+                        {isMostPopular && <span className="most-popular-label">Most Popular</span>}
                         <p className="price">${product.originalPrice}</p>
                     </div>
 

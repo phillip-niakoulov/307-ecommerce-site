@@ -19,6 +19,17 @@
     }
 }
 
+.most-popular-label {
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 14px;
+    display: inline-block;
+}
+
 .product-images {
     flex: 1;
 }
