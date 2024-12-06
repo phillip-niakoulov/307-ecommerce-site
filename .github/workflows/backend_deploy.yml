@@ -80,5 +80,6 @@ jobs:
         with:
           app-name: 'eshop-pro'
           slot-name: 'Production'
-          package: .
+          package: release.zip
+          type: ZIP
           
