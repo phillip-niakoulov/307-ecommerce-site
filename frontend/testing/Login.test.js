@@ -1,12 +1,16 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { UserContext } from '../src/other/UserContext.jsx';
-import Login from '../src/pages/Login.jsx';
+import React from 'react';
+import Login from '../src/pages/auth/Login.jsx';
 
-globalThis.importMetaEnv = {
-    VITE_API_BACKEND_URL: 'http://localhost:5000',
+global.import = {
+    meta: {
+        env: {
+            VITE_API_BACKEND_URL: 'http://localhost:5000',
+        },
+    },
 };
-global.import.meta = { env: importMetaEnv };
 
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
@@ -20,6 +24,15 @@ describe('Login Component', () => {
     let mockContextValues;
 
     beforeEach(() => {
+        Object.defineProperty(window, 'localStorage', {
+            value: {
+                clear: jest.fn(),
+                setItem: jest.fn(),
+                getItem: jest.fn(),
+                removeItem: jest.fn(),
+            },
+            writable: true,
+        });
         mockNavigate = jest.fn();
         jest.requireMock('react-router-dom').useNavigate.mockReturnValue(
             mockNavigate

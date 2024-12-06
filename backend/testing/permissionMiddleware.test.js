@@ -2,17 +2,21 @@ const permissionMiddleware = require('../permissionMiddleware');
 const User = require('../models/User');
 
 jest.mock('../models/User');
+jest.mock('mongoose', () => ({
+    ...jest.requireActual('mongoose'),
+    isValidObjectId: jest.fn(),
+}));
 
 describe('Permission Middleware', () => {
-    let mockReq, mockRes, mockNext;
+    let req, res, next;
 
     beforeEach(() => {
-        mockReq = { id: 'mockUserId' };
-        mockRes = {
+        req = { id: 'mockUserId' };
+        res = {
             status: jest.fn().mockReturnThis(),
             json: jest.fn(),
         };
-        mockNext = jest.fn();
+        next = jest.fn();
     });
 
     afterEach(() => jest.clearAllMocks());
@@ -22,29 +26,29 @@ describe('Permission Middleware', () => {
         {
             description: 'should return 403 if no user ID is logged',
             setupMocks: () => {
-                mockReq.id = null;
+                req.id = null;
             },
             requiredPermission: 'view-users',
             expect: () => {
-                expect(mockRes.status).toHaveBeenCalledWith(403);
-                expect(mockRes.json).toHaveBeenCalledWith({
+                expect(res.status).toHaveBeenCalledWith(403);
+                expect(res.json).toHaveBeenCalledWith({
                     message: 'Access denied. No user id logged.',
                 });
-                expect(mockNext).not.toHaveBeenCalled();
+                expect(next).not.toHaveBeenCalled();
             },
         },
         {
             description: 'should return 403 if the user is not found',
             setupMocks: () => {
-                User.findById.mockResolvedValue(null);
+                User.findOne.mockImplementation(null);
             },
             requiredPermission: 'view-users',
             expect: () => {
-                expect(mockRes.status).toHaveBeenCalledWith(403);
-                expect(mockRes.json).toHaveBeenCalledWith({
+                expect(res.status).toHaveBeenCalledWith(403);
+                expect(res.json).toHaveBeenCalledWith({
                     message: "Can't find user.",
                 });
-                expect(mockNext).not.toHaveBeenCalled();
+                expect(next).not.toHaveBeenCalled();
             },
         },
         {
@@ -52,19 +56,17 @@ describe('Permission Middleware', () => {
                 'should return 403 if the user lacks the required permission',
             setupMocks: () => {
                 User.findById.mockResolvedValue({
-                    _id: 'mockUserId',
-                    permissions: { 'edit-users': true },
-                    select: jest.fn().mockReturnThis(),
+                    permissions: { somePermission: false },
                 });
             },
             requiredPermission: 'view-users',
             expect: () => {
-                expect(mockRes.status).toHaveBeenCalledWith(403);
-                expect(mockRes.json).toHaveBeenCalledWith({
+                expect(res.status).toHaveBeenCalledWith(403);
+                expect(res.json).toHaveBeenCalledWith({
                     message:
                         'Access denied. You do not have the required permission.',
                 });
-                expect(mockNext).not.toHaveBeenCalled();
+                expect(next).not.toHaveBeenCalled();
             },
         },
         {
@@ -72,15 +74,13 @@ describe('Permission Middleware', () => {
                 'should call next() if the user has the required permission',
             setupMocks: () => {
                 User.findById.mockResolvedValue({
-                    _id: 'mockUserId',
                     permissions: { 'view-users': true },
-                    select: jest.fn().mockReturnThis(),
                 });
             },
             requiredPermission: 'view-users',
             expect: () => {
-                expect(mockNext).toHaveBeenCalled();
-                expect(mockRes.status).not.toHaveBeenCalled();
+                expect(next).toHaveBeenCalled();
+                expect(res.status).not.toHaveBeenCalled();
             },
         },
     ];
@@ -92,7 +92,7 @@ describe('Permission Middleware', () => {
 
                 const middleware = permissionMiddleware(requiredPermission);
 
-                await middleware(mockReq, mockRes, mockNext);
+                await middleware(req, res, next);
 
                 expect();
             });

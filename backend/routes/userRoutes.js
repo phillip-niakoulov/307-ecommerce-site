@@ -119,16 +119,11 @@ router.post(
                 'update-orders': true,
             },
         });
-        try {
-            const savedUser = await user.save();
-            res.status(201).json({
-                message: 'User registered successfully',
-                userId: savedUser._id,
-            });
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ error: error.message });
-        }
+        const savedUser = await user.save();
+        res.status(201).json({
+            message: 'User registered successfully',
+            userId: savedUser._id,
+        });
     }
 );
 

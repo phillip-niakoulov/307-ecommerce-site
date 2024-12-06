@@ -10,12 +10,8 @@ router.get(
     authenticateJWT,
     authenticatePermissions('view-orders'),
     async (req, res) => {
-        try {
-            const order = await Order.find({}).sort({ name: 1 });
-            return res.status(200).json(order);
-        } catch (err) {
-            res.status(500).json({ message: err.message });
-        }
+        const order = await Order.find({}).sort({ name: 1 });
+        return res.status(200).json(order);
     }
 );
 
@@ -34,14 +30,10 @@ router.get(
         func(req, res, next);
     },
     async (req, res) => {
-        try {
-            const order = await Order.find({ owner: req.params.id }).sort({
-                name: 1,
-            });
-            return res.status(200).json(order);
-        } catch (err) {
-            res.status(500).json({ message: err.message });
-        }
+        const order = await Order.find({ owner: req.params.id }).sort({
+            name: 1,
+        });
+        return res.status(200).json(order);
     }
 );
 
@@ -57,17 +49,13 @@ router.get(
         next();
     },
     async (req, res) => {
-        try {
-            const order = await Order.findById(req.params.id);
-            if (!order) {
-                return res
-                    .status(404)
-                    .json({ 'Order not found with this id': req.params.id });
-            }
-            return res.status(200).json(order);
-        } catch (err) {
-            return res.status(500).json({ message: err.message });
+        const order = await Order.findById(req.params.id);
+        if (!order) {
+            return res
+                .status(404)
+                .json({ 'Order not found with this id': req.params.id });
         }
+        return res.status(200).json(order);
     }
 );
 

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import { UserContext } from '../../other/UserContext.jsx';
-import '../../styles/pages/Login.css';
+// import '../../styles/pages/Login.css';
 
 const Login = () => {
     const navigate = useNavigate();

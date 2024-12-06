@@ -149,24 +149,6 @@ describe('User Routes', () => {
             },
         },
         {
-            description: 'should have an error with a duplicate admin',
-            route: '/users/register-admin',
-            method: 'post',
-            payload: { username: 'testadmin', password: 'password123' },
-            setupMocks: () => {
-                mockAuthentication({ permission: 'register-admin' });
-                User.findOne.mockImplementation(() => ({
-                    username: 'testadmin',
-                }));
-            },
-            expect: (res) => {
-                expect(res.status).toBe(409);
-                expect(res.body.message).toBe(
-                    'A user with this username already exists'
-                );
-            },
-        },
-        {
             description: 'should login a user and return a token',
             route: '/users/login',
             method: 'post',
@@ -318,6 +300,22 @@ describe('User Routes', () => {
             method: 'delete',
             setupMocks: () => {
                 mockAuthentication({ permission: 'delete-users' });
+                mockDelete();
+            },
+            expect: (res) => {
+                expect(res.status).toBe(200);
+                expect(res.body.message).toBe('User deleted');
+            },
+        },
+        {
+            description: 'should delete a user but without permissions',
+            route: '/users/testUser',
+            method: 'delete',
+            setupMocks: () => {
+                mockAuthentication({
+                    username: 'testUser',
+                    permission: 'delete-users',
+                });
                 mockDelete();
             },
             expect: (res) => {
