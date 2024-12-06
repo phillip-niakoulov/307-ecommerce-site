@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 
 jest.mock('jsonwebtoken');
 
-// Utility functions
 const mockAuthentication = ({
     permission = '',
     userId = 'userId',
@@ -25,7 +24,6 @@ const mockAuthentication = ({
     }));
 };
 
-// Tests
 describe('JWT Authentication Middleware', () => {
     let mockReq, mockRes, mockNext;
 
@@ -42,7 +40,6 @@ describe('JWT Authentication Middleware', () => {
 
     afterEach(() => jest.clearAllMocks());
 
-    // Test cases
     const testCases = [
         {
             description: 'should return 403 if no token is provided',
@@ -107,10 +104,8 @@ describe('JWT Authentication Middleware', () => {
         it(description, () => {
             if (setupMocks) setupMocks();
 
-            // Call the middleware
             authenticateJWT(mockReq, mockRes, mockNext);
 
-            // Assertions
             expect();
         });
     });

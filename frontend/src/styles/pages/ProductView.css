@@ -14,8 +14,8 @@
 
 @media (max-width: 600px) {
     .product-layout {
-        display: block; /* Change to block layout for smaller screens */
-        gap: 20px; /* This gap will not have any effect in block layout, but can be kept for consistency */
+        display: block;
+        gap: 20px;
     }
 }
 

@@ -18,16 +18,15 @@ const ProductList = () => {
 
     useEffect(() => {
         const handler = setTimeout(async () => {
-            setLoading(true); // Set loading to true at the start of the request
+            setLoading(true);
 
             try {
                 let data;
 
-                const sortParam = sortBy.split('-'); // Split the sortBy value into field and order
+                const sortParam = sortBy.split('-');
                 const sortField = sortParam[0]; // 'name' or 'price'
                 const sortOrder = sortParam[1]; // 'asc' or 'desc'
 
-                // Fetch products based on the search query
                 const response = await fetch(
                     `${
                         import.meta.env.VITE_API_BACKEND_URL
@@ -39,12 +38,12 @@ const ProductList = () => {
             } catch (error) {
                 console.error('Error fetching search results:', error);
             } finally {
-                setLoading(false); // Set loading to false after the request completes
+                setLoading(false);
             }
-        }, 300); // Debounce time in milliseconds
+        }, 300); // milliseconds
 
         return () => {
-            clearTimeout(handler); // Cleanup the timeout on unmount or when query changes
+            clearTimeout(handler);
         };
     }, [query, sortBy]);
 
@@ -75,7 +74,7 @@ const ProductList = () => {
             ) : (
                 <p className="info" style={{ visibility: 'hidden' }}>
                     Loading...
-                </p> // Keep space for loading text
+                </p>
             )}
 
             {products.length === 0 && loading === false ? (

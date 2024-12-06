@@ -21,7 +21,6 @@ describe('Permission Middleware', () => {
 
     afterEach(() => jest.clearAllMocks());
 
-    // Test cases
     const testCases = [
         {
             description: 'should return 403 if no user ID is logged',
