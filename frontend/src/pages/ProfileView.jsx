@@ -82,16 +82,16 @@ const ProfileView = () => {
         return <NotFound />;
     }
 
-    const permissionsList = permissions
-        ? Object.entries(permissions).map(
-              ([key, value]) => value && <li key={key}>{key}</li>
-          )
-        : [];
+    // const permissionsList = permissions
+    //     ? Object.entries(permissions).map(
+    //           ([key, value]) => value && <li key={key}>{key}</li>
+    //       )
+    //     : [];
 
     return (
         <div className="profile-view">
             <h1>{profileData['username']}'s Profile</h1>
-            <h3>{profileData['email']}</h3>
+            <h3>Email: {profileData['email']}</h3>
             {loggedIn && userId === user ? (
                 <LogoutButton className="profile-button" />
             ) : (
