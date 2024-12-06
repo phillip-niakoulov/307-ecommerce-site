@@ -35,19 +35,14 @@ export const InitContext = () => {
                         .then((res) => res.json())
                         .then((data) => {
                             // IDK, the first one doesn't work for me and I don't want to figure out the real issue
-                            if (data['user']) {
+                            if (data?.['user']) {
                                 setUserData(data?.['user']);
                                 setPermissions(data?.['user']?.['permissions']);
                             } else {
-                                setUserData(data);
-                                setPermissions(data?.['permissions']);
-                            }
-                            // console.log(permissions.stringify(obj) === '{}');
-                            if (permissions === undefined) {
                                 localStorage.removeItem('token');
-                                setLoggedIn(false);
-                                setUserId('');
+                                setUserData('');
                                 setPermissions({});
+                                setLoggedIn(false);
                             }
                         })
                         .catch((error) => {
