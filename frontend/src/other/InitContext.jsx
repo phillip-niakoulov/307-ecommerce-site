@@ -3,8 +3,14 @@ import { jwtDecode } from 'jwt-decode';
 import { UserContext } from './UserContext.jsx';
 
 export const InitContext = () => {
-    const { setLoggedIn, loggedIn, setPermissions, setUserId, setUserData } =
-        useContext(UserContext);
+    const {
+        setLoggedIn,
+        loggedIn,
+        setPermissions,
+        permissions,
+        setUserId,
+        setUserData,
+    } = useContext(UserContext);
     useEffect(() => {
         try {
             setLoggedIn(localStorage.getItem('token') !== null);
@@ -35,6 +41,13 @@ export const InitContext = () => {
                             } else {
                                 setUserData(data);
                                 setPermissions(data?.['permissions']);
+                            }
+                            // console.log(permissions.stringify(obj) === '{}');
+                            if (permissions === undefined) {
+                                localStorage.removeItem('token');
+                                setLoggedIn(false);
+                                setUserId('');
+                                setPermissions({});
                             }
                         })
                         .catch((error) => {

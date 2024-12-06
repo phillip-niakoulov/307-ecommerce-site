@@ -79,8 +79,18 @@ router.post('/register', async (req, res) => {
 // Remove authenticateJWT if you don't have an admin account
 router.post(
     '/register-admin',
-    authenticateJWT,
-    authenticatePermissions('register-admin'),
+    async (req, res, next) => {
+        if (await User.findOne({ 'permissions.register-admin': true })) {
+            return authenticateJWT()(req, res, next);
+        }
+        next();
+    },
+    async (req, res, next) => {
+        if (await User.findOne({ 'permissions.register-admin': true })) {
+            return authenticatePermissions('register-admin')(req, res, next);
+        }
+        next();
+    },
     async (req, res) => {
         const { username, password, email } = req.body;
         // Check for dupes
@@ -119,7 +129,6 @@ router.post(
             console.log(error);
             res.status(500).json({ error: error.message });
         }
-
     }
 );
 
@@ -162,12 +171,12 @@ router.put(
         const updatedUser = await User.findByIdAndUpdate(
             req.params.id,
             { permissions },
-            { new: true }
+            { new: true, select: '-password' }
         );
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
         }
-        const user = await updatedUser.select('-password'); // Exclude password from response
+        const user = await updatedUser;
         res.status(200).json(user);
     }
 );
@@ -200,7 +209,6 @@ router.delete(
 );
 
 router.post('/checkout', authenticateJWT, async (req, res) => {
-
     const { cart } = req.body;
 
     const order = new Order({

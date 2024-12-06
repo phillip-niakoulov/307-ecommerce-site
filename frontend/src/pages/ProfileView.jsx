@@ -117,7 +117,7 @@ const ProfileView = () => {
                     Delete Account
                 </button>
             )}
-            {permissionsList.length > 0 && (
+            {permissionsList.some((value) => value === true) && (
                 <div className="permissions">
                     <h3>Permissions:</h3>
                     <ul>{permissionsList}</ul>

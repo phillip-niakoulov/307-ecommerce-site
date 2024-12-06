@@ -78,7 +78,12 @@ const OrderListAdmin = () => {
                                     {order._id}
                                 </td>
                                 <td className="orderlist-cell">
-                                    <Link to={`/orders/${order?.owner}`}>{order?.username}</Link>
+                                    <Link
+                                        className="orderlist-link"
+                                        to={`/orders/${order?.owner}`}
+                                    >
+                                        {order?.owner}
+                                    </Link>
                                 </td>
                                 <td className="orderlist-cell">
                                     $
@@ -92,13 +97,22 @@ const OrderListAdmin = () => {
                                         .toFixed(2)}
                                 </td>
                                 <td className="orderlist-cell">
-
-                                    {Object.values(OrderStatus).filter(s => s.value === order.order_status?.status)[0]?.text}
-                                    {' '}({new Date(order.order_status?.updatedAt).toLocaleDateString()})
+                                    {
+                                        Object.values(OrderStatus).filter(
+                                            (s) =>
+                                                s.value ===
+                                                order.order_status?.status
+                                        )[0]?.text
+                                    }{' '}
+                                    (
+                                    {new Date(
+                                        order.order_status?.updatedAt
+                                    ).toLocaleDateString()}
+                                    )
                                 </td>
                                 <td className="orderlist-cell">
                                     {new Date(
-                                        order.order_status?.createdAt,
+                                        order.order_status?.createdAt
                                     ).toLocaleDateString()}
                                 </td>
                             </tr>
@@ -109,7 +123,6 @@ const OrderListAdmin = () => {
                                         className="orderlist-dropdown-cell"
                                     >
                                         <OrderDetails orderId={order._id} />
-
                                     </td>
                                 </tr>
                             )}

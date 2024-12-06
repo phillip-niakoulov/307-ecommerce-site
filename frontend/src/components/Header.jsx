@@ -24,7 +24,6 @@ const Header = () => {
                     {loggedIn ? '' : <NavLink to="/register">Register</NavLink>}
                     {loggedIn ? <NavLink to="/cart">Cart</NavLink> : ''}
                     {<AdminButton />}
-                    {/* Remove soon */}
                     {<MyOrdersButton />}
                     {<ProfileButton />}
                 </nav>

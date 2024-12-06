@@ -5,10 +5,6 @@ const orderSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         required: true,
     },
-    username: {
-        type: String,
-        required: true,
-    },
     cart: [
         {
             itemId: {

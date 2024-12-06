@@ -47,7 +47,7 @@ const OrdersButton = () => {
     }, [loggedIn, permissions, orderCount, setOrderCount]);
 
     if (loggedIn && permissions !== null && permissions['view-orders']) {
-        return <NavLink to="orders">User Orders ({orderCount})</NavLink>;
+        return <NavLink to="orders">User Orders</NavLink>;
     }
     return '';
 };
