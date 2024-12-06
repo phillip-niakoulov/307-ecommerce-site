@@ -21,7 +21,7 @@ const permissionMiddleware = (requiredPermission) => {
                     'Access denied. You do not have the required permission.',
             });
         }
-        next(); // User has the required permission, proceed to the next middleware or route handler
+        next();
     };
 };
 

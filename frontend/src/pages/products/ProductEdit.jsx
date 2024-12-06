@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../../other/UserContext.jsx';
-import '../../styles/pages/ProductCreate.css'; // Import the same CSS file
+import '../../styles/pages/ProductCreate.css';
 
 const ProductEdit = () => {
     const navigate = useNavigate();
@@ -23,7 +23,6 @@ const ProductEdit = () => {
         }
     }, [navigate, productId, permissions]);
 
-    // Fetch product details
     useEffect(() => {
         const fetchProductData = async () => {
             await fetch(
@@ -39,7 +38,6 @@ const ProductEdit = () => {
         fetchProductData();
     }, [productId]);
 
-    // Handle form field changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setProductData((prev) => ({ ...prev, [name]: value }));

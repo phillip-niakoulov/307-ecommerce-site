@@ -15,9 +15,7 @@ export default [
                 ecmaVersion: 2021,
                 sourceType: 'module',
             },
-            plugins: [
-                'jest', // Add the Jest plugin
-            ],
+            plugins: ['jest'],
         },
         rules: {
             'react/prop-types': 0,

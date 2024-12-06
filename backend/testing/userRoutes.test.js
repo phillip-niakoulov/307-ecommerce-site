@@ -20,7 +20,6 @@ const app = express();
 app.use(express.json());
 app.use('/users', userRoutes);
 
-// Utility functions
 const mockAuthentication = ({
     permission = '',
     userId = 'userId',
@@ -60,7 +59,6 @@ const mockUpdate = () => {
     }));
 };
 
-// Tests
 describe('User Routes', () => {
     let mockToken;
 
@@ -81,7 +79,6 @@ describe('User Routes', () => {
 
     afterEach(() => jest.clearAllMocks());
 
-    // Test cases
     const testCases = [
         {
             description: 'should fetch all users with valid permissions',

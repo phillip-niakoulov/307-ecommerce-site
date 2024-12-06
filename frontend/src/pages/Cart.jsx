@@ -33,7 +33,6 @@ const Cart = () => {
     const updateQuantity = (product, newQuantity) => {
         const i = cart.findIndex((prod) => prod['itemId'] === product);
         if (i === -1 || newQuantity <= 0) {
-            // Remove the item if quantity is less than 1
             cart.splice(i, 1);
         } else {
             cart[i]['quantity'] = newQuantity;

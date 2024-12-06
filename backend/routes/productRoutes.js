@@ -116,13 +116,11 @@ router.post(
 
 // Search
 router.get('/search', async (req, res) => {
-    const { query, sortField = 'name', sortOrder = 'asc' } = req.query; // Default values
+    const { query, sortField = 'name', sortOrder = 'asc' } = req.query;
 
     try {
-        // Fetch all products from the database
         const products = await Product.find();
 
-        // If a query is provided, perform fuzzy search
         let results = products;
         if (query) {
             const options = {
@@ -132,24 +130,21 @@ router.get('/search', async (req, res) => {
 
             const fuse = new Fuse(products, options);
             const fuseResults = fuse.search(query);
-            results = fuseResults.map((result) => result.item); // Get the matched items
+            results = fuseResults.map((result) => result.item);
         }
 
-        // Sort the results based on sortField and sortOrder
         results.sort((a, b) => {
             let comparison = 0;
 
             if (sortField === 'price') {
-                comparison = a.originalPrice - b.originalPrice; // Assuming originalPrice is a number
+                comparison = a.originalPrice - b.originalPrice;
             } else {
-                // Default to sorting by name
                 comparison = a.name.localeCompare(b.name);
             }
 
-            return sortOrder === 'asc' ? comparison : -comparison; // Reverse comparison for descending order
+            return sortOrder === 'asc' ? comparison : -comparison;
         });
 
-        // Return the sorted results
         res.json(results);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -225,7 +220,7 @@ async function uploadFiles(files, id) {
 
         // Upload the file buffer to Azure Blob Storage
         await blockBlobClient.upload(file.buffer, file.size);
-        imageUrls.push(blockBlobClient.url); // Store the URL of the uploaded file
+        imageUrls.push(blockBlobClient.url);
     }
     return imageUrls;
 }
@@ -236,7 +231,6 @@ router.delete(
     authenticatePermissions('delete-product'),
     async (req, res) => {
         try {
-            // Find the product by ID
             const product = await Product.findById(req.params.id);
             if (!product) {
                 return res.status(404).json({ message: 'Product not found' });
@@ -244,11 +238,10 @@ router.delete(
 
             await clearFiles(req.params.id);
 
-            // Delete the product from the database
             await Product.findByIdAndDelete(req.params.id);
             res.status(200).json({ message: 'Product deleted' });
         } catch (err) {
-            console.error(err); // Log the error for debugging
+            console.error(err);
             res.status(500).json({ message: err.message });
         }
     }
