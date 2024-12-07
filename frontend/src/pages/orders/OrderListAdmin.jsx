@@ -80,7 +80,7 @@ const OrderListAdmin = () => {
                                 <td className="orderlist-cell">
                                     <Link
                                         className="orderlist-link"
-                                        to={`/orders/${order?.owner}`}
+                                        to={`/user/${order?.username}`}
                                     >
                                         {order?.owner}
                                     </Link>
