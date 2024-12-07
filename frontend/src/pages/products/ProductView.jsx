@@ -107,7 +107,7 @@ const ProductView = () => {
                     <div>
                         <h2>{product.name}</h2>
                         {isMostPopular && <span className="most-popular-label">Most Popular</span>}
-                        <p className="price">${product.originalPrice}</p>
+                        <p className="price">${product.originalPrice.toFixed(2)}</p>
                     </div>
 
                     <div className="description">{product.description}</div>

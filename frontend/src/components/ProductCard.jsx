@@ -15,7 +15,7 @@ const ProductCard = ({ id, imageUrl, name, price }) => {
                 <img src={imageUrl} alt={name} className="card-image" />
                 <div className="card-content">
                     <h3 className="card-name">{name}</h3>
-                    <p className="card-price">${price}</p>
+                    <p className="card-price">${price.toFixed(2)}</p>
                 </div>
             </Link>
         </div>
