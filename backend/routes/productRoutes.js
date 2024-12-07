@@ -251,7 +251,7 @@ router.delete(
 );
 
 // get the highest-selling product
-router.get('/highest-selling/item', async (req, res) => {
+router.get('/highest-selling-item', async (req, res) => {
     try {
         const sales = await Order.aggregate([
             { $unwind: '$cart' },

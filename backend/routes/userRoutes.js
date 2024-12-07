@@ -81,7 +81,7 @@ router.post(
     '/register-admin',
     async (req, res, next) => {
         if (await User.findOne({ 'permissions.register-admin': true })) {
-            return authenticateJWT()(req, res, next);
+            return authenticateJWT(req, res, next);
         }
         next();
     },

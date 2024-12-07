@@ -44,7 +44,7 @@ const ProductView = () => {
         const fetchMostPopular = async () => {
             try {
                 const response = await fetch(
-                    `${import.meta.env.VITE_API_BACKEND_URL}/api/products/highest-selling/item`
+                    `${import.meta.env.VITE_API_BACKEND_URL}/api/products/highest-selling-item`,
                 );
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
