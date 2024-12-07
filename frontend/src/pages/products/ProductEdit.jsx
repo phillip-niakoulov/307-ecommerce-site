@@ -55,8 +55,10 @@ const ProductEdit = () => {
         request.append('category', document.getElementById('category').value);
 
         const files = document.getElementById('images').files;
-        for (let i = 0; i < files.length; i++) {
-            request.append('images', files[i]);
+        if (files.length > 0) {
+            for (const file of files) {
+                request.append('images', file);
+            }
         }
 
         if (isNaN(parseFloat(request.get('originalPrice')))) {
@@ -106,7 +108,7 @@ const ProductEdit = () => {
                     type="text"
                     id="price"
                     name="price"
-                    value={productData.originalPrice}
+                    defaultValue={productData.originalPrice}
                     onChange={handleChange}
                     required
                 />
